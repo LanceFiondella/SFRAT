@@ -1,4 +1,4 @@
 # SFRAT
-python implemtation of sfrat tool 
+python implementation of SFRAT tool
 
 Development branch 
