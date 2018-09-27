@@ -8,8 +8,8 @@ class App(QWidget):
 		self.title = 'SFRAT Python'
 		self.left = 10
 		self.top = 10
-		self.width = 640
-		self.height = 480
+		self.width = 1080
+		self.height = 720
 		self.initUI()
 
 	def initUI(self):
