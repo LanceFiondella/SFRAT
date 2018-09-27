@@ -1,20 +1,33 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+import argparse # to handle command line arguments
+from PyQt5.QtWidgets import QApplication # for UI
+from PyQt5.QtCore import Qt # for UI
+import logging as log # to handle debug output
 import sys
-from PyQt5.QtWidgets import QApplication
-from gui import windows
-from PyQt5.QtCore import Qt
-import os
 
-"""
-This file starts the program
-"""
-
-if __name__ == '__main__':
-    os.environ["QT_SCALE_FACTOR"] = "1.0"
-    app = QApplication(sys.argv)
-    app.setAttribute(Qt.AA_EnableHighDpiScaling)
-    window = windows.MainWindow()
-    sys.exit(app.exec_())
+from ui.mainWindow import * 
 
 
+def main():
+	log.info("Hello From Main")
+
+	app = QApplication(sys.argv)
+	ex = App()
+	sys.exit(app.exec_())
+
+
+
+if __name__ == "__main__":
+	# command line arguments
+	parser = argparse.ArgumentParser(description='Software Reliablity Tool')
+	parser.add_argument("-v", '--verbose', action='store_true')
+
+	args = parser.parse_args()
+
+	if args.verbose:
+		log.basicConfig(format="%(levelname)s: %(message)s", level=log.DEBUG)
+		log.info("Using Verbose output.")
+	else:
+		log.basicConfig(format="%(levelname)s: %(message)s")
+
+	main()
