@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt # for UI
 import logging as log # to handle debug output
 import sys
 
-from ui.mainWindow import * 
+from ui.mainWindow import *
 
 
 def main():
@@ -31,3 +31,18 @@ if __name__ == "__main__":
 		log.basicConfig(format="%(levelname)s: %(message)s")
 
 	main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	#
