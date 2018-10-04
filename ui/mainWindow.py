@@ -18,6 +18,11 @@ class App(QMainWindow):
 		self.top = 10
 		self.width = 1080
 		self.height = 720
+		self._main = QtWidgets.QWidget()
+
+		self.setCentralWidget(self._main)
+		self.layout = QtWidgets.QVBoxLayout(self._main)
+
 		self.initUI()
 		self.drawGraph()
 
@@ -25,27 +30,36 @@ class App(QMainWindow):
 	def initUI(self):
 		self.setWindowTitle(self.title)
 		self.setGeometry(self.left, self.top, self.width, self.height)
+
+		self.topMenu = QtWidgets.QHBoxLayout()
+		self.topMenu.addWidget(QPushButton("THIS IS THE TOP MENU"))
+
+		button1 = QPushButton("This is the ")
+		button2 = QPushButton("Side Menu")
+		self.layout.addLayout(self.topMenu)
+		self.hBox = QHBoxLayout()
+		self.sideMenu = QVBoxLayout()
+		self.layout.addLayout(self.hBox)
+		self.hBox.addLayout(self.sideMenu)
+		self.sideMenu.addWidget(button1)
+		self.sideMenu.addWidget(button2)
+
 		self.show()
 
 	def drawGraph(self):
-		self._main = QtWidgets.QWidget()
-		self.setCentralWidget(self._main)
-		layout = QtWidgets.QVBoxLayout(self._main)
+		self.plotFigure = FigureCanvas(Figure(figsize=(5, 3)))
+		self.hBox.addWidget(self.plotFigure)
+		#self.addToolBar(QtCore.Qt.BottomToolBarArea, NavigationToolbar(dynamic_canvas, self))
 
-		dynamic_canvas = FigureCanvas(Figure(figsize=(5, 3)))
-		layout.addWidget(dynamic_canvas)
-		self.addToolBar(QtCore.Qt.BottomToolBarArea, NavigationToolbar(dynamic_canvas, self))
-
-		self._dynamic_ax = dynamic_canvas.figure.subplots()
+		self.plot = self.plotFigure.figure.subplots()
 		self._update_canvas()
 
 
 	def _update_canvas(self):
-		self._dynamic_ax.clear()
+		self.plot.clear()
 		t = np.linspace(0, 10, 101)
-		# Shift the sinusoid as a function of time.
-		self._dynamic_ax.plot(t, np.sin(t))
-		self._dynamic_ax.figure.canvas.draw()
+		self.plot.plot(t, np.sin(t))
+		self.plot.figure.canvas.draw()
 
 
 
