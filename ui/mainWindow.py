@@ -9,6 +9,9 @@ import numpy as np
 
 import logging as log
 
+from ui.topMenu import TopMenu
+from ui.sideMenu import SideMenu
+
 class App(QMainWindow):
 
 	def __init__(self):
@@ -31,18 +34,12 @@ class App(QMainWindow):
 		self.setWindowTitle(self.title)
 		self.setGeometry(self.left, self.top, self.width, self.height)
 
-		self.topMenu = QtWidgets.QHBoxLayout()
-		self.topMenu.addWidget(QPushButton("THIS IS THE TOP MENU"))
-
-		button1 = QPushButton("This is the ")
-		button2 = QPushButton("Side Menu")
+		self.topMenu = TopMenu()
+		self.sideMenu = SideMenu()
 		self.layout.addLayout(self.topMenu)
 		self.hBox = QHBoxLayout()
-		self.sideMenu = QVBoxLayout()
 		self.layout.addLayout(self.hBox)
 		self.hBox.addLayout(self.sideMenu)
-		self.sideMenu.addWidget(button1)
-		self.sideMenu.addWidget(button2)
 
 		self.show()
 
