@@ -39,13 +39,14 @@ class App(QMainWindow):
 		self.layout.addLayout(self.topMenu)
 		self.hBox = QHBoxLayout()
 		self.layout.addLayout(self.hBox)
-		self.hBox.addLayout(self.sideMenu)
+		self.hBox.addLayout(self.sideMenu, 20)
+		#self.hBox.addStretch(1)
 
 		self.show()
 
 	def drawGraph(self):
 		self.plotFigure = FigureCanvas(Figure(figsize=(5, 3)))
-		self.hBox.addWidget(self.plotFigure)
+		self.hBox.addWidget(self.plotFigure, 80)
 		#self.addToolBar(QtCore.Qt.BottomToolBarArea, NavigationToolbar(dynamic_canvas, self))
 
 		self.plot = self.plotFigure.figure.subplots()

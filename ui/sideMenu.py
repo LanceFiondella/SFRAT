@@ -16,6 +16,7 @@ class SideMenu(QVBoxLayout):
 		self.button2 = QPushButton("Side Menu")
 		self.addWidget(self.button1)
 		self.addWidget(self.button2)
+		self.addStretch(1)
 
 
 
