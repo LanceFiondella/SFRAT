@@ -18,6 +18,9 @@ class SideMenu(QVBoxLayout):
 		self.addWidget(self.button2)
 		self.addStretch(1)
 
+	def b1Pressed(self):
+		QMessageBox.about(self, "You Pressed Button 1", "Dont Push me bro")
+
 
 
 
