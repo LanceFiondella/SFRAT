@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import argparse # to handle command line arguments
 from PyQt5.QtWidgets import QApplication # for UI
 from PyQt5.QtCore import Qt # for UI
@@ -25,9 +26,12 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	if args.verbose:
+		# if using verbose output set logging to display level and message
+		# print anything level debug or higher
 		log.basicConfig(format="%(levelname)s: %(message)s", level=log.DEBUG)
 		log.info("Using Verbose output.")
 	else:
+		# if not using verbose output only brint errors and warnings
 		log.basicConfig(format="%(levelname)s: %(message)s")
 
 	main()
