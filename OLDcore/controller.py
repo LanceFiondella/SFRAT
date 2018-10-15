@@ -3,10 +3,7 @@ from PyQt5.QtCore import pyqtSignal, QObject, pyqtSlot
 
 
 class Controller():
-    
-    
     def __init__(self):
-        
         self.data = Data()
 
     def setData(self, fname):
@@ -17,15 +14,14 @@ class Controller():
             self.data.import_csv(fname[0])
 
 
-    
 class Data(QObject):
     multiSheets = pyqtSignal()
     singleSheet = pyqtSignal()
-    
+
     def __init__(self):
-        super(Data,self).__init__()
+        super(Data, self).__init__()
         self.dataFileType = None
-    
+
     @property
     def rawData(self):
         return self._rawData
@@ -37,12 +33,11 @@ class Data(QObject):
     @property
     def currentTableIdx(self):
         return self._currentTableIdx
-    
-    #@pyqtSlot(int)
+
     @currentTableIdx.setter
     def currentTableIdx(self, idx):
         self._currentTableIdx = idx
-    
+
     def import_xls(self, fname):
         self.rawData = pd.read_excel(fname, sheetname=None)
         self.dataFileType = 'excel'
@@ -51,10 +46,8 @@ class Data(QObject):
             self.multiSheets.emit()
         else:
             self.singleSheet.emit()
-        
+
     def import_csv(self, fname):
         self.rawData = pd.read_csv(fname)
         self.dataFileType = 'csv'
-        self.singleSheet.emit()    
-
-    
+        self.singleSheet.emit()
