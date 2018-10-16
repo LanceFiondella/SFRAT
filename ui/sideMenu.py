@@ -30,6 +30,8 @@ class SideMenu(QVBoxLayout):
         self.addWidget(self.fileOpenButton)
         self.addStretch(1)
 
+
+
     def b1Pressed(self):
         log.info("Side Menu B1 Pressed! Doing what b1 does")
 
@@ -41,6 +43,7 @@ class SideMenu(QVBoxLayout):
         files = QFileDialog.getOpenFileName(
             self.container, 'Open profile', "",
             filter=('Data Files (*.csv *.xls *.xlsx)'))
+        # if a file was selected read it
         if files[0]:
             log.info("Opening:" + files[0])
             self.filename, fileExtension = os.path.splitext(files[0])
