@@ -2,7 +2,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
 
 import logging as log
+import os
 
+import numpy as np
+import pandas as pd
 
 
 
@@ -11,6 +14,7 @@ class SideMenu(QVBoxLayout):
         super().__init__()
         self.initUI()
         self.container = container
+        self.filename = "No File Opened"
 
     def initUI(self):
         self.button1 = QPushButton("This is the ")
@@ -39,7 +43,12 @@ class SideMenu(QVBoxLayout):
             filter=('Data Files (*.csv *.xls *.xlsx)'))
         if files[0]:
             log.info("Opening:" + files[0])
-
+            self.filename, fileExtension = os.path.splitext(files[0])
+            if fileExtension == ".csv":
+                self.container.data = pd.read_csv(files[0])
+            else:
+                self.container.data = pd.read_excel(files[0])
+            self.container.updateGraph()
 
 
 
