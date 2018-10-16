@@ -13,6 +13,8 @@ import logging as log
 from ui.topMenu import TopMenu
 from ui.sideMenu import SideMenu
 
+from models.BadModel import BadModel
+
 class App(QMainWindow):
 
     def __init__(self):
@@ -28,7 +30,11 @@ class App(QMainWindow):
         self.layout = QtWidgets.QVBoxLayout(self._main)
 
 
-        self.data = pd.Series(np.linspace(0, 10, 101))
+        self.data = pd.DataFrame({"FN": np.linspace(0, 10, 101),
+        "FT": np.linspace(0, 10, 101)})
+
+
+        self.model = BadModel()
 
         self.initUI()
         self.updateGraph()
@@ -45,7 +51,8 @@ class App(QMainWindow):
         self.layout.addLayout(self.hBox)
         self.hBox.addLayout(self.sideMenu, 20)
 
-        self.plotFigure = FigureCanvas(Figure(figsize=(5, 3)))
+        self.figure = Figure(figsize=(5, 3))
+        self.plotFigure = FigureCanvas(self.figure)
         self.hBox.addWidget(self.plotFigure, 80)
         #self.addToolBar(QtCore.Qt.BottomToolBarArea, NavigationToolbar(dynamic_canvas, self))
         self.plot = self.plotFigure.figure.subplots()
@@ -53,8 +60,19 @@ class App(QMainWindow):
 
     def updateGraph(self):
         self.plot.clear()
-        t = np.linspace(0, 10, 101)
-        self.plot.plot(self.data)
+
+        # plot data
+        self.plot.plot(self.data["FT"], self.data["FN"])
+
+        # plot model data
+        mdata = self.model.crunch(self.data)
+        self.plot.plot(mdata["X"], mdata["Y"])
+
+        # labels
+        self.plot.set_title("Number of Failures vs. Time ")
+        self.plot.set_xlabel("Cumulative Time (s)")
+        self.plot.set_ylabel("Number of Failures")
+        self.plot.legend(["Data", "Model"])
         self.plot.figure.canvas.draw()
 
 
