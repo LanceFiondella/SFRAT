@@ -5,9 +5,10 @@ import logging as log
 
 
 class TopMenu(QHBoxLayout):
-    def __init__(self):
+    def __init__(self, container):
         super().__init__()
         self.initUI()
+        self.container = container
 
     def initUI(self):
         # create top menu buttons

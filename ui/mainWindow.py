@@ -30,12 +30,12 @@ class App(QMainWindow):
         self.drawGraph()
 
 
-        def initUI(self):
+    def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        self.topMenu = TopMenu()
-        self.sideMenu = SideMenu()
+        self.topMenu = TopMenu(self)
+        self.sideMenu = SideMenu(self)
         self.layout.addLayout(self.topMenu)
         self.hBox = QHBoxLayout()
         self.layout.addLayout(self.hBox)
