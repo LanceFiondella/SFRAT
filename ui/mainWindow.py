@@ -29,10 +29,8 @@ class App(QMainWindow):
         self.setCentralWidget(self._main)
         self.layout = QtWidgets.QVBoxLayout(self._main)
 
-
         self.data = pd.DataFrame({"FN": np.linspace(0, 10, 101),
         "FT": np.linspace(0, 10, 101)})
-
 
         self.model = BadModel()
 
