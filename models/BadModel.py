@@ -8,7 +8,7 @@ import numpy as np
 
 class BadModel():
     def __init__(self):
-        pass
+        self.name = "Bad Model"
 
     def crunch(self, data):
         m =  data["FN"].iloc[-1] - data["FN"][0]

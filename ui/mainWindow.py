@@ -70,7 +70,7 @@ class App(QMainWindow):
         self.plot.set_title("Number of Failures vs. Time ")
         self.plot.set_xlabel("Cumulative Time (s)")
         self.plot.set_ylabel("Number of Failures")
-        self.plot.legend(["Data", "Model"])
+        self.plot.legend(["Data", self.model.name])
         self.plot.figure.canvas.draw()
 
 

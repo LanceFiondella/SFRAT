@@ -11,6 +11,6 @@ class Models:
             # if the file is a python script add the
             if file.endswith(".py") and file != "__init__.py" \
             and file != "Models.py":
-                # create an instance of the class
-                self.models[file[:-3]] = \
-                eval("%s.%s()" % (file[:-3], file[:-3]))
+                # create an instance of each class
+                m = eval("%s.%s()" % (file[:-3], file[:-3]))
+                self.models[m.name] = m
