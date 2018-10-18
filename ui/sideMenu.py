@@ -9,6 +9,7 @@ import pandas as pd
 
 from models import Models
 
+
 class SideMenu(QVBoxLayout):
     def __init__(self, container):
         super().__init__()
@@ -25,7 +26,12 @@ class SideMenu(QVBoxLayout):
         self.modelSelect = QComboBox()
 
         # add models to model select
-        self.modelSelect.addItems(sorted(self.models.models.keys()))
+        # get a list of all models by name
+        modelList = sorted(self.models.models.keys())
+        # insert the null model at index 0 so it's at the top
+        modelList.remove("No Model")
+        modelList.insert(0, "No Model")
+        self.modelSelect.addItems(modelList)
 
         # signals
         self.button1.clicked.connect(self.b1Pressed)
@@ -68,6 +74,9 @@ class SideMenu(QVBoxLayout):
         log.info("Model Changed to " + selected)
         self.container.model = self.models.models[selected]
         self.container.updateGraph()
+
+
+
 
 
 

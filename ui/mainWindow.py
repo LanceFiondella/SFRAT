@@ -13,7 +13,7 @@ import logging as log
 from ui.topMenu import TopMenu
 from ui.sideMenu import SideMenu
 
-from models.BadModel import BadModel
+from models.NullModel import NullModel
 
 class App(QMainWindow):
 
@@ -32,7 +32,7 @@ class App(QMainWindow):
         self.data = pd.DataFrame({"FN": np.linspace(0, 10, 101),
         "FT": np.linspace(0, 10, 101)})
 
-        self.model = BadModel()
+        self.model = NullModel()
 
         self.initUI()
         self.updateGraph()
