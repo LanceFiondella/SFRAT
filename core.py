@@ -4,7 +4,7 @@ import logging as log
 
 
 def DataFormat(dataclass):	#supply pd data object, formats/completes dataset
-	
+
 	if not 'FT' in dataclass:
 		dataclass['FT'] = dataclass['IF']
 		for i in range(1,len(dataclass)):
@@ -23,17 +23,9 @@ def DataFormat(dataclass):	#supply pd data object, formats/completes dataset
 
 def LaplaceTest(dataclass):	#returns series object of size dataclass.size with laplace values
 	laplace = pd.Series(0) #0 gives workable series
-	
+
 	for i in range(2,len(dataclass)):
 		cur_sum = sum(dataclass['FT'][1:i])
 		laplace[i] = (((1/(i-1))*cur_sum) -(dataclass['FT'][i]/2))/(dataclass['FT'][i]*(1/(12*(i-1))**(0.5)))
 
 	return laplace
-
-
-# remove this, just for testing
-ex = pd.read_excel('model_data.xlsx')
-
-DataFormat(ex) # run before using data, will fix incomplete data
-ex['lap'] = LaplaceTest(ex)
-print(ex)
