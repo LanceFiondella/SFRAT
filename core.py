@@ -37,7 +37,3 @@ def AverageTest(dataclass):
 		avg[i] = sum(dataclass['FT'][0:i+1])/(i+1)
 
 	return avg
-
-ex = pd.read_excel('model_data.xlsx')
-ex['new'] = AverageTest(ex)
-print(ex)
