@@ -29,3 +29,15 @@ def LaplaceTest(dataclass):	#returns series object of size dataclass.size with l
 		laplace[i] = (((1/(i-1))*cur_sum) -(dataclass['FT'][i]/2))/(dataclass['FT'][i]*(1/(12*(i-1))**(0.5)))
 
 	return laplace
+
+def AverageTest(dataclass):
+	avg = pd.Series(0)
+
+	for i in range(len(dataclass)):
+		avg[i] = sum(dataclass['FT'][0:i+1])/(i+1)
+
+	return avg
+
+ex = pd.read_excel('model_data.xlsx')
+ex['new'] = AverageTest(ex)
+print(ex)
