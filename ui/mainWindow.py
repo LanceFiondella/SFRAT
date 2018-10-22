@@ -12,6 +12,7 @@ import logging as log
 
 from ui.topMenu import TopMenu
 from ui.sideMenu import SideMenu
+from ui.tab import Tab
 
 from models.NullModel import NullModel
 
@@ -35,32 +36,40 @@ class App(QMainWindow):
         self.model = NullModel()
 
         self.initUI()
-        self.updateGraph()
 
 
     def initUI(self):
+        # setup window
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
+        # setup tabs
+        self.initTabs()
+        #setup graph
+        self.show()
 
-        self.topMenu = TopMenu(self)
-        self.sideMenu = SideMenu(self)
-        self.layout.addLayout(self.topMenu)
-        self.hBox = QHBoxLayout()
-        self.layout.addLayout(self.hBox)
-        self.hBox.addLayout(self.sideMenu, 20)
+    def initTabs(self):
+        self.tabs = QTabWidget()
+        self.dataTab = Tab(self, SideMenu.DATA_MENU)
+        self.modelTab = Tab(self, SideMenu.MODEL_MENU)
 
+        self.tabs.addTab(self.dataTab, "Data Tab")
+        self.tabs.addTab(self.modelTab, "Model Tab")
+
+
+        self.layout.addWidget(self.tabs)
+
+    def initGraph(self):
         self.figure = Figure(figsize=(5, 3))
         self.plotFigure = FigureCanvas(self.figure)
-        self.hBox.addWidget(self.plotFigure, 80)
-        #self.addToolBar(QtCore.Qt.BottomToolBarArea, NavigationToolbar(dynamic_canvas, self))
+        self.layout.addWidget(self.plotFigure, 90)
+        #self.addToolBar(QtCore.Qt.RightToolBarArea, NavigationToolbar(self.plotFigure, self))
         self.plot = self.plotFigure.figure.subplots()
-        self.show()
 
     def updateGraph(self):
         self.plot.clear()
 
         # plot data
-        self.plot.plot(self.data["FT"], self.data["FN"])
+        self.plot.step(self.data["FT"], self.data["FN"])
 
         # plot model data
         mdata = self.model.crunch(self.data)

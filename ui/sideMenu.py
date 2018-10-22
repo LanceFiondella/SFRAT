@@ -11,17 +11,37 @@ from models import Models
 
 
 class SideMenu(QVBoxLayout):
-    def __init__(self, container):
+    DATA_MENU = 0
+    MODEL_MENU = 1
+    def __init__(self, container, menuStyle):
         super().__init__()
         self.container = container
         self.filename = "No File Opened"
         self.models = Models.Models()
+        self.menuStyle = menuStyle
 
         self.initUI()
 
     def initUI(self):
+        if self.menuStyle == self.DATA_MENU:
+            self.dataUI()
+        elif self.menuStyle == self.MODEL_MENU:
+            self.modelUI()
+
+    def dataUI(self):
         self.button1 = QPushButton("This is the ")
-        self.button2 = QPushButton("Side Menu")
+        self.button2 = QPushButton("Data Menu")
+
+        # signals
+
+        self.addWidget(self.button1)
+        self.addWidget(self.button2)
+        self.addStretch(1)
+
+
+    def modelUI(self):
+        self.button1 = QPushButton("This is the ")
+        self.button2 = QPushButton("Model Menu")
         self.fileOpenButton = QPushButton("Open A File!")
         self.modelSelect = QComboBox()
 
@@ -34,8 +54,6 @@ class SideMenu(QVBoxLayout):
         self.modelSelect.addItems(modelList)
 
         # signals
-        self.button1.clicked.connect(self.b1Pressed)
-        self.button2.clicked.connect(self.b2Pressed)
         self.fileOpenButton.clicked.connect(self.fileOpenPressed)
         self.modelSelect.currentIndexChanged.connect(self.modelChanged)
 
@@ -45,13 +63,6 @@ class SideMenu(QVBoxLayout):
         self.addWidget(self.modelSelect)
         self.addStretch(1)
 
-
-
-    def b1Pressed(self):
-        log.info("Side Menu B1 Pressed! Doing what b1 does")
-
-    def b2Pressed(self):
-        log.info("Side Menu B2 Pressed! Doing what b2 does")
 
     def fileOpenPressed(self):
         # open a file dialog
