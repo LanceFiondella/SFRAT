@@ -31,17 +31,12 @@ class Tab(QWidget):
 
     def updateGraph(self):
         self.plot.clear()
-
+        self.data = self.container.data
         # plot data
         self.plot.step(self.data["FT"], self.data["FN"])
-
-        # plot model data
-        mdata = self.model.crunch(self.data)
-        self.plot.plot(mdata["X"], mdata["Y"])
 
         # labels
         self.plot.set_title("Number of Failures vs. Time ")
         self.plot.set_xlabel("Cumulative Time (s)")
         self.plot.set_ylabel("Number of Failures")
-        self.plot.legend(["Data", self.model.name])
         self.plot.figure.canvas.draw()
