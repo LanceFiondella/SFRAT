@@ -4,16 +4,22 @@ import logging as log
 
 
 def DataFormat(dataclass):	#supply pd data object, formats/completes dataset
-
+							#
 	if not 'FT' in dataclass:
 		dataclass['FT'] = dataclass['IF']
 		for i in range(1,len(dataclass)):
-			dataclass['FT'][i] += dataclass['FT'][i-1]
+			dataclass.at[i,'FT'] += dataclass['FT'][i-1]
 
 	elif not 'IF' in dataclass:
 		dataclass['IF'] = dataclass['FT']
 		for i in range(len(dataclass)-1,0,-1):
-			dataclass['IF'][i] -= dataclass['IF'][i-1]
+			dataclass.at[i,'IF'] -= dataclass['IF'][i-1]
+
+	if not 'FI' in dataclass:
+		dataclass['FI'] = pd.Series(0)
+		for i in range(len(dataclass)):
+			IF = dataclass['IF'][i]
+			dataclass.at[i, 'FI'] = 1/IF if IF>0 else 'inf'
 
 	else:
 		log.info('Input data does not contain IF or FT')
