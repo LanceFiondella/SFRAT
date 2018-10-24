@@ -5,6 +5,8 @@ from matplotlib.backends.qt_compat import QtCore, QtWidgets, is_pyqt5
 from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 
+from core.graphSettings import GraphSettings
+
 # creates a tab with a side menu and a figure window
 class Tab(QWidget):
     DATA_TAB = SideMenu.DATA_MENU
@@ -14,6 +16,7 @@ class Tab(QWidget):
         self.container = container
         self.mode = mode
         self.initUI()
+        self.graphSettings = GraphSettings()
 
     def initUI(self):
         # setup menu
