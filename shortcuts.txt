@@ -1,0 +1,3 @@
+Ctrl + O : open file
+Ctrl + P : view points on graphs
+Ctrl + L : view lines on graphs
