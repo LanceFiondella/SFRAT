@@ -26,9 +26,16 @@ class Tab(QWidget):
         self.setLayout(self.layout)
 
         # setup graph
-        self.figure = Figure(figsize=(5, 3))
+        self.plotWidget = QWidget()
+        plotLayout = QVBoxLayout()
+        self.figure = Figure(tight_layout={"pad": 2.0})
         self.plotFigure = FigureCanvas(self.figure)
-        self.layout.addWidget(self.plotFigure, 80)
+        toolbar = NavigationToolbar(self.plotFigure, self.plotWidget)
+        plotLayout.addWidget(toolbar)
+        plotLayout.addWidget(self.plotFigure, 1)
+        self.plotWidget.setLayout(plotLayout)
+
+        self.layout.addWidget(self.plotWidget, 80)
         #self.addToolBar(QtCore.Qt.RightToolBarArea, NavigationToolbar(self.plotFigure, self))
         self.plot = self.plotFigure.figure.subplots()
 
@@ -36,5 +43,5 @@ class Tab(QWidget):
         self.plot.clear()
         self.plot.figure.canvas.draw()
 
-    def updateGraph(self):
-        pass
+    #def updateGraph(self):
+    #    pass
