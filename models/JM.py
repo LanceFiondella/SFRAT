@@ -12,6 +12,8 @@ class JM(Model):
 
 
     """
+    name = 'Jelinski-Moranda'
+
     def __init__(self, *args, **kwargs):
         """
         Initialize model
@@ -83,9 +85,6 @@ class JM(Model):
 
     def finite_model(self):
         return True
-
-    def name(self):
-        return "Jelinski-Moranda"
 
     def MLEeq(self, N0):
         """

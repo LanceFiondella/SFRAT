@@ -27,3 +27,7 @@ def test_jm_phi_mle(setup_jm):
 
 def test_jm_mvf_last(setup_jm):
     assert abs(setup_jm.MVFVal.iloc[-1] - 135.516034) < 10**-5
+
+
+def test_name(setup_jm):
+    assert setup_jm.name == "Jelinski-Moranda"

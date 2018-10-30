@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod, abstractproperty
 
 
 class Model(ABC):
+    name = "Generic Model"
 
     def __init__(self, *args, **kwargs):
         """
@@ -59,7 +60,3 @@ class Model(ABC):
     @abstractproperty
     def finite_model(self):
         pass
-
-    @abstractproperty
-    def name(self):
-        return "Generic Model."
