@@ -1,10 +1,12 @@
 import pandas as pd
 import numpy as np
 import scipy.optimize
+
+from core.model import Model
 from core.rootFind import RootFind
 
 
-class JM:
+class JM(Model):
     """
     Jelinski-Moranda Model
 
@@ -15,59 +17,24 @@ class JM:
         Initialize model
 
         Keyword Args:
-            data: Pandas dataframe with all required columns
-            rootAlgoName: string that identifies root finding function
+        rootAlgoName: string that identifies root finding function
         """
-        self.data = kwargs['data']
+        super().__init__(*args, **kwargs)
         self.n = len(self.data)
         self.interFailSum = self.data.IF.sum()
         self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
                                      equation=self.MLEeq,
                                      data=self.data)
 
-    def run(self):
+    def findParams(self):
+        """
+        Find parameters of the model
+
+        This function gets called for all models regardless of type
+        """
         self.N0MLE = self.calcN0MLE()
         self.phiMLE = self.calcPhi(self.N0MLE)
         self.MVFVal = self.MVF(self.N0MLE, self.phiMLE)
-        print(self.MVFVal)
-
-    def MLEeq(self, N0):
-        """
-        Represents MLE eqation, used in root finding
-
-        Args:
-            N0: First parameter N0 of type float
-
-        Returns:
-            Value of MLE equation
-        """
-        rightTerm1 = np.array([(N0 - i) for i in range(self.n)], np.float)
-        leftTerm = np.sum(np.reciprocal(rightTerm1))
-        rightTermDenom = (self.data.IF.multiply(rightTerm1).sum())
-        return leftTerm - ((self.n * self.interFailSum)/(rightTermDenom))
-
-    def calcN0MLE(self):
-        """
-        Calculates the N0MLE using findEndpoints and MLEeq
-
-        Returns:
-            N0MLE of type float
-        """
-        N0MLE = self.rootFindFunc.findRoot()
-        return N0MLE
-
-    def calcPhi(self, N0):
-        """
-        Calculates the phi based on N0 value
-
-        Args:
-            N0: N0 value, usually N0MLE of type float
-
-        Returns:
-            Value of phi of type float
-        """
-        numer = np.sum(np.array([1/(N0 - i) for i in range(self.n)], np.float))
-        return numer/self.interFailSum
 
     def MVF(self, N0, phi):
         """
@@ -107,6 +74,56 @@ class JM:
         secondTerm = np.sum(np.log(N0Vector))
         thirdTerm = (N0Vector * self.data.IF).sum()
         return self.n*np.log(phi) + secondTerm - (phi*thirdTerm)
+
+    def reliability(self, fail_num, timeVec):
+        np.exp(-self.phiMLE*(self.N0MLE - (fail_num-1))*timeVec)
+
+    def MTTF(self):
+        pass
+
+    def finite_model(self):
+        return True
+
+    def name(self):
+        return "Jelinski-Moranda"
+
+    def MLEeq(self, N0):
+        """
+        Represents MLE eqation, used in root finding
+
+        Args:
+            N0: First parameter N0 of type float
+
+        Returns:
+            Value of MLE equation
+        """
+        rightTerm1 = np.array([(N0 - i) for i in range(self.n)], np.float)
+        leftTerm = np.sum(np.reciprocal(rightTerm1))
+        rightTermDenom = (self.data.IF.multiply(rightTerm1).sum())
+        return leftTerm - ((self.n * self.interFailSum)/(rightTermDenom))
+
+    def calcN0MLE(self):
+        """
+        Calculates the N0MLE using findEndpoints and MLEeq
+
+        Returns:
+            N0MLE of type float
+        """
+        N0MLE = self.rootFindFunc.findRoot()
+        return N0MLE
+
+    def calcPhi(self, N0):
+        """
+        Calculates the phi based on N0 value
+
+        Args:
+            N0: N0 value, usually N0MLE of type float
+
+        Returns:
+            Value of phi of type float
+        """
+        numer = np.sum(np.array([1/(N0 - i) for i in range(self.n)], np.float))
+        return numer/self.interFailSum
 
     def MVF_cont(self, t, N0, phi):
         """

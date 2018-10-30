@@ -13,7 +13,7 @@ def import_data():
 @pytest.fixture
 def setup_jm(import_data):
     jm = JM(data=import_data, rootAlgoName='bisect')
-    jm.run()
+    jm.findParams()
     return jm
 
 
