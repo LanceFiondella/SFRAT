@@ -32,7 +32,8 @@ class Model(ABC):
     @abstractmethod
     def MVF(self):
         """
-        Mean Value Function. Used in ?
+        Mean Value Function. Used in Cumulative failures
+        and estimate remaining faults
         """
         pass
 
