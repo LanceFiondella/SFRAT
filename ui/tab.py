@@ -21,8 +21,8 @@ class Tab(QWidget):
     def initUI(self):
         # setup menu
         self.layout = QHBoxLayout()
-        self.sideMenu = QVBoxLayout()
-        self.layout.addLayout(SideMenu(self, self.mode), 20)
+        self.sideMenu = SideMenu(self, self.container, self.mode)
+        self.layout.addLayout(self.sideMenu, 20)
         self.setLayout(self.layout)
 
         # setup graph
@@ -34,12 +34,7 @@ class Tab(QWidget):
 
     def updateGraph(self):
         self.plot.clear()
-        self.data = self.container.data
-        # plot data
-        self.plot.step(self.data["FT"], self.data["FN"])
-
-        # labels
-        self.plot.set_title("Number of Failures vs. Time ")
-        self.plot.set_xlabel("Cumulative Time (s)")
-        self.plot.set_ylabel("Number of Failures")
         self.plot.figure.canvas.draw()
+
+    def updateGraph(self):
+        pass

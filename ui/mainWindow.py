@@ -16,6 +16,8 @@ from ui.tabs import *
 
 from models.NullModel import NullModel
 
+from core.dataClass import Data
+
 class App(QMainWindow):
 
     def __init__(self):
@@ -30,10 +32,17 @@ class App(QMainWindow):
         self.setCentralWidget(self._main)
         self.layout = QtWidgets.QVBoxLayout(self._main)
 
-        self.data = pd.DataFrame({"FN": np.linspace(0, 10, 101),
-        "FT": np.linspace(0, 10, 101)})
+        # default linear dataset
+        self.data = Data(pd.DataFrame({"FN": np.linspace(0, 10, 101),
+        "FT": np.linspace(0, 10, 101)}))
 
+        # sheets used for load excel data
+        self.sheets = ["No Sheets"]
+        self.currentSheet = self.sheets[0]
+
+        # default to no model
         self.model = NullModel()
+
         self.menu = FileMenu(self, self.menuBar())
 
         self.initUI()
@@ -62,6 +71,8 @@ class App(QMainWindow):
         self.dataTab.updateGraph()
         self.modelTab.updateGraph()
 
+    def updateSheets(self):
+        self.dataTab.updateSheets()
 
 
 
