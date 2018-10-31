@@ -31,8 +31,8 @@ class Tab(QWidget):
         self.figure = Figure(tight_layout={"pad": 2.0})
         self.plotFigure = FigureCanvas(self.figure)
         toolbar = NavigationToolbar(self.plotFigure, self.plotWidget)
-        plotLayout.addWidget(toolbar)
         plotLayout.addWidget(self.plotFigure, 1)
+        plotLayout.addWidget(toolbar)
         self.plotWidget.setLayout(plotLayout)
 
         self.layout.addWidget(self.plotWidget, 80)
