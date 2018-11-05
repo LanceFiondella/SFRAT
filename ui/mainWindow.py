@@ -10,8 +10,13 @@ import pandas as pd
 
 import logging as log
 
-from ui.topMenu import TopMenu
+from ui.fileMenu import FileMenu
 from ui.sideMenu import SideMenu
+from ui.tabs import *
+
+from models.NullModel import NullModel
+
+from core.dataClass import Data
 
 class App(QMainWindow):
 
@@ -27,37 +32,47 @@ class App(QMainWindow):
         self.setCentralWidget(self._main)
         self.layout = QtWidgets.QVBoxLayout(self._main)
 
+        # default linear dataset
+        self.data = Data(pd.DataFrame({"FN": np.linspace(0, 10, 101),
+        "FT": np.linspace(0, 10, 101)}))
 
-        self.data = pd.Series(np.linspace(0, 10, 101))
+        # sheets used for load excel data
+        self.sheets = ["No Sheets"]
+        self.currentSheet = self.sheets[0]
+
+        # default to no model
+        self.model = NullModel()
+
+        self.menu = FileMenu(self, self.menuBar())
 
         self.initUI()
-        self.updateGraph()
 
 
     def initUI(self):
+        # setup window
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
+        # setup tabs
+        self.initTabs()
 
-        self.topMenu = TopMenu(self)
-        self.sideMenu = SideMenu(self)
-        self.layout.addLayout(self.topMenu)
-        self.hBox = QHBoxLayout()
-        self.layout.addLayout(self.hBox)
-        self.hBox.addLayout(self.sideMenu, 20)
-
-        self.plotFigure = FigureCanvas(Figure(figsize=(5, 3)))
-        self.hBox.addWidget(self.plotFigure, 80)
-        #self.addToolBar(QtCore.Qt.BottomToolBarArea, NavigationToolbar(dynamic_canvas, self))
-        self.plot = self.plotFigure.figure.subplots()
         self.show()
 
-    def updateGraph(self):
-        self.plot.clear()
-        t = np.linspace(0, 10, 101)
-        self.plot.plot(self.data)
-        self.plot.figure.canvas.draw()
+    def initTabs(self):
+        self.tabs = QTabWidget()
+        self.dataTab = DataTab(self)
+        self.modelTab = ModelTab(self)
 
+        self.tabs.addTab(self.dataTab, "Data Tab")
+        self.tabs.addTab(self.modelTab, "Model Tab")
 
+        self.layout.addWidget(self.tabs)
+
+    def updateGraphs(self):
+        self.dataTab.updateGraph()
+        self.modelTab.updateGraph()
+
+    def updateSheets(self):
+        self.dataTab.updateSheets()
 
 
 

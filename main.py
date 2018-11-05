@@ -17,7 +17,6 @@ def main():
     sys.exit(app.exec_())
 
 
-
 if __name__ == "__main__":
     # command line arguments
     parser = argparse.ArgumentParser(description='Software Reliablity Tool')
@@ -31,7 +30,7 @@ if __name__ == "__main__":
         log.basicConfig(format="%(levelname)s: %(message)s", level=log.DEBUG)
         log.info("Using Verbose output.")
     else:
-    # if not using verbose output only brint errors and warnings
+    # if not using verbose output only print errors and warnings
         log.basicConfig(format="%(levelname)s: %(message)s")
 
     main()
