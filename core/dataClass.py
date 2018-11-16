@@ -2,26 +2,27 @@
 import pandas as pd
 import numpy as np
 
+
 class Data:
     def __init__(self, data):
         self.setData(data)
 
     def setData(self, data):
         # failure time
-        if not 'FT' in data:
-               data['FT'] = data['IF']
-               for i in range(1,len(data)):
-                   data['FT'][i] += data['FT'][i-1]
+        if 'FT' not in data:
+            data['FT'] = data['IF']
+            for i in range(1, len(data)):
+                data['FT'][i] += data['FT'][i-1]
 
         # inter failure time
-        elif not 'IF' in data:
+        elif 'IF' not in data:
             data['IF'] = data['FT']
-            for i in range(len(data)-1,0,-1):
+            for i in range(len(data)-1, 0, -1):
                 data['IF'][i] -= data['IF'][i-1]
         self.data = data
 
         # cumulative time used for plotting
-        if not "CT" in data:
+        if "CT" not in data:
             data["CT"] = data["FN"]
             data["CT"][0] = 0
             for i in range(1, len(data)):

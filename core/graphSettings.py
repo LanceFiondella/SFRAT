@@ -16,6 +16,7 @@ class GraphSettings:
         self.viewStyle = GraphSettings.BOTH
         self.dataMode = GraphSettings.CUMULATIVE
         self.showTrend = GraphSettings.DATA
+
     # convert view style to matlplot lib graph syntax
     def viewStyleToPointStyle(self):
         if self.viewStyle == GraphSettings.LINES:

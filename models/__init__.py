@@ -1,10 +1,8 @@
-import os
+import pkgutil
+import importlib
+from core.model import Model
 
-__all__ = []
+for (module_loader, name, ispkg) in pkgutil.iter_modules(['./models']):
+    importlib.import_module('.'+name, __package__)
 
-dirname = os.path.dirname(os.path.realpath(__file__))
-
-for file in os.listdir(dirname):
-    # if the file is a python script add the
-    if file.endswith(".py") and file != "__init__.py" and file != "Models.py":
-        __all__.append(file[:-3])
+modelList = {cls.__name__: cls for cls in Model.__subclasses__()}
