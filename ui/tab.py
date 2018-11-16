@@ -36,7 +36,6 @@ class Tab(QWidget):
         self.plotWidget.setLayout(plotLayout)
 
         self.layout.addWidget(self.plotWidget, 80)
-        #self.addToolBar(QtCore.Qt.RightToolBarArea, NavigationToolbar(self.plotFigure, self))
         self.plot = self.plotFigure.figure.subplots()
 
     def updateGraph(self):
