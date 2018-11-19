@@ -102,7 +102,7 @@ class SideMenu(QVBoxLayout):
             log.error('Error while attempting to change sheets')
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("Error while attempting to change sheets")\
+            msg.setText("Error while attempting to change sheets")
             msg.setWindowTitle("Graph Error")
             msg.exec_()
 
