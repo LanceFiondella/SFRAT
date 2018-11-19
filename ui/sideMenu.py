@@ -7,7 +7,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from models import Models
+import models
 from core.graphSettings import GraphSettings
 
 from core.dataClass import Data
@@ -20,7 +20,6 @@ class SideMenu(QVBoxLayout):
         super().__init__()
         self.container = container
         self.filename = "No File Opened"
-        self.models = Models.Models()
         self.menuStyle = menuStyle
         self.mainWindow = mainWindow
 
@@ -61,10 +60,8 @@ class SideMenu(QVBoxLayout):
 
         # add models to model select
         # get a list of all models by name
-        modelList = sorted(self.models.models.keys())
+        modelList = sorted(models.modelList.keys())
         # insert the null model at index 0 so it's at the top
-        modelList.remove("No Model")
-        modelList.insert(0, "No Model")
         self.modelSelect.addItems(modelList)
 
         # signals
