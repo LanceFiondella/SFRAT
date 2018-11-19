@@ -91,12 +91,21 @@ class SideMenu(QVBoxLayout):
         self.mainWindow.updateGraphs()
 
     def sheetChanged(self):
-        if self.sheetSelect.currentText() != "No Sheets" \
-        and len(self.mainWindow.sheets) > 1 \
-        and self.sheetSelect.currentText(): # this is to ignore the update from clear
-            self.mainWindow.data = Data(self.mainWindow.fullDataSet[\
-            self.sheetSelect.currentText()])
-            self.mainWindow.updateGraphs()
+        try:
+            if self.sheetSelect.currentText() != "No Sheets" \
+            and len(self.mainWindow.sheets) > 1 \
+            and self.sheetSelect.currentText(): # this is to ignore the update from clear
+                self.mainWindow.data = Data(self.mainWindow.fullDataSet[\
+                self.sheetSelect.currentText()])
+                self.mainWindow.updateGraphs()
+        except Exception as e:
+            log.error('Error while attempting to change sheets')
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Error while attempting to change sheets")\
+            msg.setWindowTitle("Graph Error")
+            msg.exec_()
+
 
     # update any display that relies on data from outside the class
     def updateSheets(self):
