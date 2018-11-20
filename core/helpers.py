@@ -37,7 +37,7 @@ def LaplaceTest(dataclass):	 # returns series object of size dataclass.size
         laplace[i] = ((((1/(i-1))*cur_sum) - (dataclass['FT'][i]/2)) /
                       (dataclass['FT'][i]*(1/(12*(i-1))**(0.5))))
 
-    return laplace
+    return pd.DataFrame({'FN': dataclass['FN'], 'LT': laplace})
 
 
 def AverageTest(dataclass):
@@ -46,4 +46,4 @@ def AverageTest(dataclass):
     for i in range(len(dataclass)):
         avg[i] = sum(dataclass['FT'][0:i+1])/(i+1)
 
-    return avg
+    return pd.DataFrame({'FN': dataclass['FN'], 'RA': avg})
