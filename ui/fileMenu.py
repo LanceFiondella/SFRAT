@@ -54,6 +54,7 @@ class FileMenu(QHBoxLayout):
         self.viewBoth = QAction('View Point and Lines', self, checkable=True)
         self.viewBoth.setShortcut('Ctrl+B')
         self.viewBoth.setStatusTip('View Both Lines and points on graphs')
+        self.viewBoth.setChecked(True)
         self.viewStyle.addAction(self.viewBoth)
 
         self.viewStyle.triggered.connect(self.changeGraphSettings)
@@ -65,6 +66,7 @@ class FileMenu(QHBoxLayout):
         self.viewData = QAction("View Data", self, checkable=True)
         self.viewData.setShortcut('Ctrl+D')
         self.viewData.setStatusTip('View Data')
+        self.viewData.setChecked(True)
 
         self.viewTest = QAction("View Trend", self, checkable=True)
         self.viewTest.setShortcut('Ctrl+T')
@@ -76,7 +78,7 @@ class FileMenu(QHBoxLayout):
         self.viewTrend.addAction(self.viewTest)
         self.dataMenu.addActions(self.viewTrend.actions())
 
-
+        self.viewTrend.triggered.connect(self.changeGraphSettings)
 
 
     def initModelMenu(self):
@@ -117,6 +119,11 @@ class FileMenu(QHBoxLayout):
             g = GraphSettings.POINTS
         elif self.viewBoth.isChecked():
             g = GraphSettings.BOTH
+
+        if self.viewData.isChecked():
+            self.container.dataTab.graphSettings.showTrend = GraphSettings.DATA
+        elif self.viewTest.isChecked():
+            self.container.dataTab.graphSettings.showTrend = GraphSettings.TREND
 
         self.container.dataTab.graphSettings.viewStyle = g
         self.container.updateGraphs()

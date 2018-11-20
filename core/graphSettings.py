@@ -12,10 +12,14 @@ class GraphSettings:
     DATA = 0
     TREND = 1
 
+    LAPLACE = 0
+    RAA = 1
+
     def __init__(self):
         self.viewStyle = GraphSettings.BOTH
         self.dataMode = GraphSettings.CUMULATIVE
         self.showTrend = GraphSettings.DATA
+        self.test = GraphSettings.LAPLACE
 
     # convert view style to matlplot lib graph syntax
     def viewStyleToPointStyle(self):

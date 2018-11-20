@@ -45,9 +45,14 @@ class SideMenu(QVBoxLayout):
         "Failure Intensity"])
         self.addWidget(self.viewMode)
 
+        self.testSelect = QComboBox()
+        self.testSelect.addItems(["Lapance Test", "Running Average Test"])
+        self.addWidget(self.testSelect)
+
         # signals
         self.viewMode.currentIndexChanged.connect(self.viewModeChanged)
         self.sheetSelect.currentIndexChanged.connect(self.sheetChanged)
+        self.testSelect.currentIndexChanged.connect(self.testChanged)
 
         self.addStretch(1)
 
@@ -112,6 +117,13 @@ class SideMenu(QVBoxLayout):
         log.info("Updating Sheets")
         self.sheetSelect.clear()
         self.sheetSelect.addItems(self.mainWindow.sheets)
+
+    def testChanged(self):
+        if self.testSelect.currentText() == "Lapance Test":
+            self.mainWindow.dataTab.graphSettings.test = GraphSettings.LAPLACE
+        elif self.testSelect.currentText() == "Running Average Test":
+            self.mainWindow.dataTab.graphSettings.test = GraphSettings.RAA
+        self.mainWindow.updateGraphs()
 
 
 
