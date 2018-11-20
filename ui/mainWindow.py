@@ -68,8 +68,16 @@ class App(QMainWindow):
         self.layout.addWidget(self.tabs)
 
     def updateGraphs(self):
-        self.dataTab.updateGraph()
-        self.modelTab.updateGraph()
+        try:
+            self.dataTab.updateGraph()
+            self.modelTab.updateGraph()
+        except Exception as e:
+            log.error('Error while attempting to graph')
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Error while attempting to graph.  Is your data ok?")
+            msg.setWindowTitle("Graph Error")
+            msg.exec_()
 
     def updateSheets(self):
         self.dataTab.updateSheets()
