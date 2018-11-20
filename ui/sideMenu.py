@@ -46,7 +46,7 @@ class SideMenu(QVBoxLayout):
         self.addWidget(self.viewMode)
 
         self.testSelect = QComboBox()
-        self.testSelect.addItems(["Lapance Test", "Running Average Test"])
+        self.testSelect.addItems(["Laplace Test", "Running Average Test"])
         self.addWidget(self.testSelect)
 
         # signals
@@ -119,7 +119,7 @@ class SideMenu(QVBoxLayout):
         self.sheetSelect.addItems(self.mainWindow.sheets)
 
     def testChanged(self):
-        if self.testSelect.currentText() == "Lapance Test":
+        if self.testSelect.currentText() == "Laplace Test":
             self.mainWindow.dataTab.graphSettings.test = GraphSettings.LAPLACE
         elif self.testSelect.currentText() == "Running Average Test":
             self.mainWindow.dataTab.graphSettings.test = GraphSettings.RAA
