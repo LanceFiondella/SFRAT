@@ -44,6 +44,7 @@ def AverageTest(dataclass):
     avg = pd.Series(0)
 
     for i in range(len(dataclass)):
-        avg[i] = sum(dataclass['FT'][0:i+1])/(i+1)
+        avg[i] = sum(dataclass['IF'][0:i+1])/(i+1)
+
 
     return pd.DataFrame({'FN': dataclass['FN'], 'RA': avg})

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QVBoxLayout, QLabel, QComboBox, QPushButton
 from PyQt5.QtGui import QIcon
 
 import logging as log
@@ -9,7 +9,6 @@ import pandas as pd
 
 import models
 from core.graphSettings import GraphSettings
-
 from core.dataClass import Data
 
 
@@ -48,6 +47,7 @@ class SideMenu(QVBoxLayout):
         self.testSelect = QComboBox()
         self.testSelect.addItems(["Laplace Test", "Running Average Test"])
         self.addWidget(self.testSelect)
+        self.testSelect.setEnabled(False)
 
         # signals
         self.viewMode.currentIndexChanged.connect(self.viewModeChanged)
@@ -96,14 +96,13 @@ class SideMenu(QVBoxLayout):
         self.mainWindow.updateGraphs()
 
     def sheetChanged(self):
-        if self.sheetSelect.currentText() != "No Sheets" \
-        and len(self.mainWindow.sheets) > 1 \
-        and self.sheetSelect.currentText(): # this is to ignore the update from clear
-            self.mainWindow.data = Data(self.mainWindow.fullDataSet[\
-            self.sheetSelect.currentText()])
+        if (self.sheetSelect.currentText() != "No Sheets" and 
+            len(self.mainWindow.sheets) > 1 and 
+            self.sheetSelect.currentText()): 
+            # this is to ignore the update from clear
+            self.mainWindow.data = Data(self.mainWindow.fullDataSet[
+                                        self.sheetSelect.currentText()])
             self.mainWindow.updateGraphs()
-
-
 
     # update any display that relies on data from outside the class
     def updateSheets(self):
@@ -117,19 +116,3 @@ class SideMenu(QVBoxLayout):
         elif self.testSelect.currentText() == "Running Average Test":
             self.mainWindow.dataTab.graphSettings.test = GraphSettings.RAA
         self.mainWindow.updateGraphs()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#

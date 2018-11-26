@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QMainWindow, QAction, QWidget, QVBoxLayout, QTabWidget, QMessageBox
 from PyQt5.QtGui import QIcon
 
 from matplotlib.backends.qt_compat import QtCore, QtWidgets, is_pyqt5
@@ -27,14 +27,14 @@ class App(QMainWindow):
         self.top = 10
         self.width = 1080
         self.height = 720
-        self._main = QtWidgets.QWidget()
+        self._main = QWidget()
 
         self.setCentralWidget(self._main)
-        self.layout = QtWidgets.QVBoxLayout(self._main)
+        self.layout = QVBoxLayout(self._main)
 
         # default linear dataset
         self.data = Data(pd.DataFrame({"FN": np.linspace(0, 10, 101),
-        "FT": np.linspace(0, 10, 101)}))
+                         "FT": np.linspace(0, 10, 101)}))
 
         # sheets used for load excel data
         self.sheets = ["No Sheets"]
@@ -75,7 +75,7 @@ class App(QMainWindow):
             log.error('Error while attempting to graph')
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("Error while attempting to graph.  Is your data ok?")
+            msg.setText("Error while attempting to graph: " + str(e))
             msg.setWindowTitle("Graph Error")
             msg.exec_()
 

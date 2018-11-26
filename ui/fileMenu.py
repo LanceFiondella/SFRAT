@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import qApp, QAction, QActionGroup, QFileDialog, QHBoxLayout
 from PyQt5.QtGui import QIcon
 
 import logging as log
@@ -33,7 +33,14 @@ class FileMenu(QHBoxLayout):
         openFile.setStatusTip('Open Data File')
         openFile.triggered.connect(self.fileOpened)
         openFile.setMenuRole(QAction.NoRole)
+
+        exitApp = QAction('Exit', self)
+        exitApp.setShortcut('Ctrl+Q')
+        exitApp.setStatusTip('Exit App')
+        exitApp.triggered.connect(qApp.quit)
+
         self.fileMenu.addAction(openFile)
+        self.fileMenu.addAction(exitApp)
 
     def initDataMenu(self):
         #self.dataMenu.addSeparator()
@@ -112,7 +119,7 @@ class FileMenu(QHBoxLayout):
             self.container.updateSheets()
 
     def changeGraphSettings(self):
-        log.info("Updating Graph Setings")
+        log.info("Updating Graph Settings")
         if self.viewLines.isChecked():
             g = GraphSettings.LINES
         elif self.viewPoints.isChecked():
@@ -122,8 +129,12 @@ class FileMenu(QHBoxLayout):
 
         if self.viewData.isChecked():
             self.container.dataTab.graphSettings.showTrend = GraphSettings.DATA
+            self.container.dataTab.sideMenu.testSelect.setEnabled(False)
+            self.container.dataTab.sideMenu.viewMode.setEnabled(True)
         elif self.viewTest.isChecked():
             self.container.dataTab.graphSettings.showTrend = GraphSettings.TREND
+            self.container.dataTab.sideMenu.testSelect.setEnabled(True)
+            self.container.dataTab.sideMenu.viewMode.setEnabled(False)
 
         self.container.dataTab.graphSettings.viewStyle = g
         self.container.updateGraphs()
