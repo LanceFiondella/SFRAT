@@ -49,7 +49,7 @@ class GM(Model):
         Returns:
             Log likelihood as float
         """
-
+        
         iVector = [(i) for i in range(self.n)]
         secondTerm = np.sum(iVector * np.log(phi))
         thirdTerm = (np.power(phi, iVector) * self.data.IF).sum()

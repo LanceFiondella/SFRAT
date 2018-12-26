@@ -1,7 +1,7 @@
 
 import pandas as pd
 import logging as log
-
+from PyQt5 import QtCore, QtGui
 
 def DataFormat(dataclass):
     # supply pd data object, formats/completes dataset
@@ -48,3 +48,23 @@ def AverageTest(dataclass):
 
 
     return pd.DataFrame({'FN': dataclass['FN'], 'RA': avg})
+
+
+class PandasModel(QtCore.QAbstractTableModel):
+    def __init__(self, data, parent=None):
+        QtCore.QAbstractTableModel.__init__(self, parent)
+        self._data = data
+
+    def rowCount(self, parent=None):
+        return len(self._data.values)
+
+    def columnCount(self, parent=None):
+        return self._data.columns.size
+    
+    def data(self, index, role=QtCore.Qt.DisplayRole):
+        if index.isValid():
+            if role == QtCore.Qt.DisplayRole:
+                return QtCore.QVariant(str(
+                    self._data.values[index.row()][index.column()]
+                ))
+        return QtCore.QVariant()

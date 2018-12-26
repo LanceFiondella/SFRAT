@@ -25,6 +25,9 @@ class Tab(QWidget):
         self.layout.addLayout(self.sideMenu, 20)
         self.setLayout(self.layout)
 
+        self.plotTableTabs = QTabWidget()
+
+
         # setup graph
         self.plotWidget = QWidget()
         plotLayout = QVBoxLayout()
@@ -35,7 +38,15 @@ class Tab(QWidget):
         plotLayout.addWidget(toolbar)
         self.plotWidget.setLayout(plotLayout)
 
-        self.layout.addWidget(self.plotWidget, 80)
+        #Setup table
+        self.tableWidget = QTableWidget()
+        self.tableWidget.setModel()
+
+
+        self.plotTableTabs.addTab(self.plotWidget, 'Plot')
+        self.plotTableTabs.addTab(self.tableWidget, 'Table')
+
+        self.layout.addWidget(self.plotTableTabs, 80)
         self.plot = self.plotFigure.figure.subplots()
 
     def updateGraph(self):
