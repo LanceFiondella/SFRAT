@@ -32,7 +32,7 @@ class WEI(Model):
         self.tn = self.data.FT[self.n]
         self.sumT = self.data.FT.sum()
         self.rootFindFunc = RootFind(rootAlgoName=kwargs['bisect'],
-                                     equation=self.MLEeqB,
+                                     equation=self.MLEeq,
                                      data=self.data)
         self.a0 = self.n
         self.b0 = self.n / self.sumT
