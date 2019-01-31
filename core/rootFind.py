@@ -7,7 +7,7 @@ class RootFind():
     """
     bracketedAlgos = ['brentq', 'brenth', 'ridder', 'bisect']
     nonbracketedAlgos = ['newton']
-
+    
     def __init__(self, *args, **kwargs):
         """
         Initializes the RootFind object

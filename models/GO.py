@@ -22,7 +22,7 @@ class GO(Model):
         """
         super().__init__(*args, **kwargs)
         self.n = len(self.data)
-        self.tn = self.data.FT[-1]
+        self.tn = self.data.FT.iloc[-1]
         self.sumT = self.data.FT.sum()
         # self.interFailSum = self.data.IF.sum()
         self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
@@ -116,6 +116,9 @@ class GO(Model):
         """
         bHat = self.rootFindFunc.findRoot()
         return bHat
+
+    def reliability(self):
+        return super().reliability()
 
 if __name__ == "__main__":
     fname = "model_data.xlsx"

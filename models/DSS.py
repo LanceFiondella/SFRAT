@@ -30,9 +30,9 @@ class DSS(Model):
         """
         super().__init__(*args, **kwargs)
         self.n = len(self.data)
-        self.tn = self.data.FT[self.n]
+        self.tn = self.data.FT.iloc[-1]
         self.sumT = self.data.FT.sum()
-        self.rootFindFunc = RootFind(rootAlgoName=kwargs['bisect'],
+        self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
                                      equation=self.MLEeq,
                                      data=self.data)
 
