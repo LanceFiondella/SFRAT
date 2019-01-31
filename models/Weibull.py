@@ -29,9 +29,9 @@ class WEI(Model):
         """
         super().__init__(*args, **kwargs)
         self.n = len(self.data)
-        self.tn = self.data.FT[self.n]
+        self.tn = self.data.FT.iloc[-1]
         self.sumT = self.data.FT.sum()
-        self.rootFindFunc = RootFind(rootAlgoName=kwargs['bisect'],
+        self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
                                      equation=self.MLEeq,
                                      data=self.data)
         self.a0 = self.n
@@ -49,8 +49,8 @@ class WEI(Model):
         self.lnLvalue = Log likelihood value.
         """
         self.MLE = optimize.fsolve(self.calcMLEs, (self.a0, self.b0, self.c0), maxfev = 10000)
-        self.MVFvalue = self.MVF(self.MLE[0], self.MLE[1], self.MLE[2], self.tn)
-        self.lambdat = self.FI(self.MLE[0], self.zMLE[1], self.MLE[2], self.tn)
+        self.MVFVal = self.MVF(self.MLE[0], self.MLE[1], self.MLE[2], self.tn)
+        self.lambdat = self.FI(self.MLE[0], self.MLE[1], self.MLE[2], self.tn)
         self.lnLvalue = self.lnL(self.MLE[0], self.MLE[1], self.MLE[2], self.tn)
 
     def lnL(self, a , b, c, t):

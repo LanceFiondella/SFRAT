@@ -72,7 +72,7 @@ class GM(Model):
 
     def MLEeq(self, phi):
         """
-        Represents MLE eqation, used in root finding
+        Represents MLE equation, used in root finding
 
         Args:
             N0: First parameter N0 of type float
@@ -81,8 +81,9 @@ class GM(Model):
             Value of MLE equation
         """
         iVector = [(i) for i in range(self.n)]
-        rightTerm = self.calcDMLE(phi) * (iVector * np.power(phi, iVector) * self.data.IF).sum()
-        leftTerm = np.sum(iVector/phi)
+        rightTerm = (self.calcDMLE(phi) *
+                     (iVector * np.power(phi, iVector) * self.data.IF).sum())
+        leftTerm = np.sum(iVector / phi)
         return leftTerm - rightTerm
 
     def calcDMLE(self, phi):
