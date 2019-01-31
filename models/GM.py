@@ -70,7 +70,7 @@ class GM(Model):
     def FI(self, N0, phi):
         pass
 
-    def MLEeq(self, phi, Dparam):
+    def MLEeq(self, phi):
         """
         Represents MLE eqation, used in root finding
 
@@ -80,10 +80,9 @@ class GM(Model):
         Returns:
             Value of MLE equation
         """
-        iVector1 = [(i) for i in range(self.n)]
-        iVector2 = [(i - 1) for i in range(self.n)]
-        rightTerm = Dparam * (iVector1 * np.power(phi, iVector2) * self.data.IF).sum()
-        leftTerm = np.sum(iVector1/phi)
+        iVector = [(i) for i in range(self.n)]
+        rightTerm = self.calcDMLE(phi) * (iVector * np.power(phi, iVector) * self.data.IF).sum()
+        leftTerm = np.sum(iVector/phi)
         return leftTerm - rightTerm
 
     def calcDMLE(self, phi):
@@ -93,7 +92,7 @@ class GM(Model):
         Returns:
             Dparam of type float
         """
-        iVector = [(i + 1) for i in range(self.n)]
+        iVector = [i for i in range(self.n)]
         denom = (np.power(phi, iVector) * self.data.IF).sum()
         return (self.n * phi)/denom
 

@@ -2,7 +2,6 @@
 """
 Created on Wed Jan  2 12:48:36 2019
 
-@author: Kenan Chen
 """
 import pandas as pd
 import numpy as np
