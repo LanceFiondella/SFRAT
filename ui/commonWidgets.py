@@ -10,9 +10,9 @@ from matplotlib.figure import Figure
 
 
 class ComputeWidget(QWidget):
-    results = pyqtSignal(list)
+    results = pyqtSignal(dict)
 
-    def __init__(self, modelsToRun, algoToRun, data, parent=None):
+    def __init__(self, modelsToRun, algoToRun, data, predictPoints, parent=None):
         super(ComputeWidget, self).__init__(parent)
         layout = QVBoxLayout(self)
 
@@ -24,7 +24,7 @@ class ComputeWidget(QWidget):
         layout.addWidget(self.label)
         layout.addWidget(self.progressBar)
         self.setWindowTitle("Processing")
-        self.computeTask = TaskThread(modelsToRun, algoToRun, data)
+        self.computeTask = TaskThread(modelsToRun, algoToRun, data, predictPoints)
         self.computeTask.modelFinished.connect(self.modelFinished)
         self.computeTask.taskFinished.connect(self.onFinished)
         self.computeTask.start()
@@ -39,21 +39,22 @@ class ComputeWidget(QWidget):
 
 
 class TaskThread(QThread):
-    taskFinished = pyqtSignal(list)
+    taskFinished = pyqtSignal(dict)
     modelFinished = pyqtSignal()
 
-    def __init__(self, modelsToRun, algoToRun, data):
+    def __init__(self, modelsToRun, algoToRun, data, predictPoints):
         super().__init__()
         self.modelsToRun = modelsToRun
         self.algoToRun = algoToRun
         self.data = data
+        self.predictPoints = predictPoints
 
     def run(self):
-        result = []
+        result = {}
         for model in self.modelsToRun:
             m = model(data=self.data.getData(), rootAlgoName=self.algoToRun)
-            m.findParams()
-            result.append(m)
+            m.findParams(self.predictPoints)
+            result[m.name] = m
             self.modelFinished.emit()
         self.taskFinished.emit(result)
 

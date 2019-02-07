@@ -27,16 +27,20 @@ class PlotSettings:
         self._plotType = plotType
 
     def generatePlot(self, ax, x, y, title="None", xLabel="X", yLabel="Y"):
-        ax.clear()
-        ax.grid(True)
+        ax = self.setupPlot(ax, title=title, xLabel=xLabel, yLabel=yLabel)
         plotMethod = getattr(ax, self.plotType)
         plotMethod(x, y, self.style, markerSize=self.markerSize)
+        return ax
+
+    def setupPlot(self, ax, title="None", xLabel="X", yLabel="Y"):
+        ax.clear()
+        ax.grid(True)
         ax.set_title(title)
         ax.set_xlabel(xLabel)
         ax.set_ylabel(yLabel)
         return ax
 
-    def addLine(self, ax, x, y):
+    def addLine(self, ax, x, y, label="None"):
         plotMethod = getattr(ax, self.plotType)
-        plotMethod(x, y, self.style, markerSize=self.markerSize)
+        plotMethod(x, y, self.style, markerSize=self.markerSize, label=label)
         return ax

@@ -36,7 +36,7 @@ class DSS(Model):
                                      equation=self.MLEeq,
                                      data=self.data)
 
-    def findParams(self):
+    def findParams(self, predictPoints):
         """
         Find parameters of the model
         This function gets called for all models regardless of type
@@ -49,9 +49,43 @@ class DSS(Model):
         """
         self.bMLE = self.calcbMLE()
         self.aMLE = self.calcaMLE(self.bMLE)
-        self.DSSmt = self.MVF(self.bMLE, self.aMLE)
-        self.lambdat = self.FI(self.bMLE, self.aMLE, self.tn)
-        self.DSSLL = self.lnL(self.bMLE, self.aMLE, self.DSSmt)
+        self.predict(predictPoints)
+        # self.DSSmt = self.MVF(self.bMLE, self.aMLE, self.tn)
+        # self.lambdat = self.FI(self.bMLE, self.aMLE, self.tn)
+        # self.DSSLL = self.lnL(self.bMLE, self.aMLE, self.DSSmt)
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.MVFVal = self.MVF(self.bMLE, self.aMLE, self.data.FT)
+        self.FIVal = self.FI(self.bMLE, self.aMLE, self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(self.bMLE, self.aMLE, self.predictedFailureTimes)
+
+    def predict(self, predictPoints):
+        futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(predictPoints)]
+        self.predictedFailureTimes = []
+        for failure in futureFailures:
+            result = scipy.optimize.root(lambda t: failure-self.MVF(self.bMLE, self.aMLE, t), [self.data.FT.iloc[-1]])
+            if result.success:
+                next_val = result.x[0]
+                self.predictedFailureTimes.append(next_val)
+        self.predictedFailureTimes = np.array(self.predictedFailureTimes)
+        self.futureFailures = np.array(futureFailures)
+
+    def MVFPlot(self):
+        return (self.predictedFailureTimes,
+                self.MVFVal[:len(self.predictedFailureTimes)])
+
+    def MTTFPlot(self):
+        return (self.predictedFailureTimes,
+                self.MTTFVal[:len(self.predictedFailureTimes)])
+
+    def FIPlot(self):
+        return (self.predictedFailureTimes,
+                self.FIVal[:len(self.predictedFailureTimes)])
+
+    def relGrowthPlot(self, interval):
+        growth = []
+        for t in self.predictedFailureTimes:
+            growth.append(self.reliability(t, interval))
+        return (self.predictedFailureTimes, growth)
 
     def lnL(self, b, a, mt):
         """
@@ -64,7 +98,7 @@ class DSS(Model):
         term = np.log(self.FI(b, a, self.data.FT[Vector])).sum()
         return -mt + term
 
-    def MVF(self, b, a):
+    def MVF(self, b, a, t):
         """
         Mean Value Function. Used in Cumulative failures
         and estimate remaining faults
@@ -72,7 +106,7 @@ class DSS(Model):
         Returns:
             mt value for DSS model of type float
         """
-        return a * (1 - np.exp(-b * self.tn) * (1 + b * self.tn))
+        return a * (1 - np.exp(-b * t) * (1 + b * t))
 
     def FI(self, b, a, t):
         """
@@ -89,7 +123,7 @@ class DSS(Model):
         """
         pass
 
-    def MTTF(self):
+    def MTTF(self, b, a, t):
         """
         Mean Time To Failure function
         """
@@ -120,6 +154,7 @@ class DSS(Model):
             bMLE
         """
         bMLE = self.rootFindFunc.findRoot()
+        self.converged = self.rootFindFunc.converged
         return bMLE
 
     def calcaMLE(self, b):

@@ -93,7 +93,9 @@ class MainWindow(QMainWindow):
         algoToRun = modelDetails['algoToRun']
         if self.data:
             self.computeWidget = ComputeWidget(modelsToRun,
-                                               algoToRun, self.data)
+                                               algoToRun, self.data,
+                                               int(self._main.sideMenu.futurePredictionsInput.text())
+                                               )
             self.computeWidget.results.connect(self.displayResults)
         else:
             QMessageBox.about(self.container, "No data found",
@@ -107,7 +109,9 @@ class MainWindow(QMainWindow):
         Args:
             results: List of models whose roots have been evaluated
         """
-        self.resultWindow = ResultWindow(results)
+        self.resultWindow = ResultWindow(results, self.data.getData(),
+                                         int(self._main.sideMenu.futurePredictionsInput.text()),
+                                         sheetName=self.data.sheetNames[self.data.currentSheet])
 
     def importFile(self):
         """
@@ -125,11 +129,13 @@ class MainWindow(QMainWindow):
             index: index of the sheet
         """
         self.data.currentSheet = index
+        self.setDataView('view', 0)
         self._main.plotAndTable.figure.canvas.draw()
 
     def setDataView(self, viewType, index):
         """
-        Set the data to be displayed
+        Set the data to be displayed. 
+        Called whenever a menu item is changed
 
         Args:
             viewType: string that determines view
@@ -351,7 +357,7 @@ class SideMenu(QVBoxLayout):
         self.modelListWidget.addItems([model.name for model in
                                        models.modelList.values()])
         self.modelListWidget.setSelectionMode(
-                                QAbstractItemView.ExtendedSelection)
+                                QAbstractItemView.MultiSelection)
 
         self.algoListWidget = QListWidget()
         self.algoListWidget.addItems([name for name in

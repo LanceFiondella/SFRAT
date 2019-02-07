@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod, abstractproperty
 
 class Model(ABC):
     name = "Generic Model"
+    converged = False
 
     def __init__(self, *args, **kwargs):
         """

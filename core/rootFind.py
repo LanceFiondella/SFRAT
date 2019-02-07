@@ -58,11 +58,12 @@ class RootFind():
         """
         if self.bracket:
             leftEndPoint, rightEndPoint = self.findEndpoints()
-            root = self.algo(self.equation, leftEndPoint,
-                             rightEndPoint, maxiter=10000,
-                             full_output=False, disp=True)
+            result = scipy.optimize.root_scalar(self.equation, method=self.algoName, bracket=[leftEndPoint, rightEndPoint], maxiter=10000)
+            root = result.root
+            self.converged = result.converged
         else:
             x0 = len(self.data)
-            root = self.algo(self.equation, x0, maxiter=10000)
+            root, result = self.algo(self.equation, x0, maxiter=10000, full_output=True)
+            self.converged = result.converged
 
         return root
