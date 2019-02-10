@@ -150,11 +150,10 @@ class ISS(Model):
         Returns:
             cMLE of type float
         """
-        firstTerm = (a*(-1+np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2)
+        firstTerm = (a*(-1+np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2))
         secondTerm = np.sum((-2/(c+np.exp(b*self.data.FT))) + (1/(1+c)))
         return c - (firstTerm+secondTerm)
 
-        
     def MVF_cont(self, t, a, b, c):
         """
         Point value of Mean value function

@@ -144,7 +144,7 @@ class PandasModel(QtCore.QAbstractTableModel):
         if index.isValid():
             if role == QtCore.Qt.DisplayRole:
                 return QtCore.QVariant(str(
-                    self._data.values[index.row()][index.column()]
+                    self._data.values[index.row()][index.column()].round(decimals=6)
                 ))
         return QtCore.QVariant()
 

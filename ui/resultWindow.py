@@ -1,16 +1,24 @@
 from PyQt5.QtWidgets import QMainWindow, QMenuBar, QHBoxLayout, QWidget,\
                             QGroupBox, QListWidget, QAbstractItemView,\
                             QVBoxLayout, QLabel, QComboBox, QAction, \
-                            QActionGroup, QLineEdit
+                            QActionGroup, QLineEdit, QTableView
 from matplotlib.backends.backend_qt5agg import FigureCanvas,\
                      NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+import pandas as pd
+import numpy as np
 # from core.graphSettings import GraphSettings
 from core.graphSettings import PlotSettings
 from ui.commonWidgets import PlotAndTable
+from core.dataClass import PandasModel
 
 
 class ResultWindow(QWidget):
+    CUMULATIVE_FAILURES = 0
+    TIMES_BETWEEN_FAILURES = 1
+    FAILURE_INTENSITY = 2
+    RELIABILITY_GROWTH = 3
+
     def __init__(self, results, data, predictPoints, sheetName="Raw Data", parent=None):
         super(ResultWindow, self).__init__(parent)
         self.results = results
@@ -82,6 +90,8 @@ class ResultWindow(QWidget):
 
     def setupCentralWidget(self):
         self.plotTableWidget = PlotAndTable()
+        self.predTableWidget = QTableView()
+        self.plotTableWidget.addTab(self.predTableWidget, 'Prediction Table')
         layout = QHBoxLayout(self)
         layout.setMenuBar(self.menu)
         layout.addWidget(self.setupSideMenu(), 20)
@@ -139,20 +149,33 @@ class ResultWindow(QWidget):
         sideMenu.setLayout(sideMenuLayout)
         return sideMenu
 
+    def populateTables(self, fitTableData, predTableData):
+        self.fitTable = pd.DataFrame.from_dict(fitTableData)
+        self.predTable = pd.DataFrame.from_dict(predTableData, orient='index').T
+        self.plotTableWidget.tableWidget.setModel(PandasModel(self.fitTable))
+        self.predTableWidget.setModel(PandasModel(self.predTable)) 
+
     def changePlot(self, index):
         self.currentPlotView = index
-        if index == 3:
+        
+        if index == self.RELIABILITY_GROWTH:
             self.intervalLengthTextbox.setEnabled(True)
         else:
             self.intervalLengthTextbox.setEnabled(False)
         self.plot.clear()
-        if index == 0:
+
+        if index == self.CUMULATIVE_FAILURES:
             # Cumulative Failures
             self.plot = self.plotSettings.setupPlot(self.plot, title="Cumulative Failures "
                                                     "vs Cumulative Test Time",
                                                     xLabel="Cumulative Test "
                                                     "Time",
                                                     yLabel="Cumulative Failures")
+            fitTableData = {'Failure Time': self.data.FT,
+                            'Failure Number': self.data.FN}
+            predTableData = {'Failure Number': np.array([self.data.FN.iloc[-1]+i+1 
+                                                         for i in range(self.predictPoints)])}
+
             if self.showRawData:
                 self.plotSettings.plotType = 'step'
                 self.plot = self.plotSettings.addLine(
@@ -162,21 +185,30 @@ class ResultWindow(QWidget):
                                                 label=self.sheetName
                                                 )
             self.plot.axvline(x=self.data.FT.iloc[-1], color='black', linestyle='--')
-
             for i, model in enumerate(self.modelListWidget.selectedItems()):
                 modelName = model.text()
                 self.plotSettings.plotType = 'plot'
+                predFailureTimes, failureNumbers  = self.results[modelName].MVFPlot()
                 self.plot = self.plotSettings.addLine(
                                                 self.plot,
-                                                *self.results[modelName].MVFPlot(),
-                                                label=self.results[modelName].name)
-        elif index == 1:
+                                                predFailureTimes,
+                                                failureNumbers,
+                                                label=modelName)
+                fitTableData[modelName + "\nFailure Number"] = failureNumbers[:len(self.data.FN)]
+                predTableData[modelName + "\nFailure Times"] = predFailureTimes[len(self.data.FN):]
+            self.populateTables(fitTableData, predTableData)
+            
+        elif index == self.TIMES_BETWEEN_FAILURES:
             # Times between Failures
             self.plot = self.plotSettings.setupPlot(self.plot, title="Interfailure Times vs."
                                                     " Cumulative Test Time",
                                                     xLabel="Cumulative Test Time",
                                                     yLabel="Times between"
                                                     " successive failures")
+            fitTableData = {'Failure Time': self.data.FT,
+                            'InterFailure Times': self.data.IF}
+            predTableData = {'Failure Number': np.array([self.data.FN.iloc[-1]+i+1 
+                                                         for i in range(self.predictPoints)])}    
             if self.showRawData:
                 self.plotSettings.plotType = 'step'
                 self.plot = self.plotSettings.addLine(
@@ -188,16 +220,25 @@ class ResultWindow(QWidget):
             for i, model in enumerate(self.modelListWidget.selectedItems()):
                 modelName = model.text()
                 self.plotSettings.plotType = 'plot'
+                predFailureTimes, MTTF = self.results[modelName].MTTFPlot()
                 self.plot = self.plotSettings.addLine(
                                                 self.plot,
-                                                *self.results[modelName].MTTFPlot(),
+                                                predFailureTimes,
+                                                MTTF,
                                                 label=self.results[modelName].name)
-        elif index == 2:
+                fitTableData[modelName] = MTTF[:len(self.data.FN)]
+                predTableData[modelName] = MTTF[len(self.data.FN):]
+            self.populateTables(fitTableData, predTableData)
+        elif index == self.FAILURE_INTENSITY:
             # Failure Intensity
             self.plot = self.plotSettings.setupPlot(self.plot, title="Failure Intensity vs."
                                                     " Cumulative Test Time",
                                                     xLabel="Cumulative Test Time",
                                                     yLabel="Failure Intensity")
+            fitTableData = {'Failure Time': self.data.FT,
+                            'Failure Intensity': 1/self.data.IF}
+            predTableData = {'Failure Number': np.array([self.data.FN.iloc[-1]+i+1 
+                                                         for i in range(self.predictPoints)])}
             if self.showRawData:
                 self.plotSettings.plotType = 'step'
                 self.plot = self.plotSettings.addLine(
@@ -207,26 +248,39 @@ class ResultWindow(QWidget):
                                                 label=self.sheetName)
             for i, model in enumerate(self.modelListWidget.selectedItems()):
                 modelName = model.text()
+                predFailureTimes, FI = self.results[modelName].FIPlot()
                 self.plotSettings.plotType = 'plot'
                 self.plot = self.plotSettings.addLine(
                                                 self.plot,
-                                                *self.results[modelName].FIPlot(),
+                                                predFailureTimes,
+                                                FI,
                                                 label=self.results[modelName].name)
-        elif index == 3:
+                fitTableData[modelName] = FI[:len(self.data.FN)]
+                predTableData[modelName] = FI[len(self.data.FN):]
+            self.populateTables(fitTableData, predTableData)
+        elif index == self.RELIABILITY_GROWTH:
             # Reliability growth
-
+            
             self.plot = self.plotSettings.setupPlot(self.plot, title="Reliability growth vs."
                                                     " Cumulative Test Time",
                                                     xLabel="Cumulative Test Time",
                                                     yLabel="Reliability Growth")
+            fitTableData = {'Failure Time': self.data.FT}
+            predTableData = {'Failure Number': np.array([self.data.FN.iloc[-1]+i+1 
+                                                         for i in range(self.predictPoints)])}
             for i, model in enumerate(self.modelListWidget.selectedItems()):
                 modelName = model.text()
+                predFailureTimes, relGrowth = self.results[modelName].relGrowthPlot(
+                                                    float(self.intervalLengthTextbox.text())
+                                                    )
                 self.plotSettings.plotType = 'plot'
                 self.plot = self.plotSettings.addLine(
                                                 self.plot,
-                                                *self.results[modelName].relGrowthPlot(
-                                                    float(self.intervalLengthTextbox.text())
-                                                    ),
+                                                predFailureTimes,
+                                                relGrowth,
                                                 label=self.results[modelName].name)
+                fitTableData[modelName + "\nReliability"] = relGrowth[:len(self.data.FT)]
+                predTableData[modelName + "\nReliability"] = relGrowth[len(self.data.FT):]
+            self.populateTables(fitTableData, predTableData)
         self.plot.legend()
         self.plotTableWidget.plotFigure.figure.canvas.draw()
