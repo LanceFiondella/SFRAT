@@ -139,12 +139,18 @@ class ResultWindow(QWidget):
         self.targetRelTextbox = QLineEdit('0.9')
         queryResultsGroupLayout.addWidget(self.targetRelTextbox)
         queryResultsGroupLayout.addWidget(QLabel('Specify mission time'))
-        self.targetRelTextbox = QLineEdit(str(self.data.IF.iloc[-1]))
+        self.targetMissionTimeTextbox = QLineEdit(str(self.data.IF.iloc[-1]))
         queryResultsGroupLayout.addWidget(self.targetRelTextbox)
         queryResultsGroup.setLayout(queryResultsGroupLayout)
-
+        queryResultsGroupLayout.addWidget(QLabel('Failures observed in the next N time units\n Specify N'))
+        self.NTimeTextbox = QLineEdit(str(self.data.IF.iloc[-1]))
         sideMenuLayout.addWidget(viewResultsGroup)
         sideMenuLayout.addWidget(queryResultsGroup)
+
+        #Setting up Model Eval group
+        modelEvalGroup = QGroupBox('Evaluate Models')
+        modelEvalGroupLayout = QVBoxLayout()
+        #modelEvalGroupLayout.addWidget()
 
         sideMenu.setLayout(sideMenuLayout)
         return sideMenu
@@ -157,7 +163,6 @@ class ResultWindow(QWidget):
 
     def changePlot(self, index):
         self.currentPlotView = index
-        
         if index == self.RELIABILITY_GROWTH:
             self.intervalLengthTextbox.setEnabled(True)
         else:
@@ -197,7 +202,7 @@ class ResultWindow(QWidget):
                 fitTableData[modelName + "\nFailure Number"] = failureNumbers[:len(self.data.FN)]
                 predTableData[modelName + "\nFailure Times"] = predFailureTimes[len(self.data.FN):]
             self.populateTables(fitTableData, predTableData)
-            
+
         elif index == self.TIMES_BETWEEN_FAILURES:
             # Times between Failures
             self.plot = self.plotSettings.setupPlot(self.plot, title="Interfailure Times vs."
@@ -229,6 +234,7 @@ class ResultWindow(QWidget):
                 fitTableData[modelName] = MTTF[:len(self.data.FN)]
                 predTableData[modelName] = MTTF[len(self.data.FN):]
             self.populateTables(fitTableData, predTableData)
+
         elif index == self.FAILURE_INTENSITY:
             # Failure Intensity
             self.plot = self.plotSettings.setupPlot(self.plot, title="Failure Intensity vs."
@@ -258,9 +264,9 @@ class ResultWindow(QWidget):
                 fitTableData[modelName] = FI[:len(self.data.FN)]
                 predTableData[modelName] = FI[len(self.data.FN):]
             self.populateTables(fitTableData, predTableData)
+
         elif index == self.RELIABILITY_GROWTH:
             # Reliability growth
-            
             self.plot = self.plotSettings.setupPlot(self.plot, title="Reliability growth vs."
                                                     " Cumulative Test Time",
                                                     xLabel="Cumulative Test Time",
