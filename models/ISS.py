@@ -29,21 +29,21 @@ class ISS(Model):
                                      equation=self.MLEeq,
                                      data=self.data)
 
-    def findParams(self): #Check with Shekar
+    def findParams(self, predictPoints): 
         """
         Find parameters of the model
 
         This function gets called for all models regardless of type
         """
-        self.aMLE = self.calcaMLE()
-        self.bMLE = self.calcbMLE()
-        self.cMLE = self.calccMLE()
-        self.MVFVal = self.MVF(self.aMLE, self.bMLE, self.cMLE)
-        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE)
-        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE)
-        self.RelVal = self.reliability(self.aMLE, self.bMLE, self.cMLE, fail_num, timeVec) 
+        sol = optimize.root(MLEeq,[self.n,self.n/sum(self.data.FT),1.0],tol=1.0)
+        self.aMLE,self.bMLE,self.cMLE = sol.x
+        self.predict(predictPoints)
+        self.MVFVal = np.append(self.MVF(self.N0MLE, self.phiMLE, self.data.FT), self.futureFailures)
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE,np.append(self.data.FN, self.futureFailures))
+        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE,self.predictedFailureTimes)
 
-    def MVF(self, a, b, c):
+    def MVF(self, a, b, c,t):
         """
         Calculates the Mean Value Function (MVF) based on a, b, and c
 
@@ -54,9 +54,37 @@ class ISS(Model):
         Returns:
             MVF values as numpy array
         """
-        return (a*(1-np.exp(-b*self.data.FT)))/(1+c*np.exp(-b*self.data.FT))
+        return (a*(1-np.exp(-b*t)))/(1+c*np.exp(-b*t))
 
-    def FI(self, a, b, c):
+ 	def MVFPlot(self):
+        return (self.predictedFailureTimes,self.MVFVal[:len(self.predictedFailureTimes)])
+                
+
+	def MTTFPlot(self):
+        return (self.predictedFailureTimes,self.MTTFVal[:len(self.predictedFailureTimes)])
+
+    def FIPlot(self):
+        return (self.predictedFailureTimes,self.FIVal[:len(self.predictedFailureTimes)])
+                
+
+    def relGrowthPlot(self, interval):
+        growth = []
+        for t in self.predictedFailureTimes:
+            growth.append(self.reliability(t, interval))
+        return (self.predictedFailureTimes, growth)
+
+    def predict(self, numOfPoints):
+        futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
+        self.predictedFailureTimes = []
+        for failure in futureFailures:
+            result = scipy.optimize.root(lambda t: failure-self.MVF(self.N0MLE, self.phiMLE, t), [self.data.FT.iloc[-1]])
+            if result.success:
+                next_val = result.x[0]
+                self.predictedFailureTimes.append(next_val)
+        self.predictedFailureTimes = np.array(self.predictedFailureTimes)
+        self.futureFailures = np.array(futureFailures)
+
+    def FI(self, a, b, c, failureTimes):
         """
         Calculates Failure Intensity
 
@@ -67,7 +95,7 @@ class ISS(Model):
         Returns:
             Failure Intensity as numpy array
         """
-        return (a*b*(c+1)*np.exp(b*self.data.FT))/((c+np.exp(b*self.data.FT))**2)
+        return (a*b*(c+1)*np.exp(b*failureTimes))/((c+np.exp(b*failureTimes))**2)
 
     def lnL(self, a, b, c):
         """
@@ -85,7 +113,7 @@ class ISS(Model):
         thirdTerm = np.sum(np.log(1+np.exp(b*self.data.FT)))                        
         return -firstTerm + secondTerm + b*self.sumT - 2*thirdTerm
 
-    def reliability(self, opertime, timeVec):  #Check with Shekar
+    def reliability(self, t, interval):  #Check with Shekar
         """
         Represents the reliability growth equation
 
@@ -97,8 +125,8 @@ class ISS(Model):
             Reliability growth for the specified Operation/Mission time
         """
 
-        firstTerm = (self.aMLE*(1-np.exp(-self.bMLE*(opertime+timeVec))))/(1+self.cMLE*np.exp(-self.bMLE*(opertime+timeVec)))
-        secondTerm = (self.aMLE*(1-np.exp(-self.bMLE*timeVec)))/(1+self.cMLE*np.exp(-self.bMLE*timeVec))
+        firstTerm = (self.aMLE*(1-np.exp(-self.bMLE*(interval+t))))/(1+self.cMLE*np.exp(-self.bMLE*(interval+t)))
+        secondTerm = (self.aMLE*(1-np.exp(-self.bMLE*t)))/(1+self.cMLE*np.exp(-self.bMLE*t))
         np.exp(-((firstTerm)-(secondTerm)))
         return 
 
@@ -108,7 +136,7 @@ class ISS(Model):
     def finite_model(self): 
         return True
 
-    def MLEeq(self, N0):    #Check with Shekar
+    def MLEeq(self,x):    #Check with Shekar
         """
         Represents MLE eqation, used in root finding
 
@@ -118,9 +146,19 @@ class ISS(Model):
         Returns:
             Value of MLE equation
         """
-        
+        a,b,c = x
+        aNr = 1-np.exp(-b*self.tn)
+        aDr = (1+c*np.exp(-b*self.tn)) 
+        aEq = a-self.n/(aNr/aDr)
 
-        return 
+        bFirstPart = (-a*(1+c)*self.tn*np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2)
+        bSecondPart = np.sum((1/b)-((2*self.data.FT*np.exp(b*self.data.FT))/(c+np.exp(b*self.data.FT))) + self.data.FT)
+        bEq = b - (bFirstPart + bSecondPart)
+
+        cFirstPart = (a*(-1+np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2))
+        cSecondPart = np.sum((-2/(c+np.exp(b*self.data.FT))) + (1/(1+c)))        
+        cEq = c - (firstTerm+secondTerm)
+        return [aEq, bEq, cEq]
 
     def calcaMLE(self): 
         """
@@ -131,43 +169,6 @@ class ISS(Model):
         """
         secondTerm = (self.n/(((1-np.exp(-b*self.tn)))/(1+c*np.exp(-b*self.tn))))  
         return a - secondTerm   
-
-    def calcbMLE(self):
-        """
-        Defines the MLE of b to be called in the MLE_eq function
-
-        Returns:
-            bMLE of type float
-        """
-        firstTerm = (-a*(1+c)*self.tn*np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2)
-        secondTerm = np.sum((1/b)-((2*self.data.FT*np.exp(b*self.data.FT))/(c+np.exp(b*self.data.FT))) + self.data.FT)
-        return b - (firstTerm + secondTerm)
-
-    def calccMLE(self):
-        """
-        Defines the MLE of 'c' to be called in the MLE_eq function
-
-        Returns:
-            cMLE of type float
-        """
-        firstTerm = (a*(-1+np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2))
-        secondTerm = np.sum((-2/(c+np.exp(b*self.data.FT))) + (1/(1+c)))
-        return c - (firstTerm+secondTerm)
-
-    def MVF_cont(self, t, a, b, c):
-        """
-        Point value of Mean value function
-
-        Args:
-            t: time at which to calculate MVF
-            a: a value, usually aMLE of type float
-            b: b value, usually bMLE of type float
-            c: c value, usually cMLE of type float
-
-        Returns:
-            MVF for time t as float
-        """
-        return (a*(1-np.exp(-b*t)))/(1+c*np.exp(-b*t))
 
 
 if __name__ == "__main__":
