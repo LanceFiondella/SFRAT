@@ -56,16 +56,14 @@ class ISS(Model):
         """
         return (a*(1-np.exp(-b*t)))/(1+c*np.exp(-b*t))
 
-	def MVFPlot(self):
-        return (self.predictedFailureTimes,self.MVFVal[:len(self.predictedFailureTimes)])
-                
-
-	def MTTFPlot(self):
-        return (self.predictedFailureTimes,self.MTTFVal[:len(self.predictedFailureTimes)])
-
     def FIPlot(self):
         return (self.predictedFailureTimes,self.FIVal[:len(self.predictedFailureTimes)])
                 
+	def MVFPlot(self):
+    	return (self.predictedFailureTimes,self.MVFVal[:len(self.predictedFailureTimes)])
+
+	def MTTFPlot(self):
+        return (self.predictedFailureTimes,self.MTTFVal[:len(self.predictedFailureTimes)])
 
     def relGrowthPlot(self, interval):
         growth = []
