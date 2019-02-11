@@ -56,7 +56,7 @@ class ISS(Model):
         """
         return (a*(1-np.exp(-b*t)))/(1+c*np.exp(-b*t))
 
- 	def MVFPlot(self):
+	def MVFPlot(self):
         return (self.predictedFailureTimes,self.MVFVal[:len(self.predictedFailureTimes)])
                 
 
