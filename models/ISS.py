@@ -35,13 +35,13 @@ class ISS(Model):
 
         This function gets called for all models regardless of type
         """
-        sol = optimize.root(MLEeq,[self.n,self.n/sum(self.data.FT),1.0],tol=1.0)
+        sol = scipy.optimize.root(self.MLEeq,[self.n,self.n/sum(self.data.FT),1.0],tol=1.0)
         self.aMLE,self.bMLE,self.cMLE = sol.x
         self.predict(predictPoints)
-        self.MVFVal = np.append(self.MVF(self.N0MLE, self.phiMLE, self.data.FT), self.futureFailures)
+        self.MVFVal = np.append(self.MVF(self.aMLE, self.bMLE, self.cMLE, self.data.FT), self.futureFailures)
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
         self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE,np.append(self.data.FN, self.futureFailures))
-        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE,self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF()
 
     def MVF(self, a, b, c,t):
         """
@@ -56,14 +56,14 @@ class ISS(Model):
         """
         return (a*(1-np.exp(-b*t)))/(1+c*np.exp(-b*t))
 
+    def MVFPlot(self):
+        return (self.predictedFailureTimes,self.MVFVal[:len(self.predictedFailureTimes)])
+
+    def MTTFPlot(self):
+    	return (self.predictedFailureTimes,self.MTTFVal[:len(self.predictedFailureTimes)])
+
     def FIPlot(self):
         return (self.predictedFailureTimes,self.FIVal[:len(self.predictedFailureTimes)])
-                
-	def MVFPlot(self):
-    	return (self.predictedFailureTimes,self.MVFVal[:len(self.predictedFailureTimes)])
-
-	def MTTFPlot(self):
-        return (self.predictedFailureTimes,self.MTTFVal[:len(self.predictedFailureTimes)])
 
     def relGrowthPlot(self, interval):
         growth = []
@@ -75,7 +75,7 @@ class ISS(Model):
         futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
         self.predictedFailureTimes = []
         for failure in futureFailures:
-            result = scipy.optimize.root(lambda t: failure-self.MVF(self.N0MLE, self.phiMLE, t), [self.data.FT.iloc[-1]])
+            result = scipy.optimize.root(lambda t: failure-self.MVF(self.aMLE, self.bMLE, self.cMLE, t), [self.data.FT.iloc[-1]])
             if result.success:
                 next_val = result.x[0]
                 self.predictedFailureTimes.append(next_val)
@@ -125,11 +125,10 @@ class ISS(Model):
 
         firstTerm = (self.aMLE*(1-np.exp(-self.bMLE*(interval+t))))/(1+self.cMLE*np.exp(-self.bMLE*(interval+t)))
         secondTerm = (self.aMLE*(1-np.exp(-self.bMLE*t)))/(1+self.cMLE*np.exp(-self.bMLE*t))
-        np.exp(-((firstTerm)-(secondTerm)))
-        return 
+        return np.exp(-((firstTerm)-(secondTerm)))
 
     def MTTF(self):  #Check with Shekar #This is for TBF plot on Tab 2
-        return pd.reciprocal(self.FIVal)
+        return np.reciprocal(self.FIVal)
 
     def finite_model(self): 
         return True
@@ -155,18 +154,9 @@ class ISS(Model):
 
         cFirstPart = (a*(-1+np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2))
         cSecondPart = np.sum((-2/(c+np.exp(b*self.data.FT))) + (1/(1+c)))        
-        cEq = c - (firstTerm+secondTerm)
+        cEq = c - (cFirstPart+cSecondPart)
         return [aEq, bEq, cEq]
 
-    def calcaMLE(self): 
-        """
-        Defines the MLE of a based on b and c values (to be called in the MLE_eq function)
-
-        Returns:
-            Value of a of type float
-        """
-        secondTerm = (self.n/(((1-np.exp(-b*self.tn)))/(1+c*np.exp(-b*self.tn))))  
-        return a - secondTerm   
 
 
 if __name__ == "__main__":
