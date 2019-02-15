@@ -28,7 +28,7 @@ class GM(Model):
                                      equation=self.MLEeq,
                                      data=self.data)
 
-    def findParams(self):
+    def findParams(self, predictPoints):
         """
         Find parameters of the model
 
@@ -36,8 +36,10 @@ class GM(Model):
         """
         self.phiMLE = self.calcphiMLE()
         self.DHat = self.calcDMLE(self.phiMLE)
-        self.lnLval = self.lnL(self.DHat, self.phiMLE)
-        self.MVFval = self.MVF(self.DHat, self.phiMLE)
+        self.lnLVal = self.lnL(self.DHat, self.phiMLE)
+        self.predict(predictPoints)
+        self.MVFVal = np.append(self.MVF(self.DHat, self.phiMLE, self.data.FT), self.futureFailures)
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
 
     def lnL(self, DHat, phi):
         """
@@ -51,11 +53,11 @@ class GM(Model):
         """
         
         iVector = [(i) for i in range(self.n)]
-        secondTerm = np.sum(iVector * np.log(phi))
+        secondTerm = np.sum(np.multiply(iVector, np.log(phi)))
         thirdTerm = (np.power(phi, iVector) * self.data.IF).sum()
         return self.n * np.log(DHat) + secondTerm - (DHat * thirdTerm)
 
-    def MVF(self, DHat, phi):
+    def MVF(self, DHat, phi, t):
         """
         Calculates the Mean Value Function (MVF) based on DHat and phi
 
@@ -65,7 +67,28 @@ class GM(Model):
         Returns:
             MVF values as numpy array
         """
-        return -(np.log(1 - (DHat * self.data.IF * np.log(phi))/phi)/np.log(phi))
+        return -(np.log(1 - (DHat * t * np.log(phi))/phi)/np.log(phi))
+
+    def MVFPlot(self):
+        return (self.predictedFailureTimes,
+                self.MVFVal[:len(self.predictedFailureTimes)])
+
+    def relGrowthPlot(self, interval):
+        growth = []
+        for t in self.predictedFailureTimes:
+            growth.append(self.reliability(t, interval))
+        return (self.predictedFailureTimes, growth)
+
+    def predict(self, numOfPoints):
+        futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
+        self.predictedFailureTimes = []
+        for failure in futureFailures:
+            result = scipy.optimize.root(lambda t: failure-self.MVF(self.DHat, self.phiMLE, t), [self.data.FT.iloc[-1]])
+            if result.success:
+                next_val = result.x[0]
+                self.predictedFailureTimes.append(next_val)
+        self.predictedFailureTimes = np.array(self.predictedFailureTimes)
+        self.futureFailures = np.array(futureFailures)
 
     def FI(self, N0, phi):
         pass
@@ -80,10 +103,10 @@ class GM(Model):
         Returns:
             Value of MLE equation
         """
-        iVector = [(i) for i in range(self.n)]
+        iVector = [i for i in range(self.n)]
         rightTerm = (self.calcDMLE(phi) *
                      (iVector * np.power(phi, iVector) * self.data.IF).sum())
-        leftTerm = np.sum(iVector / phi)
+        leftTerm = np.sum(np.divide(iVector, phi))
         return leftTerm - rightTerm
 
     def calcDMLE(self, phi):
@@ -107,8 +130,11 @@ class GM(Model):
         phiMLE = self.rootFindFunc.findRoot()
         return phiMLE
 
-    def reliability(self, fail_num, timeVec):
-        pass
+    def reliability(self, t, interval):
+        return np.exp(-1.0 *
+                      (self.MVF(self.DHat, self.phiMLE, t + interval) -
+                       self.MVF(self.DHat, self.phiMLE, t))
+                      )
 
     def MTTF(self):
         pass
