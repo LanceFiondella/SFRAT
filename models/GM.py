@@ -73,6 +73,12 @@ class GM(Model):
         return (self.predictedFailureTimes,
                 self.MVFVal[:len(self.predictedFailureTimes)])
 
+    def MTTFPlot(self):
+        pass
+
+    def FIPlot(self):
+        pass
+
     def relGrowthPlot(self, interval):
         growth = []
         for t in self.predictedFailureTimes:
@@ -98,14 +104,13 @@ class GM(Model):
         Represents MLE equation, used in root finding
 
         Args:
-            N0: First parameter N0 of type float
+            phi: 
 
         Returns:
             Value of MLE equation
         """
         iVector = [i for i in range(self.n)]
-        rightTerm = (self.calcDMLE(phi) *
-                     (iVector * np.power(phi, iVector) * self.data.IF).sum())
+        rightTerm = (self.calcDMLE(phi) * (iVector * np.power(phi, iVector) * self.data.IF).sum())
         leftTerm = np.sum(np.divide(iVector, phi))
         return leftTerm - rightTerm
 
@@ -140,7 +145,7 @@ class GM(Model):
         pass
 
     def finite_model(self):
-        pass
+        return True
 
 
 if __name__ == "__main__":

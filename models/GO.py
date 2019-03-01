@@ -29,7 +29,7 @@ class GO(Model):
                                      equation=self.MLEeq,
                                      data=self.data)
 
-    def findParams(self):
+    def findParams(self, predictPoints):
         """
         Find parameters of the model
 
@@ -37,9 +37,39 @@ class GO(Model):
         """
         self.bHat = self.calcbHatMLE()
         self.aHat = self.calcaHatMLE(self.bHat)
-        self.GOmvf = self.MVF(self.aHat, self.bHat, self.data.FT)
-        self.GOfi = self.FI(self.aHat, self.bHat, self.data.FT)
-        self.lnLval = self.lnL()
+        self.predict(predictPoints)
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.MVFVal = np.append(self.MVF(self.aHat, self.bHat, self.data.FT), self.futureFailures)
+        self.FIVal = self.FI(self.aHat, self.bHat, self.predictedFailureTimes)
+        self.lnLval = self.lnL(self.aHat, self.bHat, self.data.FT)
+
+    def MVFPlot(self):
+        return (self.predictedFailureTimes,
+                self.MVFVal[:len(self.predictedFailureTimes)])
+
+    def MTTFPlot(self):
+        pass
+
+    def FIPlot(self):
+        return (self.predictedFailureTimes,
+                self.FIVal[:len(self.predictedFailureTimes)])
+
+    def relGrowthPlot(self, interval):
+        growth = []
+        for t in self.predictedFailureTimes:
+            growth.append(self.reliability(t, interval))
+        return (self.predictedFailureTimes, growth)
+
+    def predict(self, numOfPoints):
+        futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
+        self.predictedFailureTimes = []
+        for failure in futureFailures:
+            result = scipy.optimize.root(lambda t: failure-self.MVF(self.aHat, self.bHat, t), [self.data.FT.iloc[-1]])
+            if result.success:
+                next_val = result.x[0]
+                self.predictedFailureTimes.append(next_val)
+        self.predictedFailureTimes = np.array(self.predictedFailureTimes)
+        self.futureFailures = np.array(futureFailures)
 
     def MVF(self, a, b, t):
         """
@@ -67,15 +97,15 @@ class GO(Model):
         """
         return a * b * np.exp(-b * t)
 
-    def lnL(self):
+    def lnL(self, a, b, t):
         """
         Calculates Log Likelihood
 
         Returns:
             Log likelihood as float value
         """
-        rightTerm = np.sum((np.log(self.FI(self.data.FT[i])) for i in range(self.n)))
-        return -1 * (self.MVF(self.tn)) + rightTerm
+        rightTerm = np.sum((np.log(self.FI(a, b, t)) for i in range(self.n)))
+        return -1 * (self.MVF(a, b, self.tn)) + rightTerm
 
     def MTTF(self):
         pass
