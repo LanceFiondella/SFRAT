@@ -133,6 +133,7 @@ class GM(Model):
             N0MLE of type float
         """
         phiMLE = self.rootFindFunc.findRoot()
+        self.converged = self.rootFindFunc.converged
         return phiMLE
 
     def reliability(self, t, interval):

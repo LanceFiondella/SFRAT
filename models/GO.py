@@ -145,6 +145,7 @@ class GO(Model):
             bHat of type float
         """
         bHat = self.rootFindFunc.findRoot()
+        self.converged = self.rootFindFunc.converged
         return bHat
 
     def reliability(self):
