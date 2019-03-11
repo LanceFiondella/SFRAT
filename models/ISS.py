@@ -100,20 +100,11 @@ class ISS(Model):
         return (a*b*(c+1)*np.exp(b*failureTimes))/((c+np.exp(b*failureTimes))**2)
 
     def lnL(self, a, b, c):
-        """
-        Calculates Log Likelihood
-
-        Args:
-            a: a value, usually aMLE of type float
-            b: b value, usually bMLE of type float
-            c: c value, usually cMLE of type float
-        Returns:
-            Log likelihood as float
-        """
-        firstTerm = (a*(1-np.exp(-b*self.tn)))/(1+c*np.exp(-b*self.tn))
-        secondTerm = self.n*np.log(a)+self.n*np.log(b)+self.n*np.log(1+c)
-        thirdTerm = np.sum(np.log(1+np.exp(b*self.data.FT)))                        
-        return -firstTerm + secondTerm + b*self.sumT - 2*thirdTerm
+    	aMLE = n/((1-np.exp(-b*self.tn))/(1+c*np.exp(-b*self.tn)))
+    	firstTerm = (aMLE*(1-np.exp(-b*self.tn)))/(1+c*np.exp(-b*self.tn))
+    	secondTerm = self.n*np.log(a)+self.n*np.log(b)+self.n*np.log(1+c)
+    	thirdTerm = np.sum(np.log(c+np.exp(b*self.data.FT)))                        
+    	return -firstTerm + secondTerm + b*self.sumT - 2*thirdTerm
 
     def reliability(self, t, interval):  #Check with Shekar
         """
@@ -136,7 +127,7 @@ class ISS(Model):
     def finite_model(self): 
         return True
 
-    def MLEeq(self,x):    #Check with Shekar
+    def MLEeq(self,x): 
         """
         Represents MLE eqation, used in root finding
 
@@ -148,16 +139,16 @@ class ISS(Model):
         """
         a, b, c = x
         aNr = 1-np.exp(-b*self.tn)
-        aDr = (1+c*np.exp(-b*self.tn)) 
-        aEq = a-self.n/(aNr/aDr)
+        aDr = c+np.exp(-b*self.tn)
+        aEq = (self.n/a) - (aNr/aDr)
 
         bFirstPart = (-a*(1+c)*self.tn*np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2)
         bSecondPart = np.sum((1/b)-((2*self.data.FT*np.exp(b*self.data.FT))/(c+np.exp(b*self.data.FT))) + self.data.FT)
-        bEq = b - (bFirstPart + bSecondPart)
+        bEq = (bFirstPart + bSecondPart)
 
         cFirstPart = (a*(-1+np.exp(b*self.tn))/((c+np.exp(b*self.tn))**2))
         cSecondPart = np.sum((-2/(c+np.exp(b*self.data.FT))) + (1/(1+c)))        
-        cEq = c - (cFirstPart+cSecondPart)
+        cEq = (cFirstPart+cSecondPart)
         return [aEq, bEq, cEq]
 
 
