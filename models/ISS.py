@@ -44,8 +44,8 @@ class ISS(Model):
         self.predict(predictPoints)
         self.MVFVal = np.append(self.MVF(self.aMLE, self.bMLE, self.cMLE, self.data.FT), self.futureFailures)
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE,np.append(self.data.FN, self.futureFailures))
-        self.MTTFVal = self.MTTF()
+        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE,np.append(self.data.FT, self.predictedFailureTimes))
+        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE, np.append(self.data.FT, self.predictedFailureTimes))
 
     def MVF(self, a, b, c, t):
         """
@@ -121,8 +121,9 @@ class ISS(Model):
         secondTerm = (self.aMLE*(1-np.exp(-self.bMLE*t)))/(1+self.cMLE*np.exp(-self.bMLE*t))
         return np.exp(-((firstTerm)-(secondTerm)))
 
-    def MTTF(self):  #Check with Shekar #This is for TBF plot on Tab 2
-        return np.reciprocal(self.FIVal)
+    def MTTF(self,a, b, c, t): 
+        FailInt = (a*b*(c+1)*np.exp(b*t))/((c+np.exp(b*t))**2)
+        return 1/FailInt
 
     def finite_model(self):
         return True
@@ -155,8 +156,10 @@ class ISS(Model):
 
 if __name__ == "__main__":
     #fname = "model_data.xlsx"
-    fname = "C:/Users/Shekar/Dropbox/NASA OSMA SARP/FY18/reporting/Goddard F2F January 2019/copied/NASA/NASAX.xlsx"
+    fname = "C:/Users/vnagaraju/Dropbox/NASA OSMA SARP/FY18/reporting/Goddard F2F January 2019/copied/NASA/NASAX.xlsx"
     rawData = pd.read_excel(fname, sheet_name='NASA1')
     iss = ISS(data=rawData, rootAlgoName='newton')
     iss.findParams(1)
+    print(iss.MTTFVal)
+    print(iss.FIVal)
     #print(iss.MLEeq([61.7598, 0.0462066, 67.507]))
