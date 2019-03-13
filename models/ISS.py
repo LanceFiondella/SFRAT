@@ -36,8 +36,8 @@ class ISS(Model):
 
         This function gets called for all models regardless of type
         """
-        print(self.data.FT)
-        print(self.n, self.n/sum(self.data.FT), 1.0)
+        #print(self.data.FT)
+        #print(self.n, self.n/sum(self.data.FT), 1.0)
         sol = scipy.optimize.root(self.MLEeq, [self.n, self.n/sum(self.data.FT), 1.0], options={'maxfev':10000})
         print(sol)
         self.aMLE, self.bMLE, self.cMLE = sol.x
