@@ -13,7 +13,7 @@ class ISS(Model):
 
     """
     name = 'Inflexion S-shaped'
-    converged = True
+    #converged = True
 
     def __init__(self, *args, **kwargs):
         """
@@ -40,6 +40,8 @@ class ISS(Model):
         #print(self.n, self.n/sum(self.data.FT), 1.0)
         sol = scipy.optimize.root(self.MLEeq, [self.n, self.n/sum(self.data.FT), 1.0], options={'maxfev':10000})
         print(sol)
+        if sol.success:
+            converged = True
         self.aMLE, self.bMLE, self.cMLE = sol.x
         self.predict(predictPoints)
         self.MVFVal = np.append(self.MVF(self.aMLE, self.bMLE, self.cMLE, self.data.FT), self.futureFailures)
