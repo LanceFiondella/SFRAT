@@ -12,8 +12,7 @@ class JM(Model):
 
 
     """
-    name = 'Jelinski-Moranda'
-    
+    name = 'Jelinski-Moranda'  
 
     def __init__(self, *args, **kwargs):
         """
@@ -170,6 +169,6 @@ class JM(Model):
 
 if __name__ == "__main__":
     fname = "model_data.xlsx"
-    rawData = pd.read_excel(fname, sheetname='SYS1')
+    rawData = pd.read_excel(fname, sheet_name='SYS1')
     jm = JM(rawData, 'ridder')
     jm.run()

@@ -35,13 +35,16 @@ class GM(Model):
         This function gets called for all models regardless of type
         """
         self.phiMLE = self.calcphiMLE()
-        self.DHat = self.calcDMLE(self.phiMLE)
-        self.lnLVal = self.lnL(self.DHat, self.phiMLE)
+        self.DMLE = self.calcDMLE(self.phiMLE)
+        self.lnLVal = self.lnL(self.DMLE, self.phiMLE)
         self.predict(predictPoints)
-        self.MVFVal = np.append(self.MVF(self.DHat, self.phiMLE, self.data.FT), self.futureFailures)
+        self.MVFVal = np.append(self.MVF(self.DMLE, self.phiMLE, self.data.FT), self.futureFailures)
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(self.DMLE, self.phiMLE, np.append(self.data.FN, self.futureFailures))
+        self.FIVal = self.FI(self.DMLE, self.phiMLE, self.predictedFailureTimes)
 
-    def lnL(self, DHat, phi):
+
+    def lnL(self, DHat, phi): #Verified
         """
         Calculates Log Likelihood
 
@@ -52,10 +55,11 @@ class GM(Model):
             Log likelihood as float
         """
         
-        iVector = [(i) for i in range(self.n)]
-        secondTerm = np.sum(np.multiply(iVector, np.log(phi)))
-        thirdTerm = (np.power(phi, iVector) * self.data.IF).sum()
-        return self.n * np.log(DHat) + secondTerm - (DHat * thirdTerm)
+        firstTerm = self.n*np.log(DHat)
+        secondTerm = np.sum(np.array([(i-1)*np.log(phi) for i in range(1,1+self.n)],np.float))
+        thirdTerm = np.sum(np.array([(np.power(phi,i)/phi)*self.data.IF[i-1] for i in range(1,1+self.n)],np.float))
+        return firstTerm + secondTerm - (DHat * thirdTerm)
+         
 
     def MVF(self, DHat, phi, t):
         """
@@ -74,10 +78,12 @@ class GM(Model):
                 self.MVFVal[:len(self.predictedFailureTimes)])
 
     def MTTFPlot(self):
-        pass
+        return (self.predictedFailureTimes,
+                self.MTTFVal[:len(self.predictedFailureTimes)])
 
     def FIPlot(self):
-        pass
+        return (self.predictedFailureTimes,
+                self.FIVal[:len(self.predictedFailureTimes)])
 
     def relGrowthPlot(self, interval):
         growth = []
@@ -89,17 +95,17 @@ class GM(Model):
         futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
         self.predictedFailureTimes = []
         for failure in futureFailures:
-            result = scipy.optimize.root(lambda t: failure-self.MVF(self.DHat, self.phiMLE, t), [self.data.FT.iloc[-1]])
+            result = scipy.optimize.root(lambda t: failure-self.MVF(self.DMLE, self.phiMLE, t), [self.data.FT.iloc[-1]])
             if result.success:
                 next_val = result.x[0]
                 self.predictedFailureTimes.append(next_val)
         self.predictedFailureTimes = np.array(self.predictedFailureTimes)
         self.futureFailures = np.array(futureFailures)
 
-    def FI(self, N0, phi):
-        pass
+    def FI(self, DHat, phi, failureTimes):
+        return DHat/(phi-DHat*failureTimes*np.log(phi))
 
-    def MLEeq(self, phi):
+    def MLEeq(self, phi): #Verified
         """
         Represents MLE equation, used in root finding
 
@@ -109,21 +115,20 @@ class GM(Model):
         Returns:
             Value of MLE equation
         """
-        iVector = [i for i in range(self.n)]
-        rightTerm = (self.calcDMLE(phi) * (iVector * np.power(phi, iVector) * self.data.IF).sum())
-        leftTerm = np.sum(np.divide(iVector, phi))
-        return leftTerm - rightTerm
+        firstTerm = np.sum(np.array([(i-1)/phi for i in range(1,1+self.n)],np.float))
+        secondTerm = np.sum(np.array([(i-1)*(np.power(phi, i)/(np.power(phi, 2)))*self.data.IF[i-1] for i in range(1,1+self.n)], np.float))
+        DMLE = self.calcDMLE(phi)
+        return firstTerm - (DMLE*secondTerm)
 
-    def calcDMLE(self, phi):
+    def calcDMLE(self, phi): #Verified
         """
         Calculates the Dparam value using phi
 
         Returns:
             Dparam of type float
         """
-        iVector = [i for i in range(self.n)]
-        denom = (np.power(phi, iVector) * self.data.IF).sum()
-        return (self.n * phi)/denom
+        denom = np.sum(np.array([np.power(phi,i)*self.data.IF[i-1] for i in range(1,1+self.n)],np.float))
+        return (phi*self.n)/denom
 
     def calcphiMLE(self):
         """
@@ -138,19 +143,23 @@ class GM(Model):
 
     def reliability(self, t, interval):
         return np.exp(-1.0 *
-                      (self.MVF(self.DHat, self.phiMLE, t + interval) -
-                       self.MVF(self.DHat, self.phiMLE, t))
+                      (self.MVF(self.DMLE, self.phiMLE, t + interval) -
+                       self.MVF(self.DMLE, self.phiMLE, t))
                       )
 
-    def MTTF(self):
-        pass
+    def MTTF(self, DHat,phi,failureNumbers):
+        FailInt = self.FI(self, DHat, phi, failureNumbers)
+        return 1/FailInt
 
     def finite_model(self):
-        return True
+        return False
 
 
 if __name__ == "__main__":
     fname = "model_data.xlsx"
-    rawData = pd.read_excel(fname, sheetname='SYS1')
-    gm = GM(rawData, 'ridder')
-    gm.run()
+    rawData = pd.read_excel(fname, sheet_name='SYS1')
+    gm = GM(data = rawData, rootAlgoName= 'ridder')
+    #gm.run()
+    gm.findParams(1)
+    print(gm.MVFVal)
+    
