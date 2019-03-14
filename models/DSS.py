@@ -55,14 +55,14 @@ class DSS(Model):
         # self.DSSLL = self.lnL(self.bMLE, self.aMLE, self.DSSmt)
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
         self.MVFVal = np.append(self.MVF(self.aMLE,self.bMLE, self.data.FT),self.futureFailures)
-        self.FIVal = np.append(self.FI(self.aMLE,self.bMLE, self.predictedFailureTimes),self.predictedFailureTimes)
-        self.MTTFVal = np.append(self.MTTF(self.aMLE,self.bMLE, self.predictedFailureTimes),self.predictedFailureTimes)
+        self.FIVal = self.FI(self.aMLE,self.bMLE, np.append(self.data.FT,self.predictedFailureTimes))
+        self.MTTFVal = self.MTTF(self.aMLE,self.bMLE, np.append(self.data.FT,self.predictedFailureTimes))
 
-    def predict(self, predictPoints):
-        futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(predictPoints)]
+    def predict(self, numOfPoints):
+        futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
         self.predictedFailureTimes = []
         for failure in futureFailures:
-            result = scipy.optimize.root(lambda t: failure-self.MVF(self.bMLE, self.aMLE, t), [self.data.FT.iloc[-1]])
+            result = scipy.optimize.root(lambda t: failure-self.MVF(self.aMLE, self.bMLE, t), [self.data.FT.iloc[-1]])
             if result.success:
                 next_val = result.x[0]
                 self.predictedFailureTimes.append(next_val)
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     dss = DSS(data=rawData, rootAlgoName='bisect')
     dss.findParams(1)
     print(dss.MVFVal)
-    # print(dss.MTTFVal)
-    # print(dss.FIVal)
+    print(dss.MTTFVal)
+    print(dss.FIVal)
     # print(dss.aMLE)
     # print(dss.bMLE)

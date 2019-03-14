@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jan  3 10:48:32 2019
-
-"""
-
 import pandas as pd
 import numpy as np
 import scipy.optimize
