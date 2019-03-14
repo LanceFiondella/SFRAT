@@ -41,13 +41,13 @@ class ISS(Model):
         sol = scipy.optimize.root(self.MLEeq, [self.n, self.n/sum(self.data.FT), 1.0], options={'maxfev':10000})
         print(sol)
         if sol.success:
-            converged = True
+            self.converged = True
         self.aMLE, self.bMLE, self.cMLE = sol.x
         self.predict(predictPoints)
         self.MVFVal = np.append(self.MVF(self.aMLE, self.bMLE, self.cMLE, self.data.FT), self.futureFailures)
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE,np.append(self.data.FT, self.predictedFailureTimes))
-        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE, np.append(self.data.FT, self.predictedFailureTimes))
+        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE, self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE, self.predictedFailureTimes)
 
     def MVF(self, a, b, c, t):
         """
@@ -158,10 +158,11 @@ class ISS(Model):
 
 if __name__ == "__main__":
     #fname = "model_data.xlsx"
-    fname = "C:/Users/vnagaraju/Dropbox/NASA OSMA SARP/FY18/reporting/Goddard F2F January 2019/copied/NASA/NASAX.xlsx"
+    fname = "C:/Users/shekar/Dropbox/NASA OSMA SARP/FY18/reporting/Goddard F2F January 2019/copied/NASA/NASAX.xlsx"
+    #C:\Users\Shekar\Dropbox\NASA OSMA SARP\FY18\reporting\Goddard F2F January 2019\copied\NASA
     rawData = pd.read_excel(fname, sheet_name='NASA1')
     iss = ISS(data=rawData, rootAlgoName='newton')
     iss.findParams(1)
+    print(iss.MTTFPlot())
     print(iss.MTTFVal)
-    print(iss.FIVal)
     #print(iss.MLEeq([61.7598, 0.0462066, 67.507]))
