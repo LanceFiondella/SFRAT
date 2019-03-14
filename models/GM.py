@@ -148,7 +148,7 @@ class GM(Model):
                       )
 
     def MTTF(self, DHat,phi,failureNumbers):
-        FailInt = self.FI(self, DHat, phi, failureNumbers)
+        FailInt = self.FI(DHat, phi, failureNumbers)
         return 1/FailInt
 
     def finite_model(self):
