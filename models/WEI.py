@@ -110,8 +110,8 @@ class WEI(Model):
         """
         Reliability function
         """
-        firstTerm = self.MVF(a, b, c, t+interval)
-        SecondTerm = self.MVF(a, b, c, t)
+        firstTerm = self.MVF(self.aMLE, self.bMLE, self.cMLE, t+interval)
+        secondTerm = self.MVF(self.aMLE, self.bMLE, self.cMLE, t)
         return np.exp(-((firstTerm)-(secondTerm)))
 
     def MTTF(self,a, b, c, t):
@@ -145,7 +145,8 @@ if __name__ == "__main__":
     Wei = WEI(data=rawData, rootAlgoName='newton')
     Wei.findParams(1)
     #print(Wei.MVFVal)
-    #print(Wei.MTTFVal)
-    #print(Wei.FIVal)
+    print(Wei.MTTFVal)
+    print(Wei.predictedFailureTimes)
+    print(Wei.MVFVal)
     #print(iss.MLEeq([61.7598, 0.0462066, 67.507]))
 
