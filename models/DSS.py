@@ -6,7 +6,7 @@ Created on Wed Jan  2 12:48:36 2019
 import pandas as pd
 import numpy as np
 import scipy.optimize
-from scipy.misc import derivative
+
 from core.model import Model
 from core.rootFind import RootFind
 
@@ -16,7 +16,7 @@ class DSS(Model):
     DSS Model
 
     """
-    name = "Delayed S-Shaped"
+    name = "Delayed S-shaped"
 
     def __init__(self, *args, **kwargs):
         """
@@ -54,9 +54,9 @@ class DSS(Model):
         # self.lambdat = self.FI(self.bMLE, self.aMLE, self.tn)
         # self.DSSLL = self.lnL(self.bMLE, self.aMLE, self.DSSmt)
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.MVFVal = self.MVF(self.bMLE, self.aMLE, self.data.FT)
-        self.FIVal = self.FI(self.bMLE, self.aMLE, self.predictedFailureTimes)
-        self.MTTFVal = self.MTTF(self.bMLE, self.aMLE, self.predictedFailureTimes)
+        self.MVFVal = np.append(self.MVF(self.aMLE,self.bMLE, self.data.FT),self.futureFailures)
+        self.FIVal = np.append(self.FI(self.aMLE,self.bMLE, self.predictedFailureTimes),self.predictedFailureTimes)
+        self.MTTFVal = np.append(self.MTTF(self.aMLE,self.bMLE, self.predictedFailureTimes),self.predictedFailureTimes)
 
     def predict(self, predictPoints):
         futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(predictPoints)]
@@ -87,18 +87,18 @@ class DSS(Model):
             growth.append(self.reliability(t, interval))
         return (self.predictedFailureTimes, growth)
 
-    def lnL(self, b, a, mt):
+    def lnL(self, a, b):
         """
         Log likelihood equation
 
         Returns:
             LL value of type float
         """
-        Vector = [i for i in range(self.n)]
-        term = np.log(self.FI(b, a, self.data.FT[Vector])).sum()
-        return -mt + term
+        firstTerm = self.MVF(a,b,self.tn)
+        secondTerm = np.sum(np.log(self.FI(a,b,self.data.FT)))
+        return -firstTerm + secondTerm
 
-    def MVF(self, b, a, t):
+    def MVF(self, a, b, t):
         """
         Mean Value Function. Used in Cumulative failures
         and estimate remaining faults
@@ -106,9 +106,9 @@ class DSS(Model):
         Returns:
             mt value for DSS model of type float
         """
-        return a * (1 - np.exp(-b * t) * (1 + b * t))
+        return a * (1 - np.exp(-b*t) * (1 + b * t))
 
-    def FI(self, b, a, t):
+    def FI(self, a, b, t):
         """
         Failure Intensity
 
@@ -117,20 +117,23 @@ class DSS(Model):
         """
         return a * np.power(b, 2) * np.exp(-b * t) * t
 
-    def reliability(self):
+    def reliability(self, t, interval):
         """
         Reliability function
         """
-        pass
+        firstTerm = self.MVF(self.aMLE,self.bMLE,t+interval)
+        secondTerm = self.MVF(self.aMLE,self.bMLE,t)
+        return np.exp(-((firstTerm)-(secondTerm)))
 
-    def MTTF(self, b, a, t):
+    def MTTF(self, a, b, t):
         """
         Mean Time To Failure function
         """
-        pass
+        FailInt = self.FI(a,b,t)
+        return 1/FailInt
 
     def finite_model(self):
-        pass
+        return True
 
     def MLEeq(self, b):
         """
@@ -142,9 +145,8 @@ class DSS(Model):
         Returns: 
             bhat of type float
         """
-        return ((2/b) - ((b * np.power(self.tn, 2)) /
-                         (np.exp(b * self.tn) - 1 - b * self.tn)) -
-                         (self.sumT / self.n))
+        secondTerm = (b * np.power(self.tn, 2)) /(np.exp(b * self.tn) - 1 - b * self.tn)
+        return (2/b) - secondTerm - (self.sumT / self.n)                         
 
     def calcbMLE(self):
         """
@@ -166,3 +168,16 @@ class DSS(Model):
         """
         aMLE = self.n / (1-(1 + b * self.tn) * np.exp(-b * self.tn))
         return aMLE
+
+
+if __name__ == "__main__":
+    #fname = "model_data.xlsx"
+    fname = "model_data.xlsx"
+    rawData = pd.read_excel(fname, sheet_name='SYS1')
+    dss = DSS(data=rawData, rootAlgoName='bisect')
+    dss.findParams(1)
+    print(dss.MVFVal)
+    # print(dss.MTTFVal)
+    # print(dss.FIVal)
+    # print(dss.aMLE)
+    # print(dss.bMLE)
