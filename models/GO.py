@@ -41,6 +41,7 @@ class GO(Model):
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
         self.MVFVal = np.append(self.MVF(self.aHat, self.bHat, self.data.FT), self.futureFailures)
         self.FIVal = self.FI(self.aHat, self.bHat, self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(self.aHat, self.bHat, self.predictedFailureTimes)
         self.lnLval = self.lnL(self.aHat, self.bHat, self.data.FT)
 
     def MVFPlot(self):
@@ -48,7 +49,8 @@ class GO(Model):
                 self.MVFVal[:len(self.predictedFailureTimes)])
 
     def MTTFPlot(self):
-        pass
+        return (self.predictedFailureTimes,
+                self.MTTFVal[:len(self.predictedFailureTimes)])
 
     def FIPlot(self):
         return (self.predictedFailureTimes,
@@ -104,11 +106,15 @@ class GO(Model):
         Returns:
             Log likelihood as float value
         """
-        rightTerm = np.sum((np.log(self.FI(a, b, t)) for i in range(self.n)))
-        return -1 * (self.MVF(a, b, self.tn)) + rightTerm
+        firstTerm = a*(1-np.exp(-b*self.tn))
+        lastTerm = b*np.sum(self.data.FT)
+        #rightTerm = np.sum((np.log(self.FI(a, b, t)) for i in range(self.n)))
+        #return (-self.MVF(a, b, self.tn)) + rightTerm
+        return -firstTerm + self.n*np.log(a) + self.n*np.log(b) - lastTerm
 
-    def MTTF(self):
-        pass
+    def MTTF(self, a, b, t):
+        FailInt = self.FI(a, b, t)
+        return 1/FailInt
 
     def finite_model(self):
         return True
@@ -148,11 +154,14 @@ class GO(Model):
         self.converged = self.rootFindFunc.converged
         return bHat
 
-    def reliability(self):
-        return super().reliability()
+    def reliability(self,t,interval):
+        firstTerm = self.MVF(self.aHat, self.bHat, t+interval)
+        secondTerm = self.MVF(self.aHat, self.bHat, t)
+        return np.exp(-((firstTerm)-(secondTerm)))
 
 if __name__ == "__main__":
     fname = "model_data.xlsx"
-    rawData = pd.read_excel(fname, sheetname='SYS1')
-    go = GO(rawData, 'ridder')
-    go.findParams()
+    rawData = pd.read_excel(fname, sheet_name='SYS1')
+    go = GO(data=rawData, rootAlgoName='ridder')
+    go.findParams(1)
+    print(go.MTTFVal)
