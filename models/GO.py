@@ -150,9 +150,9 @@ class GO(Model):
         Returns:
             bHat of type float
         """
-        bHat = self.rootFindFunc.findRoot()
+        bHatMLE = self.rootFindFunc.findRoot()
         self.converged = self.rootFindFunc.converged
-        return bHat
+        return bHatMLE
 
     def reliability(self,t,interval):
         firstTerm = self.MVF(self.aHat, self.bHat, t+interval)
@@ -164,4 +164,6 @@ if __name__ == "__main__":
     rawData = pd.read_excel(fname, sheet_name='SYS1')
     go = GO(data=rawData, rootAlgoName='ridder')
     go.findParams(1)
-    print(go.MTTFVal)
+    #print(go.aHat)
+    #print(go.bHat)
+    #print(go.MTTFVal)

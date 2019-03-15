@@ -117,7 +117,7 @@ class GM(Model):
         """
         firstTerm = np.sum(np.array([(i-1)/phi for i in range(1,1+self.n)],np.float))
         secondTerm = np.sum(np.array([(i-1)*(np.power(phi, i)/(np.power(phi, 2)))*self.data.IF[i-1] for i in range(1,1+self.n)], np.float))
-        DMLE = self.calcDMLE(phi)
+        DMLE = (phi*self.n)/(np.sum(np.array([np.power(phi,i)*self.data.IF[i-1] for i in range(1,1+self.n)],np.float)))
         return firstTerm - (DMLE*secondTerm)
 
     def calcDMLE(self, phi): #Verified
