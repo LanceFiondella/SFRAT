@@ -48,8 +48,8 @@ class WEI(Model):
         self.predict(predictPoints)
         self.MVFVal = np.append(self.MVF(self.aMLE, self.bMLE, self.cMLE, self.data.FT), self.futureFailures)
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE,np.append(self.data.FT, self.predictedFailureTimes))
-        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE, np.append(self.data.FT, self.predictedFailureTimes))
+        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE,self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE, self.predictedFailureTimes)
 
     def MVF(self, a, b, c, t):
         """
