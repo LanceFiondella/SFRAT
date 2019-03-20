@@ -26,6 +26,10 @@ class RootFind():
             self.bracket = False
         self.equation = kwargs['equation']
         self.data = kwargs['data']
+        if 'initialEstimate' in kwargs:
+            self.initEstimate = kwargs['initialEstimate']
+        else:
+            self.initEstimate = len(self.data)
 
     def findEndpoints(self, maxIterations=100000):
         """
@@ -37,8 +41,8 @@ class RootFind():
         Returns:
             Left and right endpoints as a tuple
         """
-        leftEndPoint = len(self.data)
-        rightEndPoint = 2 * len(self.data)
+        leftEndPoint = self.initEstimate
+        rightEndPoint = 2 * self.initEstimate
         i = 0
         while (self.equation(leftEndPoint)*self.equation(rightEndPoint) > 0 and
                i <= maxIterations):
@@ -62,7 +66,7 @@ class RootFind():
             root = result.root
             self.converged = result.converged
         else:
-            x0 = len(self.data)
+            x0 = self.initEstimate
             root, result = self.algo(self.equation, x0, maxiter=10000, full_output=True)
             self.converged = result.converged
 

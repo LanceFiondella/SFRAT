@@ -26,7 +26,8 @@ class GM(Model):
         self.interFailSum = self.data.IF.sum()
         self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
                                      equation=self.MLEeq,
-                                     data=self.data)
+                                     data=self.data,
+                                     initialEstimate=len(self.data)/self.data.FT.sum())
 
     def findParams(self, predictPoints):
         """
