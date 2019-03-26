@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod, abstractproperty
 class Model(ABC):
     name = "Generic Model"
     converged = False
+    params = {}
 
     def __init__(self, *args, **kwargs):
         """

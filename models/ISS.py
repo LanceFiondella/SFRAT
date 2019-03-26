@@ -29,6 +29,7 @@ class ISS(Model):
         self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
                                      equation=self.MLEeq,
                                      data=self.data)
+        self.params = {'a': 0, 'b': 0, 'c': 0}
 
     def findParams(self, predictPoints):
         """
@@ -43,13 +44,13 @@ class ISS(Model):
         if sol.success:
             self.converged = True
         self.aMLE, self.bMLE, self.cMLE = sol.x
+        self.params['a'] = self.aMLE
+        self.params['b'] = self.bMLE
+        self.params['c'] = self.cMLE
         self.predict(predictPoints)
-        self.MVFVal = np.append(self.MVF(self.aMLE, self.bMLE, self.cMLE, self.data.FT), self.futureFailures)
-        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.FIVal = self.FI(self.aMLE, self.bMLE, self.cMLE, self.predictedFailureTimes)
-        self.MTTFVal = self.MTTF(self.aMLE, self.bMLE, self.cMLE, self.predictedFailureTimes)
+        
 
-    def MVF(self, a, b, c, t):
+    def MVF(self, t, params=None):
         """
         Calculates the Mean Value Function (MVF) based on a, b, and c
 
@@ -60,6 +61,11 @@ class ISS(Model):
         Returns:
             MVF values as numpy array
         """
+        if params is None:
+            params = self.params
+        a = params['a']
+        b = params['b']
+        c = params['c']
         return (a*(1-np.exp(-b*t)))/(1+c*np.exp(-b*t))
 
     def MVFPlot(self):
@@ -81,14 +87,19 @@ class ISS(Model):
         futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
         self.predictedFailureTimes = []
         for failure in futureFailures:
-            result = scipy.optimize.root(lambda t: failure-self.MVF(self.aMLE, self.bMLE, self.cMLE, t), [self.data.FT.iloc[-1]])
+            result = scipy.optimize.root(lambda t: failure-self.MVF(t), [self.data.FT.iloc[-1]])
             if result.success:
                 next_val = result.x[0]
                 self.predictedFailureTimes.append(next_val)
         self.predictedFailureTimes = np.array(self.predictedFailureTimes)
         self.futureFailures = np.array(futureFailures)
 
-    def FI(self, a, b, c, t):
+        self.MVFVal = np.append(self.MVF(self.data.FT), self.futureFailures)
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.FIVal = self.FI(self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(self.predictedFailureTimes)
+
+    def FI(self, t, params=None):
         """
         Calculates Failure Intensity
 
@@ -99,9 +110,19 @@ class ISS(Model):
         Returns:
             Failure Intensity as numpy array
         """
+        if params is None:
+            params = self.params
+        a = params['a']
+        b = params['b']
+        c = params['c']
         return (a*b*(c+1)*np.exp(b*t))/((c+np.exp(b*t))**2)
 
-    def lnL(self, a, b, c):
+    def lnL(self, params=None):
+        if params is None:
+            params = self.params
+        a = params['a']
+        b = params['b']
+        c = params['c']
         aMLE = self.n/((1-np.exp(-b*self.tn))/(1+c*np.exp(-b*self.tn)))
         firstTerm = (aMLE*(1-np.exp(-b*self.tn)))/(1+c*np.exp(-b*self.tn))
         secondTerm = self.n*np.log(a)+self.n*np.log(b)+self.n*np.log(1+c)
@@ -123,7 +144,12 @@ class ISS(Model):
         secondTerm = (self.aMLE*(1-np.exp(-self.bMLE*t)))/(1+self.cMLE*np.exp(-self.bMLE*t))
         return np.exp(-((firstTerm)-(secondTerm)))
 
-    def MTTF(self,a, b, c, t): 
+    def MTTF(self, t, params=None):
+        if params is None:
+            params = self.params
+        a = params['a']
+        b = params['b']
+        c = params['c'] 
         FailInt = (a*b*(c+1)*np.exp(b*t))/((c+np.exp(b*t))**2)
         return 1/FailInt
 

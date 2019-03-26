@@ -29,6 +29,7 @@ class GO(Model):
                                      equation=self.MLEeq,
                                      data=self.data,
                                      initialEstimate=len(self.data)/self.data.FT.sum())
+        self.params = {'a': 0, 'b': 0}
 
     def findParams(self, predictPoints):
         """
@@ -38,12 +39,9 @@ class GO(Model):
         """
         self.bHat = self.calcbHatMLE()
         self.aHat = self.calcaHatMLE(self.bHat)
+        self.params['a'] = self.aHat
+        self.params['b'] = self.bHat
         self.predict(predictPoints)
-        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.MVFVal = np.append(self.MVF(self.aHat, self.bHat, self.data.FT), self.futureFailures)
-        self.FIVal = self.FI(self.aHat, self.bHat, self.predictedFailureTimes)
-        self.MTTFVal = self.MTTF(self.aHat, self.bHat, self.predictedFailureTimes)
-        self.lnLval = self.lnL(self.aHat, self.bHat, self.data.FT)
 
     def MVFPlot(self):
         return (self.predictedFailureTimes,
@@ -67,14 +65,20 @@ class GO(Model):
         futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
         self.predictedFailureTimes = []
         for failure in futureFailures:
-            result = scipy.optimize.root(lambda t: failure-self.MVF(self.aHat, self.bHat, t), [self.data.FT.iloc[-1]])
+            result = scipy.optimize.root(lambda t: failure-self.MVF(t), [self.data.FT.iloc[-1]])
             if result.success:
                 next_val = result.x[0]
                 self.predictedFailureTimes.append(next_val)
         self.predictedFailureTimes = np.array(self.predictedFailureTimes)
         self.futureFailures = np.array(futureFailures)
 
-    def MVF(self, a, b, t):
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.MVFVal = np.append(self.MVF(self.data.FT), self.futureFailures)
+        self.FIVal = self.FI(self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(self.predictedFailureTimes)
+        self.lnLval = self.lnL(self.data.FT)
+
+    def MVF(self, t, params=None):
         """
         Calculates the Mean Value Function (MVF) based on N0 and phi
 
@@ -85,9 +89,11 @@ class GO(Model):
         Returns:
             MVF values as float
         """
-        return a * (1 - np.exp(-b * t))
+        if params is None:
+            params = self.params
+        return params['a'] * (1 - np.exp(-params['b'] * t))
 
-    def FI(self, a, b, t):
+    def FI(self, t, params=None):
         """
         Calculates Failure Intensity
 
@@ -98,23 +104,31 @@ class GO(Model):
         Returns:
             Failure Intensity as float
         """
-        return a * b * np.exp(-b * t)
+        if params is None:
+            params = self.params
+        return params['a'] * params['b'] * np.exp(-params['b'] * t)
 
-    def lnL(self, a, b, t):
+    def lnL(self, t, params=None):
         """
         Calculates Log Likelihood
 
         Returns:
             Log likelihood as float value
         """
-        firstTerm = a*(1-np.exp(-b*self.tn))
-        lastTerm = b*np.sum(self.data.FT)
-        #rightTerm = np.sum((np.log(self.FI(a, b, t)) for i in range(self.n)))
-        #return (-self.MVF(a, b, self.tn)) + rightTerm
-        return -firstTerm + self.n*np.log(a) + self.n*np.log(b) - lastTerm
+        if params is None:
+            params = self.params
 
-    def MTTF(self, a, b, t):
-        FailInt = self.FI(a, b, t)
+        firstTerm = params['a']*(1-np.exp(-params['b']*self.tn))
+        lastTerm = params['b']*np.sum(self.data.FT)
+        # rightTerm = np.sum((np.log(self.FI(a, b, t)) for i in range(self.n)))
+        # return (-self.MVF(a, b, self.tn)) + rightTerm
+        return -firstTerm + self.n*np.log(params['a']) + self.n*np.log(params['b']) - lastTerm
+
+    def MTTF(self, t, params=None):
+        if params is None:
+            params = self.params
+
+        FailInt = self.FI(t, params=params)
         return 1/FailInt
 
     def finite_model(self):
@@ -130,7 +144,7 @@ class GO(Model):
         Returns:
             Value of MLE equation (bHat)
         """
-        return ( self.n * self.tn * np.exp(-b * self.tn) ) / ( 1 - np.exp(-b * self.tn) ) + self.sumT - self.n / b
+        return (self.n * self.tn * np.exp(-b * self.tn)) / (1 - np.exp(-b * self.tn)) + self.sumT - self.n / b
 
     def calcaHatMLE(self, b):
         """
@@ -155,9 +169,9 @@ class GO(Model):
         self.converged = self.rootFindFunc.converged
         return bHatMLE
 
-    def reliability(self,t,interval):
-        firstTerm = self.MVF(self.aHat, self.bHat, t+interval)
-        secondTerm = self.MVF(self.aHat, self.bHat, t)
+    def reliability(self, t, interval):
+        firstTerm = self.MVF(t+interval)
+        secondTerm = self.MVF(t)
         return np.exp(-((firstTerm)-(secondTerm)))
 
 if __name__ == "__main__":

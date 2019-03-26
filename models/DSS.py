@@ -35,7 +35,8 @@ class DSS(Model):
         self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
                                      equation=self.MLEeq,
                                      data=self.data)
-
+        self.params = {'a': 0, 'b': 0}
+    
     def findParams(self, predictPoints):
         """
         Find parameters of the model
@@ -49,25 +50,26 @@ class DSS(Model):
         """
         self.bMLE = self.calcbMLE()
         self.aMLE = self.calcaMLE(self.bMLE)
+        self.params['a'] = self.aMLE
+        self.params['b'] = self.bMLE
         self.predict(predictPoints)
-        # self.DSSmt = self.MVF(self.bMLE, self.aMLE, self.tn)
-        # self.lambdat = self.FI(self.bMLE, self.aMLE, self.tn)
-        # self.DSSLL = self.lnL(self.bMLE, self.aMLE, self.DSSmt)
-        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.MVFVal = np.append(self.MVF(self.aMLE,self.bMLE, self.data.FT),self.futureFailures)
-        self.FIVal = self.FI(self.aMLE,self.bMLE, np.append(self.data.FT,self.predictedFailureTimes))
-        self.MTTFVal = self.MTTF(self.aMLE,self.bMLE, np.append(self.data.FT,self.predictedFailureTimes))
 
     def predict(self, numOfPoints):
         futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
         self.predictedFailureTimes = []
         for failure in futureFailures:
-            result = scipy.optimize.root(lambda t: failure-self.MVF(self.aMLE, self.bMLE, t), [self.data.FT.iloc[-1]])
+            result = scipy.optimize.root(lambda t: failure-self.MVF(t), [self.data.FT.iloc[-1]])
             if result.success:
                 next_val = result.x[0]
                 self.predictedFailureTimes.append(next_val)
         self.predictedFailureTimes = np.array(self.predictedFailureTimes)
         self.futureFailures = np.array(futureFailures)
+
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.MVFVal = np.append(self.MVF(self.data.FT), self.futureFailures)
+        self.FIVal = self.FI(np.append(self.data.FT,self.predictedFailureTimes))
+        self.MTTFVal = self.MTTF(np.append(self.data.FT,self.predictedFailureTimes))
+
 
     def MVFPlot(self):
         return (self.predictedFailureTimes,
@@ -87,18 +89,20 @@ class DSS(Model):
             growth.append(self.reliability(t, interval))
         return (self.predictedFailureTimes, growth)
 
-    def lnL(self, a, b):
+    def lnL(self, params=None):
         """
         Log likelihood equation
 
         Returns:
             LL value of type float
         """
-        firstTerm = self.MVF(a,b,self.tn)
-        secondTerm = np.sum(np.log(self.FI(a,b,self.data.FT)))
+        if params is None:
+            params = self.params
+        firstTerm = self.MVF(self.tn, params=params)
+        secondTerm = np.sum(np.log(self.FI(self.data.FT, params=params)))
         return -firstTerm + secondTerm
 
-    def MVF(self, a, b, t):
+    def MVF(self, t, params=None):
         """
         Mean Value Function. Used in Cumulative failures
         and estimate remaining faults
@@ -106,30 +110,36 @@ class DSS(Model):
         Returns:
             mt value for DSS model of type float
         """
-        return a * (1 - np.exp(-b*t) * (1 + b * t))
+        if params is None:
+            params = self.params
+        return params['a'] * (1 - np.exp(-params['b']*t) * (1 + params['b'] * t))
 
-    def FI(self, a, b, t):
+    def FI(self, t, params=None):
         """
         Failure Intensity
 
         Returns: 
 
         """
-        return a * np.power(b, 2) * np.exp(-b * t) * t
+        if params is None:
+            params = self.params
+        return params['a'] * np.power(params['b'], 2) * np.exp(-params['b'] * t) * t
 
     def reliability(self, t, interval):
         """
         Reliability function
         """
-        firstTerm = self.MVF(self.aMLE,self.bMLE,t+interval)
-        secondTerm = self.MVF(self.aMLE,self.bMLE,t)
+        firstTerm = self.MVF(t+interval)
+        secondTerm = self.MVF(t)
         return np.exp(-((firstTerm)-(secondTerm)))
 
-    def MTTF(self, a, b, t):
+    def MTTF(self, t, params=None):
         """
         Mean Time To Failure function
         """
-        FailInt = self.FI(a,b,t)
+        if params is None:
+            params = self.params
+        FailInt = self.FI(t, params=params)
         return 1/FailInt
 
     def finite_model(self):

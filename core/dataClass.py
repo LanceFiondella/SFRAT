@@ -143,10 +143,14 @@ class PandasModel(QtCore.QAbstractTableModel):
     def data(self, index, role=QtCore.Qt.DisplayRole):
         if index.isValid():
             if role == QtCore.Qt.DisplayRole:
-                return QtCore.QVariant(str(
-                    self._data.values[index.row()][index.column()].round(decimals=6)
-                ))
+                return QtCore.QVariant(self.round(self._data.values[index.row()][index.column()]))
         return QtCore.QVariant()
+
+    def round(self, value):
+        if isinstance(value, np.float): 
+            return str(round(value, ndigits=6))
+        else:
+            return str(value)
 
     def headerData(self, section, QtOrientation, role=QtCore.Qt.DisplayRole):
         if (QtOrientation == QtCore.Qt.Horizontal and

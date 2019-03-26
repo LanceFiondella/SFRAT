@@ -1,12 +1,13 @@
 from PyQt5.QtWidgets import QMainWindow, QMenuBar, QHBoxLayout, QWidget,\
                             QGroupBox, QListWidget, QAbstractItemView,\
                             QVBoxLayout, QLabel, QComboBox, QAction, \
-                            QActionGroup, QLineEdit, QTableView
+                            QActionGroup, QLineEdit, QTableView, QPushButton
 from matplotlib.backends.backend_qt5agg import FigureCanvas,\
                      NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 import pandas as pd
 import numpy as np
+import scipy
 # from core.graphSettings import GraphSettings
 from core.graphSettings import PlotSettings
 from ui.commonWidgets import PlotAndTable
@@ -91,7 +92,9 @@ class ResultWindow(QWidget):
     def setupCentralWidget(self):
         self.plotTableWidget = PlotAndTable()
         self.predTableWidget = QTableView()
+        self.queryTableWidget = QTableView()
         self.plotTableWidget.addTab(self.predTableWidget, 'Prediction Table')
+        self.plotTableWidget.addTab(self.queryTableWidget, 'Query Results')
         layout = QHBoxLayout(self)
         layout.setMenuBar(self.menu)
         layout.addWidget(self.setupSideMenu(), 20)
@@ -105,6 +108,8 @@ class ResultWindow(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(QLabel('Specify number of failures to predict'))
         self.predictPointsTextbox = QLineEdit(str(self.predictPoints))
+        self.predictPointsTextbox.editingFinished.connect(
+            lambda: self.predict(self.predictPointsTextbox.text()))
         layout.addWidget(self.predictPointsTextbox)
 
         layout.addWidget(QLabel('Choose the type of plot'))
@@ -140,10 +145,17 @@ class ResultWindow(QWidget):
         queryResultsGroupLayout.addWidget(self.targetRelTextbox)
         queryResultsGroupLayout.addWidget(QLabel('Specify mission time'))
         self.targetMissionTimeTextbox = QLineEdit(str(self.data.IF.iloc[-1]))
-        queryResultsGroupLayout.addWidget(self.targetRelTextbox)
+        queryResultsGroupLayout.addWidget(self.targetMissionTimeTextbox)
         queryResultsGroup.setLayout(queryResultsGroupLayout)
         queryResultsGroupLayout.addWidget(QLabel('Failures observed in the next N time units\n Specify N'))
         self.NTimeTextbox = QLineEdit(str(self.data.IF.iloc[-1]))
+        queryResultsGroupLayout.addWidget(self.NTimeTextbox)
+        self.computeQueryButton = QPushButton("Compute Queries")
+        self.computeQueryButton.clicked.connect(
+                                        lambda: self.queryResults(float(self.targetRelTextbox.text()), 
+                                                                  float(self.targetMissionTimeTextbox.text()), 
+                                                                  float(self.NTimeTextbox.text())))
+        queryResultsGroupLayout.addWidget(self.computeQueryButton)
         sideMenuLayout.addWidget(viewResultsGroup)
         sideMenuLayout.addWidget(queryResultsGroup)
 
@@ -155,11 +167,43 @@ class ResultWindow(QWidget):
         sideMenu.setLayout(sideMenuLayout)
         return sideMenu
 
+    def queryResults(self, reliability, missionLength, nTimeUnits):
+        ttar = "Time to achieve R={}\n for mission time of {}".format(reliability, missionLength)
+        enof = "Expected number of failures\n for next {} time units".format(nTimeUnits)
+        nthf = "Nth Failure"
+        ettf = "Expected time to Nth failure"
+        self.queryTableData = {"Model" : [],
+                               ttar : [],
+                               enof : [],
+                               nthf : [],
+                               ettf : []}
+        for model in self.results.values():
+            self.queryTableData["Model"].append(model.name)
+            result = scipy.optimize.root(lambda t: reliability - model.reliability(t, missionLength), [self.data.FT.iloc[-1]])
+            if result.success:
+                if result.x[0] - self.data.FT.iloc[-1] > 0:
+                    self.queryTableData[ttar].append(result.x[0] - self.data.FT.iloc[-1])
+                else:
+                     self.queryTableData[ttar].append("Reliability already achieved")
+            else:
+                self.queryTableData[ttar].append("Could not find value") 
+            self.queryTableData[enof].append(model.MVF(self.data.FT.iloc[-1] + nTimeUnits) - model.MVF(self.data.FT.iloc[-1]))
+            mvfvals = model.MVFPlot()[0]
+            self.queryTableData[nthf].append(len(mvfvals))
+            self.queryTableData[ettf].append(mvfvals[-1] - mvfvals[len(self.data)-1])
+        self.queryTableWidget.setModel(PandasModel(pd.DataFrame.from_dict(self.queryTableData)))
+
+    def predict(self, points):
+        self.predictPoints = int(points)
+        for model in self.results.values():
+            model.predict(self.predictPoints)
+        self.changePlot(self.currentPlotView)
+
     def populateTables(self, fitTableData, predTableData):
         self.fitTable = pd.DataFrame.from_dict(fitTableData)
         self.predTable = pd.DataFrame.from_dict(predTableData, orient='index').T
         self.plotTableWidget.tableWidget.setModel(PandasModel(self.fitTable))
-        self.predTableWidget.setModel(PandasModel(self.predTable)) 
+        self.predTableWidget.setModel(PandasModel(self.predTable))
 
     def changePlot(self, index):
         self.currentPlotView = index

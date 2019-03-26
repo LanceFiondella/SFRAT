@@ -28,6 +28,7 @@ class GM(Model):
                                      equation=self.MLEeq,
                                      data=self.data,
                                      initialEstimate=len(self.data)/self.data.FT.sum())
+        self.params = {'phi': 0, 'D': 0}
 
     def findParams(self, predictPoints):
         """
@@ -37,15 +38,12 @@ class GM(Model):
         """
         self.phiMLE = self.calcphiMLE()
         self.DMLE = self.calcDMLE(self.phiMLE)
-        self.lnLVal = self.lnL(self.DMLE, self.phiMLE)
+        self.params['phi'] = self.phiMLE
+        self.params['D'] = self.DMLE
+        self.lnLVal = self.lnL()
         self.predict(predictPoints)
-        self.MVFVal = np.append(self.MVF(self.DMLE, self.phiMLE, self.data.FT), self.futureFailures)
-        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.MTTFVal = self.MTTF(self.DMLE, self.phiMLE, np.append(self.data.FN, self.futureFailures))
-        self.FIVal = self.FI(self.DMLE, self.phiMLE, self.predictedFailureTimes)
 
-
-    def lnL(self, DHat, phi): #Verified
+    def lnL(self, params=None): #Verified
         """
         Calculates Log Likelihood
 
@@ -55,14 +53,15 @@ class GM(Model):
         Returns:
             Log likelihood as float
         """
-        
-        firstTerm = self.n*np.log(DHat)
-        secondTerm = np.sum(np.array([(i-1)*np.log(phi) for i in range(1,1+self.n)],np.float))
-        thirdTerm = np.sum(np.array([(np.power(phi,i)/phi)*self.data.IF[i-1] for i in range(1,1+self.n)],np.float))
-        return firstTerm + secondTerm - (DHat * thirdTerm)
-         
+        if params is None:
+            params = self.params
 
-    def MVF(self, DHat, phi, t):
+        firstTerm = self.n*np.log(params['D'])
+        secondTerm = np.sum(np.array([(i-1)*np.log(params['phi']) for i in range(1,1+self.n)],np.float))
+        thirdTerm = np.sum(np.array([(np.power(params['phi'],i)/params['phi'])*self.data.IF[i-1] for i in range(1,1+self.n)],np.float))
+        return firstTerm + secondTerm - (params['D'] * thirdTerm)
+
+    def MVF(self, t, params=None):
         """
         Calculates the Mean Value Function (MVF) based on DHat and phi
 
@@ -72,7 +71,9 @@ class GM(Model):
         Returns:
             MVF values as numpy array
         """
-        return -(np.log(1 - (DHat * t * np.log(phi))/phi)/np.log(phi))
+        if params is None:
+            params = self.params
+        return -(np.log(1 - (params['D'] * t * np.log(params['phi']))/params['phi'])/np.log(params['phi']))
 
     def MVFPlot(self):
         return (self.predictedFailureTimes,
@@ -96,15 +97,23 @@ class GM(Model):
         futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
         self.predictedFailureTimes = []
         for failure in futureFailures:
-            result = scipy.optimize.root(lambda t: failure-self.MVF(self.DMLE, self.phiMLE, t), [self.data.FT.iloc[-1]])
+            result = scipy.optimize.root(lambda t: failure-self.MVF(t), [self.data.FT.iloc[-1]])
             if result.success:
                 next_val = result.x[0]
                 self.predictedFailureTimes.append(next_val)
         self.predictedFailureTimes = np.array(self.predictedFailureTimes)
         self.futureFailures = np.array(futureFailures)
 
-    def FI(self, DHat, phi, failureTimes):
-        return DHat/(phi-DHat*failureTimes*np.log(phi))
+        self.MVFVal = np.append(self.MVF(self.data.FT), self.futureFailures)
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(np.append(self.data.FN, self.futureFailures))
+        self.FIVal = self.FI(self.predictedFailureTimes)
+
+    def FI(self, failureTimes, params=None):
+        if params is None:
+            params = self.params
+        
+        return params['D']/(params['phi']-params['D']*failureTimes*np.log(params['phi']))
 
     def MLEeq(self, phi): #Verified
         """
@@ -144,12 +153,15 @@ class GM(Model):
 
     def reliability(self, t, interval):
         return np.exp(-1.0 *
-                      (self.MVF(self.DMLE, self.phiMLE, t + interval) -
-                       self.MVF(self.DMLE, self.phiMLE, t))
+                      (self.MVF(t + interval) -
+                       self.MVF(t))
                       )
 
-    def MTTF(self, DHat,phi,failureNumbers):
-        FailInt = self.FI(DHat, phi, failureNumbers)
+    def MTTF(self, failureNumbers, params=None):
+        if params is None:
+            params = self.params
+        
+        FailInt = self.FI(failureNumbers, params=params)
         return 1/FailInt
 
     def finite_model(self):

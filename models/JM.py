@@ -27,6 +27,9 @@ class JM(Model):
         self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
                                      equation=self.MLEeq,
                                      data=self.data)
+        # Dictionary of parameters that stores the MLE values
+        self.params = {'N0': 0,
+                       'phi': 0}
 
     def findParams(self, predictPoints):
         """
@@ -36,14 +39,12 @@ class JM(Model):
         """
         self.N0MLE = self.calcN0MLE()
         self.phiMLE = self.calcPhi(self.N0MLE)
+        self.params['N0'] = self.N0MLE
+        self.params['phi'] = self.phiMLE
         self.predict(predictPoints)
-        self.MVFVal = np.append(self.MVF(self.N0MLE, self.phiMLE, self.data.FT), self.futureFailures)
-        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
-        self.MTTFVal = self.MTTF(self.N0MLE, self.phiMLE, np.append(self.data.FN, self.futureFailures))
-        self.FIVal = self.FI(self.N0MLE, self.phiMLE, self.predictedFailureTimes)
 
-    def MVF(self, N0, phi, t):
-        """
+    def MVF(self, t, params=None):
+        """ 
         Calculates the Mean Value Function (MVF) based on N0 and phi
 
         Args:
@@ -53,7 +54,10 @@ class JM(Model):
         Returns:
             MVF values as point value or array depending on t
         """
-        return N0*(1 - np.exp(-phi*t))
+        #If no params are passed, the calculated MLE parameters are used
+        if params is None:
+            params = self.params
+        return params['N0']*(1 - np.exp(-params['phi']*t))
 
     def MVFPlot(self):
         return (self.predictedFailureTimes,
@@ -77,17 +81,18 @@ class JM(Model):
         futureFailures = [self.data.FN.iloc[-1]+i+1 for i in range(numOfPoints)]
         self.predictedFailureTimes = []
         for failure in futureFailures:
-            result = scipy.optimize.root(lambda t: failure-self.MVF(self.N0MLE, self.phiMLE, t), [self.data.FT.iloc[-1]])
+            result = scipy.optimize.root(lambda t: failure-self.MVF(t), [self.data.FT.iloc[-1]])
             if result.success:
                 next_val = result.x[0]
                 self.predictedFailureTimes.append(next_val)
         self.predictedFailureTimes = np.array(self.predictedFailureTimes)
         self.futureFailures = np.array(futureFailures)
+        self.MVFVal = np.append(self.MVF(self.data.FT), self.futureFailures)
+        self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
+        self.MTTFVal = self.MTTF(np.append(self.data.FN, self.futureFailures))
+        self.FIVal = self.FI(self.predictedFailureTimes)
 
-    #def timeToTargetRel(self, reliability, interval):
-    #    result = scipy.optimize.
-
-    def FI(self, N0, phi, failureTimes):
+    def FI(self, t, params=None):
         """
         Calculates Failure Intensity
 
@@ -97,9 +102,11 @@ class JM(Model):
         Returns:
             Failure Intensity as numpy array
         """
-        return N0*phi*(np.exp(-phi*failureTimes))
+        if params is None:
+            params = self.params
+        return params['N0']*params['phi']*(np.exp(-params['phi']*t))
 
-    def lnL(self, N0, phi):
+    def lnL(self, params=None):
         """
         Calculates Log Likelihood
 
@@ -109,6 +116,13 @@ class JM(Model):
         Returns:
             Log likelihood as float
         """
+        if params is None:
+            N0 = self.params['N0']
+            phi = self.params['phi']
+        else:
+            N0 = params['N0']
+            phi = params['phi']
+
         N0Vector = [(N0 - i) for i in range(self.n)]
         secondTerm = np.sum(np.log(N0Vector))
         thirdTerm = (N0Vector * self.data.IF).sum()
@@ -116,12 +130,15 @@ class JM(Model):
 
     def reliability(self, t, interval):
         return np.exp(-1.0 *
-                      (self.MVF(self.N0MLE, self.phiMLE, t + interval) -
-                       self.MVF(self.N0MLE, self.phiMLE, t))
+                      (self.MVF(t + interval) -
+                       self.MVF(t))
                       )
 
-    def MTTF(self, N0, phi, failureNumbers):
-        IFTimes = 1 / (phi * (N0 - failureNumbers))
+    def MTTF(self, n, params=None):
+        if params is None:
+            params = self.params
+
+        IFTimes = 1 / (params['phi'] * (params['N0'] - n))
         return IFTimes
 
     def finite_model(self):
