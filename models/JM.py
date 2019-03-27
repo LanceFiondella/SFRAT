@@ -24,7 +24,8 @@ class JM(Model):
         super().__init__(*args, **kwargs)
         self.n = len(self.data)
         self.interFailSum = self.data.IF.sum()
-        self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
+        self.rootAlgoName = kwargs['rootAlgoName']
+        self.rootFindFunc = RootFind(rootAlgoName=self.rootAlgoName,
                                      equation=self.MLEeq,
                                      data=self.data)
         # Dictionary of parameters that stores the MLE values

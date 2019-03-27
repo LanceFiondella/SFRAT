@@ -32,7 +32,8 @@ class DSS(Model):
         self.n = len(self.data)
         self.tn = self.data.FT.iloc[-1]
         self.sumT = self.data.FT.sum()
-        self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
+        self.rootAlgoName = kwargs['rootAlgoName']
+        self.rootFindFunc = RootFind(rootAlgoName=self.rootAlgoName,
                                      equation=self.MLEeq,
                                      data=self.data)
         self.params = {'a': 0, 'b': 0}

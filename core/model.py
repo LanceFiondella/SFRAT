@@ -5,6 +5,7 @@ class Model(ABC):
     name = "Generic Model"
     converged = False
     params = {}
+    rootAlgoName = 'newton'
 
     def __init__(self, *args, **kwargs):
         """

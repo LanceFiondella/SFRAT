@@ -19,7 +19,7 @@ class ComputeWidget(QWidget):
         self.progressBar = QProgressBar(self)
         self.progressBar.setRange(0, len(modelsToRun))
         self.label = QLabel()
-        self.label.setText("Computing results, Models completed: ")
+        self.label.setText("Computing results,\n Models completed: {}".format(0))
 
         layout.addWidget(self.label)
         layout.addWidget(self.progressBar)
@@ -36,6 +36,7 @@ class ComputeWidget(QWidget):
 
     def modelFinished(self):
         self.progressBar.setValue(self.progressBar.value() + 1)
+        self.label.setText("Computing results,\n Models completed: {}".format(self.progressBar.value() + 1))
 
 
 class TaskThread(QThread):

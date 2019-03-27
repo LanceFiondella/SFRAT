@@ -24,8 +24,9 @@ class GO(Model):
         self.n = len(self.data)
         self.tn = self.data.FT.iloc[-1]
         self.sumT = self.data.FT.sum()
+        self.rootAlgoName = kwargs['rootAlgoName']
         # self.interFailSum = self.data.IF.sum()
-        self.rootFindFunc = RootFind(rootAlgoName=kwargs['rootAlgoName'],
+        self.rootFindFunc = RootFind(rootAlgoName=self.rootAlgoName,
                                      equation=self.MLEeq,
                                      data=self.data,
                                      initialEstimate=len(self.data)/self.data.FT.sum())
@@ -108,7 +109,7 @@ class GO(Model):
             params = self.params
         return params['a'] * params['b'] * np.exp(-params['b'] * t)
 
-    def lnL(self, t, params=None):
+    def lnL(self, params=None):
         """
         Calculates Log Likelihood
 

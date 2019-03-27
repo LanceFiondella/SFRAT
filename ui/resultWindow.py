@@ -10,6 +10,7 @@ import numpy as np
 import scipy
 # from core.graphSettings import GraphSettings
 from core.graphSettings import PlotSettings
+from core.prediction import *
 from ui.commonWidgets import PlotAndTable
 from core.dataClass import PandasModel
 
@@ -25,6 +26,9 @@ class ResultWindow(QWidget):
         self.results = results
         self.data = data
         self.predictPoints = predictPoints
+        self.modelEvals = {cls.__name__: cls for
+                           cls in ModelEval.__subclasses__()}
+
         # self.graphSettings = GraphSettings()
         self.plotSettings = PlotSettings()
         self.currentPlotView = 0
@@ -93,8 +97,11 @@ class ResultWindow(QWidget):
         self.plotTableWidget = PlotAndTable()
         self.predTableWidget = QTableView()
         self.queryTableWidget = QTableView()
+        self.modelEvalTableWidget = QTableView()
+        
         self.plotTableWidget.addTab(self.predTableWidget, 'Prediction Table')
         self.plotTableWidget.addTab(self.queryTableWidget, 'Query Results')
+        self.plotTableWidget.addTab(self.modelEvalTableWidget, 'Model Evaluation')
         layout = QHBoxLayout(self)
         layout.setMenuBar(self.menu)
         layout.addWidget(self.setupSideMenu(), 20)
@@ -140,13 +147,13 @@ class ResultWindow(QWidget):
         # Setting up query results group
         queryResultsGroup = QGroupBox('Query Model Results')
         queryResultsGroupLayout = QVBoxLayout()
+        queryResultsGroup.setLayout(queryResultsGroupLayout)
         queryResultsGroupLayout.addWidget(QLabel('Specify target reliability'))
         self.targetRelTextbox = QLineEdit('0.9')
         queryResultsGroupLayout.addWidget(self.targetRelTextbox)
         queryResultsGroupLayout.addWidget(QLabel('Specify mission time'))
         self.targetMissionTimeTextbox = QLineEdit(str(self.data.IF.iloc[-1]))
         queryResultsGroupLayout.addWidget(self.targetMissionTimeTextbox)
-        queryResultsGroup.setLayout(queryResultsGroupLayout)
         queryResultsGroupLayout.addWidget(QLabel('Failures observed in the next N time units\n Specify N'))
         self.NTimeTextbox = QLineEdit(str(self.data.IF.iloc[-1]))
         queryResultsGroupLayout.addWidget(self.NTimeTextbox)
@@ -156,16 +163,36 @@ class ResultWindow(QWidget):
                                                                   float(self.targetMissionTimeTextbox.text()), 
                                                                   float(self.NTimeTextbox.text())))
         queryResultsGroupLayout.addWidget(self.computeQueryButton)
-        sideMenuLayout.addWidget(viewResultsGroup)
-        sideMenuLayout.addWidget(queryResultsGroup)
-
         #Setting up Model Eval group
         modelEvalGroup = QGroupBox('Evaluate Models')
         modelEvalGroupLayout = QVBoxLayout()
+        modelEvalGroupLayout.addWidget(QLabel('Specify % of data to be used for PSSE'))
+        self.PSSETextbox = QLineEdit('0.9')
+        modelEvalGroupLayout.addWidget(self.PSSETextbox)
+        self.computeModelEvalsButton = QPushButton("Evaluate Models")
+        self.computeModelEvalsButton.clicked.connect(self.evaluateModels)
+        modelEvalGroupLayout.addWidget(self.computeModelEvalsButton)
+        modelEvalGroup.setLayout(modelEvalGroupLayout)
         #modelEvalGroupLayout.addWidget()
-
+        sideMenuLayout.addWidget(viewResultsGroup)
+        sideMenuLayout.addWidget(queryResultsGroup)
+        sideMenuLayout.addWidget(modelEvalGroup)
         sideMenu.setLayout(sideMenuLayout)
         return sideMenu
+
+    def evaluateModels(self):
+        evaluationTable = {"Model": []}
+        for evaluator in self.modelEvals.values():
+            evaluator = evaluator()
+            evaluationTable[evaluator.name] = []
+            results = evaluator.eval(self.results.values(), psse=float(self.PSSETextbox.text()))
+            for model in self.results.values():
+                if model.converged:
+                    if model.name not in evaluationTable['Model']:
+                        evaluationTable['Model'].append(model.name)
+                    evaluationTable[evaluator.name].append(results[model.name])
+        evaluationTable = pd.DataFrame.from_dict(evaluationTable)
+        self.modelEvalTableWidget.setModel(PandasModel(evaluationTable))
 
     def queryResults(self, reliability, missionLength, nTimeUnits):
         ttar = "Time to achieve R={}\n for mission time of {}".format(reliability, missionLength)
@@ -178,19 +205,20 @@ class ResultWindow(QWidget):
                                nthf : [],
                                ettf : []}
         for model in self.results.values():
-            self.queryTableData["Model"].append(model.name)
-            result = scipy.optimize.root(lambda t: reliability - model.reliability(t, missionLength), [self.data.FT.iloc[-1]])
-            if result.success:
-                if result.x[0] - self.data.FT.iloc[-1] > 0:
-                    self.queryTableData[ttar].append(result.x[0] - self.data.FT.iloc[-1])
+            if model.converged:
+                self.queryTableData["Model"].append(model.name)
+                result = scipy.optimize.root(lambda t: reliability - model.reliability(t, missionLength), [self.data.FT.iloc[-1]])
+                if result.success:
+                    if result.x[0] - self.data.FT.iloc[-1] > 0:
+                        self.queryTableData[ttar].append(result.x[0] - self.data.FT.iloc[-1])
+                    else:
+                        self.queryTableData[ttar].append("Reliability already achieved")
                 else:
-                     self.queryTableData[ttar].append("Reliability already achieved")
-            else:
-                self.queryTableData[ttar].append("Could not find value") 
-            self.queryTableData[enof].append(model.MVF(self.data.FT.iloc[-1] + nTimeUnits) - model.MVF(self.data.FT.iloc[-1]))
-            mvfvals = model.MVFPlot()[0]
-            self.queryTableData[nthf].append(len(mvfvals))
-            self.queryTableData[ettf].append(mvfvals[-1] - mvfvals[len(self.data)-1])
+                    self.queryTableData[ttar].append("Could not find value") 
+                self.queryTableData[enof].append(model.MVF(self.data.FT.iloc[-1] + nTimeUnits) - model.MVF(self.data.FT.iloc[-1]))
+                mvfvals = model.MVFPlot()[0]
+                self.queryTableData[nthf].append(len(mvfvals))
+                self.queryTableData[ettf].append(mvfvals[-1] - mvfvals[len(self.data)-1])
         self.queryTableWidget.setModel(PandasModel(pd.DataFrame.from_dict(self.queryTableData)))
 
     def predict(self, points):
