@@ -15,6 +15,7 @@ class ISS(Model):
     name = 'Inflexion S-shaped'
     params = {'a': 0, 'b': 0, 'c': 0}
     rootAlgoName = ''
+    converged = False
 
     def __init__(self, *args, **kwargs):
         """

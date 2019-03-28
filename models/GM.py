@@ -15,6 +15,7 @@ class GM(Model):
     name = 'Geometric'
     params = {'phi': 0, 'D': 0}
     rootAlgoName = ''
+    converged = False
 
     def __init__(self, *args, **kwargs):
         """

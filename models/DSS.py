@@ -19,6 +19,7 @@ class DSS(Model):
     name = "Delayed S-shaped"
     params = {'a': 0, 'b': 0}
     rootAlgoName = ''
+    converged = False
 
     def __init__(self, *args, **kwargs):
         """

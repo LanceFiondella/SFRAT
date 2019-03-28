@@ -10,6 +10,7 @@ class WEI(Model):
     name = "Weibull"
     params = {'a': 0, 'b': 0, 'c': 0}
     rootAlgoName = ''
+    converged = False
 
     def __init__(self, *args, **kwargs):
         """
@@ -119,7 +120,7 @@ class WEI(Model):
         a = params['a']
         b = params['b']
         c = params['c']
-        term1 = self.MVF(self.data.FT, params=params)
+        term1 = self.MVF(self.tn, params=params)
         term2 = sum(np.log(self.FI(self.data.FT, params=params)))
         return -term1 + term2
 

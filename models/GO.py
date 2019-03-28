@@ -14,6 +14,7 @@ class GO(Model):
     name = 'Goel-Okumoto'
     params = {'a': 0, 'b': 0}
     rootAlgoName = ''
+    converged = False
 
     def __init__(self, *args, **kwargs):
         """
