@@ -13,6 +13,8 @@ class GM(Model):
 
     """
     name = 'Geometric'
+    params = {'phi': 0, 'D': 0}
+    rootAlgoName = ''
 
     def __init__(self, *args, **kwargs):
         """
@@ -29,7 +31,6 @@ class GM(Model):
                                      equation=self.MLEeq,
                                      data=self.data,
                                      initialEstimate=len(self.data)/self.data.FT.sum())
-        self.params = {'phi': 0, 'D': 0}
 
     def findParams(self, predictPoints):
         """

@@ -12,6 +12,8 @@ class GO(Model):
 
     """
     name = 'Goel-Okumoto'
+    params = {'a': 0, 'b': 0}
+    rootAlgoName = ''
 
     def __init__(self, *args, **kwargs):
         """
@@ -30,7 +32,6 @@ class GO(Model):
                                      equation=self.MLEeq,
                                      data=self.data,
                                      initialEstimate=len(self.data)/self.data.FT.sum())
-        self.params = {'a': 0, 'b': 0}
 
     def findParams(self, predictPoints):
         """
@@ -77,7 +78,7 @@ class GO(Model):
         self.MVFVal = np.append(self.MVF(self.data.FT), self.futureFailures)
         self.FIVal = self.FI(self.predictedFailureTimes)
         self.MTTFVal = self.MTTF(self.predictedFailureTimes)
-        self.lnLval = self.lnL(self.data.FT)
+        self.lnLval = self.lnL()
 
     def MVF(self, t, params=None):
         """

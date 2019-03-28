@@ -6,6 +6,7 @@ import models as md
 
 class ModelEval(ABC):
     name = 'Base Model Eval'
+
     def __init__(self):
         pass
 
@@ -17,8 +18,9 @@ class ModelEval(ABC):
 
 class AIC(ModelEval):
     name = "Akaike Information Criterion"
+
     def __init__(self):
-        pass        
+        pass
 
     def eval(self, *args, **kwargs):
         modelList = args[0]
@@ -38,7 +40,7 @@ class PSSE(ModelEval):
         modelList = args[0]
         percent = kwargs['psse']
         evalResults = {}
-        
+
         for model in modelList:
             reducedDataLength = int(percent * len(model.data))
             reducedData = model.data.iloc[:reducedDataLength]
@@ -51,5 +53,5 @@ class PSSE(ModelEval):
                 i = np.array([i+1 for i in range(reducedDataLength, len(model.data))])
                 evalResults[model.name] = np.sum(np.square(mvf - i))
             else:
-                evalResults[model.name] = None
+                evalResults[model.name] = 'Model did not converge'
         return evalResults

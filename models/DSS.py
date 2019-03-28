@@ -17,6 +17,8 @@ class DSS(Model):
 
     """
     name = "Delayed S-shaped"
+    params = {'a': 0, 'b': 0}
+    rootAlgoName = ''
 
     def __init__(self, *args, **kwargs):
         """
@@ -36,8 +38,7 @@ class DSS(Model):
         self.rootFindFunc = RootFind(rootAlgoName=self.rootAlgoName,
                                      equation=self.MLEeq,
                                      data=self.data)
-        self.params = {'a': 0, 'b': 0}
-    
+
     def findParams(self, predictPoints):
         """
         Find parameters of the model
@@ -70,7 +71,6 @@ class DSS(Model):
         self.MVFVal = np.append(self.MVF(self.data.FT), self.futureFailures)
         self.FIVal = self.FI(np.append(self.data.FT,self.predictedFailureTimes))
         self.MTTFVal = self.MTTF(np.append(self.data.FT,self.predictedFailureTimes))
-
 
     def MVFPlot(self):
         return (self.predictedFailureTimes,

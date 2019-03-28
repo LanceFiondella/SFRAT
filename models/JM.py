@@ -12,7 +12,11 @@ class JM(Model):
 
 
     """
-    name = 'Jelinski-Moranda'  
+    name = 'Jelinski-Moranda'
+    params = {'N0': 0,
+              'phi': 0}
+    rootAlgoName = ''
+    converged = False
 
     def __init__(self, *args, **kwargs):
         """
@@ -28,9 +32,6 @@ class JM(Model):
         self.rootFindFunc = RootFind(rootAlgoName=self.rootAlgoName,
                                      equation=self.MLEeq,
                                      data=self.data)
-        # Dictionary of parameters that stores the MLE values
-        self.params = {'N0': 0,
-                       'phi': 0}
 
     def findParams(self, predictPoints):
         """

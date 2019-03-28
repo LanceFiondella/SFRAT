@@ -8,6 +8,8 @@ from core.rootFind import RootFind
 
 class WEI(Model):
     name = "Weibull"
+    params = {'a': 0, 'b': 0, 'c': 0}
+    rootAlgoName = ''
 
     def __init__(self, *args, **kwargs):
         """
@@ -30,7 +32,6 @@ class WEI(Model):
         self.rootFindFunc = RootFind(rootAlgoName=self.rootAlgoName,
                                      equation=self.MLEeq,
                                      data=self.data)
-        self.params = {'a': 0, 'b': 0, 'c': 0}
 
     def findParams(self, predictPoints):
         """
