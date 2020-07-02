@@ -1,549 +1,205 @@
-#TODO: connect all button events
-# e.g. file select, set up different views (perhaps add large overhead frames,
-# buttons set visibility)
-# also have buttons disable clicked button after click
-# add range select to panel A
-
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QFileDialog
 import sys
-from functools import partial
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-
-class App(QWidget):
-
-		def __init__(self):
-			super().__init__()
-
-			# Housekeeping, name the window and set its size
-			self.setWindowTitle('Software Reliability Tool')		
-			self.setGeometry(25,25,1000,810)
-
-			# Display name inside the tool
-			titleLabel = QLabel(
-				'Software Reliability Assessment in Python',self) 	
-			titleLabel.setGeometry(0,0,500,50)							
-			titleLabel.setFont(QFont("Arial",14))							
-			titleLabel.setIndent(15)										
-			titleLabel.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-
-			# Create "tabs" - qt natively has tabs, but will use buttons for now
-			menuButtonA = QPushButton('Select, Analyze, and Filter Data',self)
-			menuButtonA.setGeometry(0,50,250,35)
-			menuButtonA.setFont(QFont("Arial",12))
-
-			menuButtonB = QPushButton('Set Up and Apply Models',self)
-			menuButtonB.setGeometry(250,50,250,35)
-			menuButtonB.setFont(QFont("Arial",12))
-
-			menuButtonC = QPushButton('Query Model Results',self)
-			menuButtonC.setGeometry(500,50,250,35)
-			menuButtonC.setFont(QFont("Arial",12))
-
-			menuButtonD = QPushButton('Evaluate Models',self)
-			menuButtonD.setGeometry(750,50,250,35)
-			menuButtonD.setFont(QFont("Arial",12))
-
-			# Connecting the menu buttons
-			menuButtonA.clicked.connect(partial(self.showMenu, 0))
-			menuButtonB.clicked.connect(partial(self.showMenu, 1))
-			menuButtonC.clicked.connect(partial(self.showMenu, 2))
-			menuButtonD.clicked.connect(partial(self.showMenu, 3))
-
-##			# Begin panel A.
-			# Side panel frame for 'select/analyze/filter' option
-			self.menuAFrame = QFrame(self)
-			self.menuAFrame.setFrameStyle(QFrame().Panel | QFrame().Raised)
-			self.menuAFrame.setLineWidth(2)
-			self.menuAFrame.setGeometry(10,95,300,705)
-
-			# Title labeling.
-			menuALabel = QLabel(
-				'Select, Analyze, and Subset Failure Data',self.menuAFrame)
-			menuALabel.setFont(QFont("Arial",14))	
-			menuALabel.setWordWrap(True)
-			menuALabel.setGeometry(20,20,260,50)
-			menuALabel.setAlignment(Qt.AlignCenter)
-
-			# File select, limit to xlsx or csv, update menuAFLabel after
-			menuAFButton = QPushButton('Select File',self.menuAFrame)
-			menuAFButton.setGeometry(40,85,220,35)
-
-			# Will be file name, added self for other file reference
-			self.menuAFLabel = QLabel('No File Selected',self.menuAFrame)
-			self.menuAFLabel.setFont(QFont("Arial",10,-1,True))
-			self.menuAFLabel.setGeometry(0,125,300,20)
-			self.menuAFLabel.setAlignment(Qt.AlignCenter)
-
-			# Drop-down label
-			menuAViewLabel = QLabel(
-				'Choose a view of the failure data.',self.menuAFrame)
-			menuAViewLabel.setFont(QFont("Arial",10))
-			menuAViewLabel.setGeometry(0,165,300,20)
-			menuAViewLabel.setAlignment(Qt.AlignCenter)
-
-			# Drop-down to select view
-			menuAViewBox = QComboBox(self.menuAFrame)
-			menuAViewBox.setGeometry(40,185,220,30)
-			menuAViewBox.addItem('Times Between Failures')
-			menuAViewBox.addItem('Cumulative Failures')
-			menuAViewBox.addItem('Failure Intensity')
-
-			# Pick how to draw data, draw radio buttons; setup exclusive group
-			menuAViewLabel = QLabel(
-				'Draw plot with points, lines, or both?',self.menuAFrame)
-			menuAViewLabel.setFont(QFont("Arial",10))
-			menuAViewLabel.setGeometry(40,250,220,30)
-			menuAViewLabel.setAlignment(Qt.AlignCenter)
-			menuAViewLabel.setWordWrap(True)
-
-			# Set up exclusive radio button group
-			menuAPlotGroupA = QGroupBox(self.menuAFrame)
-			menuAPlotGroupA.setGeometry(40,250,215,50)
-
-			# Supply the actual radio buttons
-			menuAPlotRA = QRadioButton('Both',menuAPlotGroupA)
-			menuAPlotRA.setGeometry(5,12,71,50)
-			menuAPlotRB = QRadioButton('Points',menuAPlotGroupA)
-			menuAPlotRB.setGeometry(73,12,71,50)
-			menuAPlotRC = QRadioButton('Lines',menuAPlotGroupA)
-			menuAPlotRC.setGeometry(146,12,71,50)
-			menuAPlotRA.setChecked(True)
-
-			# Label for picking plotting
-			menuAViewLabel = QLabel(
-				'Plot Data or Trend Test?',self.menuAFrame)
-			menuAViewLabel.setFont(QFont("Arial",10))
-			menuAViewLabel.setGeometry(40,295,220,30)
-			menuAViewLabel.setAlignment(Qt.AlignHCenter | Qt.AlignBottom)
-			menuAViewLabel.setWordWrap(True)
-
-			# Data / Trend test radio buttons
-			menuAPlotGroupB = QGroupBox(self.menuAFrame)
-			menuAPlotGroupB.setGeometry(40,300,220,50)
-
-			menuASelectRA = QRadioButton('Data',menuAPlotGroupB)
-			menuASelectRA.setGeometry(20,12,71,50)
-			menuASelectRB = QRadioButton('Trend Test',menuAPlotGroupB)
-			menuASelectRB.setGeometry(100,12,100,50)
-			menuASelectRA.setChecked(True)
-
-			menuAGrowthLabel = QLabel(
-				'Does data show reliability growth?',self.menuAFrame)
-			menuAGrowthLabel.setFont(QFont("Arial",10))
-			menuAGrowthLabel.setGeometry(40,370,220,30)
-			menuAGrowthLabel.setAlignment(Qt.AlignCenter)
-
-			# Drop-down to reliability display, labeled above
-			menuAGrowthBox = QComboBox(self.menuAFrame)
-			menuAGrowthBox.setGeometry(40,395,220,30)
-			menuAGrowthBox.addItem('Laplace Test')
-			menuAGrowthBox.addItem('Running Arithmetic Average')
-
-			# Drop-down for reliability display
-
-			menuAConfidenceLabel = QLabel(
-				'Laplace Test Confidence',self.menuAFrame)
-			menuAConfidenceLabel.setFont(QFont("Arial",10))
-			menuAConfidenceLabel.setGeometry(40,440,215,30)
-			menuAConfidenceLabel.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-			menuAConfidenceLabel.setWordWrap(True)
-
-			menuAConfidenceLevel = QDoubleSpinBox(self.menuAFrame)
-			menuAConfidenceLevel.setRange(0,1)
-			menuAConfidenceLevel.setSingleStep(.01)
-			menuAConfidenceLevel.setValue(.9)
-			menuAConfidenceLevel.setGeometry(200,440,55,30)
-
-			# Select save file Type // TODO: remove this, add all to save dlg
-			menuAPlotGroupC = QGroupBox(self.menuAFrame)
-			menuAPlotGroupC.setGeometry(40,465,125,75)
-
-			menuASaveRA = QRadioButton('JPG',menuAPlotGroupC)
-			menuASaveRA.setGeometry(5,12,60,50)
-			menuASaveRB = QRadioButton('PDF',menuAPlotGroupC)
-			menuASaveRB.setGeometry(5,37,60,50)
-			menuASaveRC = QRadioButton('PNG',menuAPlotGroupC)
-			menuASaveRC.setGeometry(65,12,60,50)
-			menuASaveRD = QRadioButton('TIFF',menuAPlotGroupC)
-			menuASaveRD.setGeometry(65,37,60,50)
-			menuASaveRA.setChecked(True)
-
-			# Button to save
-			menuAFSaver = QPushButton('Save Display',self.menuAFrame)
-			menuAFSaver.setGeometry(165,500,90,30)
-
-			#Label data range
-			menuARangeLabel = QLabel(
-				'Subset data by data range:',self.menuAFrame)
-			menuARangeLabel.setFont(QFont("Arial",12))
-			menuARangeLabel.setGeometry(0,560,300,30)
-			menuARangeLabel.setAlignment(Qt.AlignCenter)
-			menuARangeLabel.setWordWrap(True)
-
-			#Label minmax/to
-			menuARangeLabel = QLabel(
-				'to',self.menuAFrame)
-			menuARangeLabel.setFont(QFont("Arial",10, -1, 1))
-			menuARangeLabel.setGeometry(0,600,300,30)
-			menuARangeLabel.setAlignment(Qt.AlignCenter)
-			menuARangeLabel.setWordWrap(True)
-
-			# Minimum for data range, has function attached for maximum
-			self.menuAMin = QSpinBox(self.menuAFrame)
-			self.menuAMin.setRange(1,5)
-			self.menuAMin.setValue(1)
-			self.menuAMin.setGeometry(80,600,55,30)
-
-			# Maximum for data range, has function attached for minimum
-			self.menuAMax = QSpinBox(self.menuAFrame)
-			self.menuAMax.setRange(1,5)
-			self.menuAMax.setValue(5)
-			self.menuAMax.setGeometry(165,600,55,30)
-
-			self.menuAMin.valueChanged.connect(self.rangeMinChange)
-			self.menuAMax.valueChanged.connect(self.rangeMaxChange)
-
-##			# Start panel B
-			self.menuBFrame = QFrame(self)
-			self.menuBFrame.setFrameStyle(QFrame().Panel | QFrame().Raised)
-			self.menuBFrame.setLineWidth(2)
-			self.menuBFrame.setGeometry(10,95,300,705)
-
-			# Labeling
-			menuBLabel = QLabel(
-				'Configure and Apply Models',self.menuBFrame)
-			menuBLabel.setFont(QFont("Arial",14))	
-			menuBLabel.setWordWrap(True)
-			menuBLabel.setGeometry(0,20,300,25)
-			menuBLabel.setAlignment(Qt.AlignCenter)
-
-			menuBPredictL = QLabel(
-				'Specify failure prediction numbers' ,self.menuBFrame)
-			menuBPredictL.setFont(QFont("Arial",10))
-			menuBPredictL.setGeometry(0,25,300,55)
-			menuBPredictL.setWordWrap(True)
-			menuBPredictL.setAlignment(Qt.AlignCenter)
-
-			menuBPredictLB = QLabel(
-				'Number of future failures to predict:' ,self.menuBFrame)
-			menuBPredictLB.setFont(QFont("Arial",10))
-			menuBPredictLB.setGeometry(10,55,215,55)
-			menuBPredictLB.setWordWrap(True)
-			menuBPredictLB.setAlignment(Qt.AlignCenter)
-
-			# Counter to check future failures, connect later when f.w. is done
-			menuBPredict = QSpinBox(self.menuBFrame)
-			menuBPredict.setValue(0)
-			menuBPredict.setGeometry(230,67,55,30)
-
-			# Models text
-			menuBPredictL = QLabel(
-				'Choose models to run or exclude.' ,self.menuBFrame)
-			menuBPredictL.setFont(QFont("Arial",10))
-			menuBPredictL.setGeometry(20,90,300,55)
-			menuBPredictL.setWordWrap(True)
-			menuBPredictL.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-
-			# Edit this later: select data set
-			menuBDataSetB = QLineEdit(
-				'Open a data set to run models', self.menuBFrame)
-			menuBDataSetB.setFont(QFont("Arial",12))
-			menuBDataSetB.setGeometry(20,130,260,25)
-
-			# Run models button
-			menuBRunButton = QPushButton(
-				'Run Selected Models',self.menuBFrame)
-			menuBRunButton.setGeometry(20,160,165,25)
-			menuBRunButton.setFont(QFont("Arial",12))	
-
-			# Display Label
-			menuBDispLabel = QLabel(
-				'Display Model Results',self.menuBFrame)
-			menuBDispLabel.setFont(QFont("Arial",14))	
-			menuBDispLabel.setWordWrap(True)
-			menuBDispLabel.setGeometry(10,205,290,25)
-			menuBDispLabel.setAlignment(Qt.AlignLeft)
-
-			menuBDispLabelB = QLabel(
-				'Choose model result sets to display.',self.menuBFrame)
-			menuBDispLabelB.setFont(QFont("Arial",10))	
-			menuBDispLabelB.setWordWrap(True)
-			menuBDispLabelB.setGeometry(20,230,290,25)
-			menuBDispLabelB.setAlignment(Qt.AlignLeft)
-
-			# Also edit this later: select data set, second time
-			menuBDataSetB = QLineEdit(
-				'No model results to display.', self.menuBFrame)
-			menuBDataSetB.setFont(QFont("Arial",12))
-			menuBDataSetB.setGeometry(20,250,260,25)
-
-			# Choose plot type, label and menu
-			menuBTypeLabel = QLabel(
-				'Pick the plot type for model results.',self.menuBFrame)
-			menuBTypeLabel.setFont(QFont("Arial",10))	
-			menuBTypeLabel.setWordWrap(True)
-			menuBTypeLabel.setGeometry(20,290,290,25)
-			menuBTypeLabel.setAlignment(Qt.AlignLeft)
-
-			# Drop-down for plot type
-			menuBPlotBox = QComboBox(self.menuBFrame)
-			menuBPlotBox.setGeometry(20,310,260,30)
-			menuBPlotBox.addItem('Times Between Failures')
-			menuBPlotBox.addItem('Cumulative Failures')
-			menuBPlotBox.addItem('Failure Intensity')
-			menuBPlotBox.addItem('Reliability Growth')
-
-			# Plot extension duration label/box
-			menuBExtendLabel = QLabel(
-				'Curve duration extension, past prediction point:',
-				self.menuBFrame)
-			menuBExtendLabel.setFont(QFont("Arial",10))	
-			menuBExtendLabel.setWordWrap(True)
-			menuBExtendLabel.setGeometry(20,350,170,30)
-			menuBExtendLabel.setAlignment(Qt.AlignLeft)
-
-			# Edit maximum value later
-			menuBExtend = QSpinBox(self.menuBFrame)
-			menuBExtend.setMaximum(100000000000)
-			menuBExtend.setSingleStep(100)
-			menuBExtend.setValue(100)
-			menuBExtend.setGeometry(180,350,100,30)
-
-			# Check boxes for data on plot
-			menuBDataCheck = QCheckBox('Show data', self.menuBFrame)
-			menuBDataCheck.setChecked(True) # Use setCheckState for tri-state
-			menuBDataCheck.setGeometry(20,390,100,30)
-
-			menuBEndCheck = QCheckBox('Show data end', self.menuBFrame)
-			menuBEndCheck.setChecked(True)
-			menuBEndCheck.setGeometry(150,390,150,30)
-
-			# Radio buttons for pts/lines/both
-			menuBExtendLabel = QLabel(
-				'Draw plot with data points, lines, or both?',
-				self.menuBFrame)
-			menuBExtendLabel.setFont(QFont("Arial",10))	
-			menuBExtendLabel.setWordWrap(True)
-			menuBExtendLabel.setGeometry(0,420,300,30)
-			menuBExtendLabel.setAlignment(Qt.AlignCenter)
-
-			menuBPlotGroupA = QGroupBox(self.menuBFrame)
-			menuBPlotGroupA.setGeometry(40,420,220,50)
-
-			menuBPlotRA = QRadioButton('Both',menuBPlotGroupA)
-			menuBPlotRA.setGeometry(5,12,71,50)
-			menuBPlotRB = QRadioButton('Points',menuBPlotGroupA)
-			menuBPlotRB.setGeometry(73,12,71,50)
-			menuBPlotRC = QRadioButton('Lines',menuBPlotGroupA)
-			menuBPlotRC.setGeometry(146,12,71,50)
-			menuBPlotRA.setChecked(True)
-
-			# Select save file Type // TODO: remove this, add all to save dlg
-			menuBPlotGroupB = QGroupBox(self.menuBFrame)
-			menuBPlotGroupB.setGeometry(40,465,125,75)
-
-			menuBSaveRA = QRadioButton('JPG',menuBPlotGroupB)
-			menuBSaveRA.setGeometry(5,12,60,50)
-			menuBSaveRB = QRadioButton('PDF',menuBPlotGroupB)
-			menuBSaveRB.setGeometry(5,37,60,50)
-			menuBSaveRC = QRadioButton('PNG',menuBPlotGroupB)
-			menuBSaveRC.setGeometry(65,12,60,50)
-			menuBSaveRD = QRadioButton('TIFF',menuBPlotGroupB)
-			menuBSaveRD.setGeometry(65,37,60,50)
-			menuBSaveRA.setChecked(True)
-
-			menuBFSaver = QPushButton('Save Display',self.menuBFrame)
-			menuBFSaver.setGeometry(165,500,90,30)
-
-##			# Start panel C
-
-			self.menuCFrame = QFrame(self)
-			self.menuCFrame.setFrameStyle(QFrame().Panel | QFrame().Raised)
-			self.menuCFrame.setLineWidth(2)
-			self.menuCFrame.setGeometry(10,95,300,705)
-
-			# Labeling
-			menuCLabel = QLabel(
-				'Predictions From Results',self.menuCFrame)
-			menuCLabel.setFont(QFont("Arial",14))	
-			menuCLabel.setWordWrap(True)
-			menuCLabel.setGeometry(0,20,300,25)
-			menuCLabel.setAlignment(Qt.AlignCenter)
-
-			# Choose display model
-			menuCDispLabelA = QLabel(
-				'Choose model result sets to display.',self.menuCFrame)
-			menuCDispLabelA.setFont(QFont("Arial",10))	
-			menuCDispLabelA.setWordWrap(True)
-			menuCDispLabelA.setGeometry(20,60,290,25)
-			menuCDispLabelA.setAlignment(Qt.AlignLeft)
-
-			# Also edit this later: select data set, third? time
-			menuCDataSet = QLineEdit(
-				'No model results to display.', self.menuCFrame)
-			menuCDataSet.setFont(QFont("Arial",12))
-			menuCDataSet.setGeometry(20,80,260,25)
-
-			menuCDispLabelB = QLabel(
-				'Time to observe next failures:',self.menuCFrame)
-			menuCDispLabelB.setFont(QFont("Arial",12))	
-			menuCDispLabelB.setGeometry(20,120,290,25)
-			menuCDispLabelB.setAlignment(Qt.AlignLeft)
-
-			menuCDispLabelC = QLabel(
-				'Specify the number of failures to be observed:'
-				,self.menuCFrame)
-			menuCDispLabelC.setFont(QFont("Arial",10))	
-			menuCDispLabelC.setWordWrap(True)
-			menuCDispLabelC.setGeometry(20,145,165,30)
-			menuCDispLabelC.setAlignment(Qt.AlignLeft)
-
-			# Counter for next failures observed, label above
-			menuCFailures = QSpinBox(self.menuCFrame)
-			menuCFailures.setMinimum(1)
-			menuCFailures.setGeometry(195,145,85,30)
-
-			menuCDispLabelD = QLabel(
-				'Determine failures using extra time:', self.menuCFrame)
-			menuCDispLabelD.setFont(QFont("Arial",12))	
-			menuCDispLabelD.setGeometry(20,190,250,30)
-			menuCDispLabelD.setAlignment(Qt.AlignLeft)
-
-			menuCDispLabelE = QLabel(
-				'Specify the amount of additional time to run:'
-				,self.menuCFrame)
-			menuCDispLabelE.setFont(QFont("Arial",10))	
-			menuCDispLabelE.setWordWrap(True)
-			menuCDispLabelE.setGeometry(20,215,165,30)
-			menuCDispLabelE.setAlignment(Qt.AlignLeft)
-
-			# Counter for next failures observed, label above
-			menuCExtraTime = QSpinBox(self.menuCFrame)
-			menuCExtraTime.setMinimum(1)
-			menuCExtraTime.setGeometry(195,215,85,30)
-
-			#D etermine time with reliability
-			menuCDispLabelF = QLabel(
-				'Determine test time given reliability:', self.menuCFrame)
-			menuCDispLabelF.setFont(QFont("Arial",12))	
-			menuCDispLabelF.setGeometry(20,260,250,30)
-			menuCDispLabelF.setAlignment(Qt.AlignLeft)
-
-			menuCDispLabelG = QLabel(
-				'Specify the desired reliability:'
-				,self.menuCFrame)
-			menuCDispLabelG.setFont(QFont("Arial",10))	
-			menuCDispLabelG.setWordWrap(True)
-			menuCDispLabelG.setGeometry(20,285,165,30)
-			menuCDispLabelG.setAlignment(Qt.AlignLeft)
-
-			# Counter for reliability, label above
-			menuCReliability = QDoubleSpinBox(self.menuCFrame)
-			menuCReliability.setRange(0,1)
-			menuCReliability.setSingleStep(.01)
-			menuCReliability.setValue(.8)
-			menuCReliability.setGeometry(195,285,85,30)
-			
-			menuCDispLabelH = QLabel(
-				'Specify the interval to calculate reliability:'
-				,self.menuCFrame)
-			menuCDispLabelH.setFont(QFont("Arial",10))	
-			menuCDispLabelH.setWordWrap(True)
-			menuCDispLabelH.setGeometry(20,325,165,30)
-			menuCDispLabelH.setAlignment(Qt.AlignLeft)
-
-			menuCInterval = QSpinBox(self.menuCFrame)
-			menuCInterval.setGeometry(195,325,85,30)
-
-			# Select save file Type // TODO: remove this, add all to save dlg
-			menuCPlotGroup = QGroupBox(self.menuCFrame)
-			menuCPlotGroup.setGeometry(50,365,200,50)
-
-			menuCSaveRA = QRadioButton('CSV',menuCPlotGroup)
-			menuCSaveRA.setGeometry(5,12,60,50)
-			menuCSaveRB = QRadioButton('PDF',menuCPlotGroup)
-			menuCSaveRB.setGeometry(120,12,60,50)
-			menuCSaveRA.setChecked(True)
-
-			menuCFSaver = QPushButton('Save Predictions',self.menuCFrame)
-			menuCFSaver.setGeometry(50,425,200,30)
-
-##			# Start panel D
-			self.menuDFrame = QFrame(self)
-			self.menuDFrame.setFrameStyle(QFrame().Panel | QFrame().Raised)
-			self.menuDFrame.setLineWidth(2)
-			self.menuDFrame.setGeometry(10,95,300,705)
-
-			# Title label
-			menuDLabel = QLabel(
-				'Evaluate Fit and Applicability',self.menuDFrame)
-			menuDLabel.setFont(QFont("Arial",14))	
-			menuDLabel.setWordWrap(True)
-			menuDLabel.setGeometry(0,20,300,25)
-			menuDLabel.setAlignment(Qt.AlignCenter)
-
-			# Description labels
-			menuDLabelB = QLabel(
-				'Choose the models to evaluate results from.',self.menuDFrame)
-			menuDLabelB.setFont(QFont("Arial",10))	
-			menuDLabelB.setWordWrap(True)
-			menuDLabelB.setGeometry(20,60,300,25)
-
-			# Edit this later: select data set
-			menuDDataSet = QLineEdit(
-				'Open a data set to run models', self.menuDFrame)
-			menuDDataSet.setFont(QFont("Arial",12))
-			menuDDataSet.setGeometry(20,85,260,25)
-
-			# Description label for percentage
-			menuDLabelC = QLabel(
-				'Specify PSSE percent data.',self.menuDFrame)
-			menuDLabelC.setFont(QFont("Arial",10))	
-			menuDLabelC.setWordWrap(True)
-			menuDLabelC.setGeometry(20,135,300,25)
-
-			# Spin box for data percentage
-			menuDPercentage = QDoubleSpinBox(self.menuDFrame)
-			menuDPercentage.setRange(0,1)
-			menuDPercentage.setSingleStep(.01)
-			menuDPercentage.setValue(.9)
-			menuDPercentage.setGeometry(195,133,85,30)
-
-			# Select save file Type // TODO: remove this, add all to save dlg
-			menuDPlotGroup = QGroupBox(self.menuDFrame)
-			menuDPlotGroup.setGeometry(50,150,200,50)
-
-			menuDSaveRA = QRadioButton('CSV',menuDPlotGroup)
-			menuDSaveRA.setGeometry(5,12,60,50)
-			menuDSaveRB = QRadioButton('PDF',menuDPlotGroup)
-			menuDSaveRB.setGeometry(120,12,60,50)
-			menuDSaveRA.setChecked(True)
-
-			menuDFSaver = QPushButton('Save Evaluations',self.menuDFrame)
-			menuDFSaver.setGeometry(50,210,200,30)
-
-##			# Finalize
-
-			self.show()
-			self.showMenu(0)
-
-		# There's probably a better way to do this
-		# Functions for the four menu buttons
-		def showMenu(self, id):
-			self.menuAFrame.setVisible(id == 0)
-			self.menuBFrame.setVisible(id == 1)
-			self.menuCFrame.setVisible(id == 2)
-			self.menuDFrame.setVisible(id == 3)
-
-		def rangeMinChange(self, i):
-			self.menuAMax.setRange(i,5)
-
-		def rangeMaxChange(self, i):
-			self.menuAMin.setRange(1,i)
-
+import os
+import sfrat
+import pandas as pd
+import matplotlib
+
+
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
+
+
+class MplCanvas(FigureCanvasQTAgg):
+
+	def __init__(self, parent=None, width=5, height=4, dpi=100):
+		fig = Figure(figsize=(width, height), dpi=dpi)
+		self.axes = fig.add_subplot(111)
+		super(MplCanvas, self).__init__(fig)
+
+
+class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
+
+	curFilePath = None	# maybe not needed? fns can call between selves
+	curSheetName = None
+	curFileRaw = None
+	curFileData = None
+
+	plotType = 'FT'
+	plotPtLines = 2	# initial state both dots n lines
+
+	sheetIndex = 0
+	sheetActions = []	# stores menu options for sheet names for deletion etc
+
+	plotCurves = [[]]	# store all curves for plotting
+
+	def winTitle(self):
+		windowTitle = f"SFRAT - {os.path.split(self.curFilePath)[1]}"
+		self.setWindowTitle(windowTitle)
+
+
+	def openFile_click(self, other):
+		print('opening file')
+		options = QFileDialog.Options()
+		fileName, _ = QFileDialog.getOpenFileName(self,"Open Data", options=options)
+		# todo restrict input files to xlsx or csv
+		if fileName:
+			try:
+				self.curFilePath = fileName
+				self.curFileRaw = pd.read_excel(fileName, 
+									sheet_name=None,	# load all sheets
+									ignore_index=True)
+				print(f'File Loaded with {len(self.curFileRaw)} sheets')
+				# pd.read_csv
+			except:
+				print('Import Error')	# file not convertable to pandas
+				return
+
+			self.winTitle()
+			self.convertFileData()
+			self.updateSheetSelect(self.curFileData)	
+			self.curSheetName = list(self.curFileData.keys())[0]	# pick 1st sheet
+			self.redrawPlot()
+
+			return
+		print('open file failed')
+
+	def convertFileData(self):
+		self.curFileData = {}	# uses FN, IF, and FT, some datasets dont use
+		for sheet in self.curFileRaw:
+			newFrame = {}
+			keys = self.curFileRaw[sheet].keys()
+
+			if 'T' in keys:
+				newFrame['FN'] = self.curFileRaw[sheet]['T'].copy()
+			elif 'FN' in keys:
+				newFrame['FN'] = self.curFileRaw[sheet]['FN'].copy()
+
+			if 'IF' in keys:
+				newFrame['IF'] = self.curFileRaw[sheet]['IF'].copy()
+			elif 'FC' in keys:
+				newFrame['IF'] = self.curFileRaw[sheet]['FC'].copy()
+
+			if 'FT' in keys:
+				newFrame['FT'] = self.curFileRaw[sheet]['FT'].copy()
+			elif 'CFC' in keys:
+				newFrame['FT'] = self.curFileRaw[sheet]['CFC'].copy()
+
+			if 'IF' in newFrame.keys() and not 'FT' in newFrame.keys():
+				# sheet has IF, convert for FT/CFC
+				newFrame['FT'] = [newFrame['IF'][0]]
+				for idx in range(1,len(newFrame['IF'])):
+					newFrame['FT'].append(newFrame['FT'][idx - 1] + newFrame['IF'][idx])
+				print(f'{sheet} missing FT, calc from IF')
+			elif 'FT' in newFrame.keys() and not 'IF' in newFrame.keys():
+				newFrame['IF'] = [newFrame['FT'][0]]
+				for idx in range(1,len(newFrame['FT'])):
+					newFrame['IF'].append(newFrame['FT'][idx] - newFrame['FT'][idx - 1])
+				print(f'{sheet} missing IF, calc from FT')
+
+			newFrame['FI'] = []
+			for fi in newFrame['IF']:
+				if fi == 0:
+					newFrame['FI'].append(-1)
+					continue
+				newFrame['FI'].append(1/fi)
+			mx = max(newFrame['FI'])
+			for i, fi in enumerate(newFrame['FI']):
+				if fi == -1:
+					newFrame['FI'][i] = 2*mx
+
+			self.curFileData[str(sheet)] = newFrame
+
+		return
+
+	def switchSheet(self):
+		self.menuSelect_Sheet.setActiveAction(self.sender())
+		sheetName = self.sender().text()
+		self.curSheetName = sheetName
+		self.redrawPlot()
+		print(f'changed to sheet {sheetName}')
+
+	def updateSheetSelect(self, sheets):
+		for old_action in self.sheetActions:
+			old_action.deleteLater()	# remove sheets from last file
+
+		for sheet in sheets:
+			sheetAction = QtWidgets.QAction(self)
+			sheetAction.setText(sheet)
+			sheetAction.triggered.connect(self.switchSheet)
+			self.menuSelect_Sheet.addAction(sheetAction)
+			self.sheetActions.append(sheetAction)
+							# later maybe cleaner method for indexing button
+
+	def showMode(self, modeNum):
+		print(f'switch to mode {modeNum}')
+		for idx, mode in enumerate([self.analyzeData,
+									self.applyModels,
+									self.modelResults,
+									self.evalResults]):
+			if idx == modeNum:
+				mode.show()
+			else:
+				mode.hide()
+		return
+
+	def redrawPlot(self):
+		self.plotWindow.axes.clear()
+		self.plotCurves[0] = [self.curFileData[self.curSheetName]['FN'],
+							self.curFileData[self.curSheetName][self.plotType]]
+
+		if self.plotType == 'FT':
+			self.plotCurves[0].reverse()
+
+		for plotaxes in self.plotCurves:
+			print('plotting')
+			if self.plotPtLines == 1 or self.plotPtLines == 2:
+				self.plotWindow.axes.step(plotaxes[0], plotaxes[1])
+			if self.plotPtLines == 0 or self.plotPtLines == 2:
+				self.plotWindow.axes.plot(plotaxes[0], plotaxes[1],'.')
+		self.plotWindow.draw()
+		return
+
+	def setView(self, viewNum):
+		self.plotType = ['FT','IF','FI'][viewNum]
+		self.redrawPlot()
+		print(f'set view type to {self.plotType}')
+
+	def setPlotType(self, typeNum):
+		self.plotPtLines = typeNum
+		self.redrawPlot()
+		print(f'set dot/line type to {typeNum}')
+	
+
+	def __init__(self, parent=None):
+		super(SFRAT, self).__init__(parent)
+		self.setupUi(self)
+
+		self.plotWindow = MplCanvas(self, width=1, height=1)
+		self.gridLayout_2.addWidget(self.plotWindow, 0, 0, 1, 1)
+
+		self.actionCF.triggered.connect(lambda: self.setView(0))
+		self.actionTBF.triggered.connect(lambda: self.setView(1))
+		self.actionFI.triggered.connect(lambda: self.setView(2))
+
+		self.actionPlot_Points.triggered.connect(lambda: self.setPlotType(0))
+		self.actionPlot_Lines.triggered.connect(lambda: self.setPlotType(1))
+		self.actionPlot_Both.triggered.connect(lambda: self.setPlotType(2))
+
+		self.showMode(0)
+		self.actionAnalyzeData.triggered.connect(lambda: self.showMode(0))
+		self.actionApplyModels.triggered.connect(lambda: self.showMode(1))
+		self.actionModelResults.triggered.connect(lambda: self.showMode(2))
+		self.actionEvaluateModels.triggered.connect(lambda: self.showMode(3))
+
+
+def main():
+	app = QApplication(sys.argv)
+	form = SFRAT()
+	form.show()
+	app.exec_()
 
 if __name__ == '__main__':
-	app = QApplication(sys.argv)
-	ex = App()
-	sys.exit(app.exec_())
+	main()
