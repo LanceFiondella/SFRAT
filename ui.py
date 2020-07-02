@@ -108,7 +108,7 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 			mx = max(newFrame['FI'])
 			for i, fi in enumerate(newFrame['FI']):
 				if fi == -1:
-					newFrame['FI'][i] = 2*mx
+					newFrame['FI'][i] = 2*mx # todo make this better
 
 			self.curFileData[str(sheet)] = newFrame
 
@@ -146,9 +146,11 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		return
 
 	def redrawPlot(self):
+		# draw plot
+		curSheet = self.curFileData[self.curSheetName]
 		self.plotWindow.axes.clear()
-		self.plotCurves[0] = [self.curFileData[self.curSheetName]['FN'],
-							self.curFileData[self.curSheetName][self.plotType]]
+		self.plotCurves[0] = [curSheet['FN'],
+							curSheet[self.plotType]]
 
 		if self.plotType == 'FT':
 			self.plotCurves[0].reverse()
@@ -160,6 +162,29 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 			if self.plotPtLines == 0 or self.plotPtLines == 2:
 				self.plotWindow.axes.plot(plotaxes[0], plotaxes[1],'.')
 		self.plotWindow.draw()
+
+		# update table
+
+		self.dataTable.clear()
+
+		self.dataTable.setColumnCount(3)
+		self.dataTable.setRowCount(len(curSheet['FN']))
+		self.dataTable.setHorizontalHeaderLabels(['FN','IF','FT'])
+
+
+		for i in range(len(curSheet['FN'])):
+			newFN = QtWidgets.QTableWidgetItem(str(curSheet['FN'][i]))
+			newIF = QtWidgets.QTableWidgetItem(str(curSheet['IF'][i]))
+			newFT = QtWidgets.QTableWidgetItem(str(curSheet['FT'][i]))
+
+			newFN.setFlags(newFN.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
+			newIF.setFlags(newIF.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
+			newFT.setFlags(newFT.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
+
+			self.dataTable.setItem(i, 0, newFN)
+			self.dataTable.setItem(i, 1, newIF)
+			self.dataTable.setItem(i, 2, newFT)
+
 		return
 
 	def setView(self, viewNum):
