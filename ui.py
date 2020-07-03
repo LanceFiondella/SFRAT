@@ -33,15 +33,23 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 	plotLaplaceConf = 0.9
 	plotArithAvg = False
 
+	plotStartIndex = 0
+	plotStopIndex = 0
+
 	sheetIndex = 0
 	sheetActions = []	# stores menu options for sheet names for deletion etc
-
 	plotCurves = [[]]	# store all curves for plotting
+
+
+	futureFailCount = 1
+	futureFailTime = 1000
+	modelShow = []
+	modelPlotType = 'FT'
+	modelData = {}
 
 	def winTitle(self):
 		windowTitle = f"SFRAT - {os.path.split(self.curFilePath)[1]}"
 		self.setWindowTitle(windowTitle)
-
 
 	def openFile_click(self, other):
 		print('opening file')
@@ -64,6 +72,8 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 			self.convertFileData()
 			self.updateSheetSelect(self.curFileData)	
 			self.curSheetName = list(self.curFileData.keys())[0]	# pick 1st sheet
+			self.plotStartIndex = 0
+			self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
 			self.redrawPlot()
 
 			return
@@ -111,7 +121,8 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 			mx = max(newFrame['FI'])
 			for i, fi in enumerate(newFrame['FI']):
 				if fi == -1:
-					newFrame['FI'][i] = 2*mx # todo make this better
+					newFrame['FI'][i] = float('inf')
+					#newFrame['FI'][i] = 2*mx # todo make this better
 
 			self.curFileData[str(sheet)] = newFrame
 
@@ -121,6 +132,8 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		self.menuSelect_Sheet.setActiveAction(self.sender())
 		sheetName = self.sender().text()
 		self.curSheetName = sheetName
+		self.plotStartIndex = 0
+		self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
 		self.redrawPlot()
 		print(f'changed to sheet {sheetName}')
 
@@ -146,6 +159,11 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 				mode.show()
 			else:
 				mode.hide()
+
+		for idx, mode in enumerate([self.menuViewAD,
+									self.menuViewAM]):
+			mode.menuAction().setVisible(idx == modeNum)
+
 		return
 
 	def redrawPlot(self):
@@ -156,10 +174,12 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		self.plotWindow.axes.clear()
 
 		if not self.plotLaplace:
-			self.plotCurves[0] = [curSheet['FN'],
-								curSheet[self.plotType]]
 			if self.plotType == 'FT':
-				self.plotCurves[0].reverse()
+				self.plotCurves[0] = [curSheet['FT'], curSheet['FN']]
+			elif self.plotType == 'IF':
+				self.plotCurves[0] = [curSheet['FT'], curSheet['IF']]
+			elif self.plotType == 'FI':
+				self.plotCurves[0] = [curSheet['FT'], curSheet['FI']]
 
 		else:
 			# plot laplace test
@@ -183,9 +203,11 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		for plotaxes in self.plotCurves:
 			print('plotting')
 			if self.plotPtLines == 1 or self.plotPtLines == 2:
-				self.plotWindow.axes.step(plotaxes[0], plotaxes[1], where='post')
+				self.plotWindow.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+							plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post')
 			if self.plotPtLines == 0 or self.plotPtLines == 2:
-				self.plotWindow.axes.plot(plotaxes[0], plotaxes[1],'.')
+				self.plotWindow.axes.plot(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.')
 
 		self.plotWindow.draw()
 		self.dataTable.clear()
@@ -198,9 +220,18 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 
 		for i in range(len(curSheet['FN'])):
+
+			if self.plotLaplace:
+				if self.plotArithAvg:
+					num = runAvg[i]
+				else:
+					num = laplace[i]
+			else:
+				num = curSheet['FT'][i]
+
 			newFN = QtWidgets.QTableWidgetItem(str(curSheet['FN'][i]))
 			newIF = QtWidgets.QTableWidgetItem(str(curSheet['IF'][i]))
-			newFT = QtWidgets.QTableWidgetItem(str(runAvg[i]) if self.plotArithAvg else str(laplace[i]) if self.plotLaplace else str(curSheet['FT'][i]))
+			newFT = QtWidgets.QTableWidgetItem(str(num))
 
 			newFN.setFlags(newFN.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
 			newIF.setFlags(newIF.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
@@ -209,8 +240,6 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 			self.dataTable.setItem(i, 0, newFN)
 			self.dataTable.setItem(i, 1, newIF)
 			self.dataTable.setItem(i, 2, newFT)
-
-		return
 
 	def setView(self, viewNum):
 		self.plotType = ['FT','IF','FI'][viewNum]
@@ -245,6 +274,57 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 			self.plotLaplaceConf = text
 			self.redrawPlot()
 			print(f'set laplace conf to {text}')
+
+	def rangeDialog(self, typ):
+		if typ:
+			text, ok = QtWidgets.QInputDialog.getInt(self,
+						"Edit Range",
+						f"Enter a start index",
+						self.plotStartIndex, 
+						0, max(len(self.curFileData[self.curSheetName]['IF']), self.plotStopIndex)
+						)
+		else:
+			text, ok = QtWidgets.QInputDialog.getInt(self,
+						"Edit Range",
+						f"Enter a stop index",
+						self.plotStopIndex, 
+						max(self.plotStartIndex, 0), len(self.curFileData[self.curSheetName]['IF'])
+						)
+		if ok:
+			if typ == True:
+				self.plotStartIndex = text
+				print(f'set start idx to {text}')
+			else:
+				self.plotStopIndex = text
+				print(f'set stop idx to {text}')
+			self.redrawPlot()
+			
+
+	def redrawModelPlot():		# 2nd tab redraw
+		if self.curFileData == None:
+			return	# file not open
+		
+
+
+	def getFutureFailDur(self):
+		text, ok = QtWidgets.QInputDialog.getInt(self,
+					"Model Prediction",
+					"Enter duration for model extension:",
+					self.futureFailTime,
+					0, 1000000, 1000 )
+		if ok:
+			self.futureFailTime = text
+			self.redrawModelPlot()
+
+	def getFutureFailCount(self):
+		text, ok = QtWidgets.QInputDialog.getInt(self,
+					"Model Prediction",
+					"Enter number of predicted failures:",
+					self.futureFailCount,
+					1, 1000000, 1 )
+		if ok:
+			self.futureFailCount = text
+			self.redrawModelPlot()
 	
 
 	def __init__(self, parent=None):
@@ -262,6 +342,9 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		self.actionTrendTest.triggered.connect(self.laplaceToggle)
 		self.actionPlotArith.triggered.connect(self.arithToggle)
 
+		self.actionStartIndex.triggered.connect(lambda: self.rangeDialog(True))
+		self.actionStopIndex.triggered.connect(lambda: self.rangeDialog(False))
+
 		self.actionPlot_Points.triggered.connect(lambda: self.setPlotType(0))
 		self.actionPlot_Lines.triggered.connect(lambda: self.setPlotType(1))
 		self.actionPlot_Both.triggered.connect(lambda: self.setPlotType(2))
@@ -271,6 +354,10 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		self.actionApplyModels.triggered.connect(lambda: self.showMode(1))
 		self.actionModelResults.triggered.connect(lambda: self.showMode(2))
 		self.actionEvaluateModels.triggered.connect(lambda: self.showMode(3))
+
+
+		self.actionSelFFC.triggered.connect(self.getFutureFailCount)
+		self.actionSelFFD.triggered.connect(self.getFutureFailDur)
 
 
 def main():

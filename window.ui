@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>737</width>
+    <width>844</width>
     <height>716</height>
    </rect>
   </property>
@@ -67,6 +67,22 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QTabWidget" name="tabWidget_2">
+         <widget class="QWidget" name="tab">
+          <attribute name="title">
+           <string>Tab 1</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="tab_2">
+          <attribute name="title">
+           <string>Tab 2</string>
+          </attribute>
+         </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
     <item row="0" column="2">
@@ -96,7 +112,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>737</width>
+     <width>844</width>
      <height>31</height>
     </rect>
    </property>
@@ -123,7 +139,7 @@
     <addaction name="actionModelResults"/>
     <addaction name="actionEvaluateModels"/>
    </widget>
-   <widget class="QMenu" name="menuView">
+   <widget class="QMenu" name="menuViewAD">
     <property name="title">
      <string>View</string>
     </property>
@@ -138,10 +154,35 @@
     <addaction name="actionTrendTest"/>
     <addaction name="actionLapConf"/>
     <addaction name="actionPlotArith"/>
+    <addaction name="separator"/>
+    <addaction name="actionStartIndex"/>
+    <addaction name="actionStopIndex"/>
+   </widget>
+   <widget class="QMenu" name="menuViewAM">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionSelFFC"/>
+    <addaction name="actionSelFFD"/>
+    <addaction name="actionRun_Models"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_S_Shape"/>
+    <addaction name="actionShow_Geometric"/>
+    <addaction name="actionShow_Goel_Ukumoto"/>
+    <addaction name="actionShow_Jelinski_Moranda"/>
+    <addaction name="actionShow_Weibull"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_Data_on_Plot"/>
+    <addaction name="actionShow_Data_End_on_Plot"/>
+    <addaction name="separator"/>
+    <addaction name="actionPlot_Points_2"/>
+    <addaction name="actionPlot_Lines_2"/>
+    <addaction name="actionPlot_Both_2"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMode"/>
-   <addaction name="menuView"/>
+   <addaction name="menuViewAD"/>
+   <addaction name="menuViewAM"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
@@ -244,6 +285,102 @@
    </property>
    <property name="text">
     <string>Plot: Arithmetic Average</string>
+   </property>
+  </action>
+  <action name="actionStartIndex">
+   <property name="text">
+    <string>Plot: Edit Start Index</string>
+   </property>
+  </action>
+  <action name="actionStopIndex">
+   <property name="text">
+    <string>Plot: Edit Stop Index</string>
+   </property>
+  </action>
+  <action name="actionSelFFC">
+   <property name="text">
+    <string>Select Future Fail Count</string>
+   </property>
+  </action>
+  <action name="actionSelFFD">
+   <property name="text">
+    <string>Select Future Fail Duration</string>
+   </property>
+  </action>
+  <action name="actionRun_Models">
+   <property name="text">
+    <string>Run Models</string>
+   </property>
+  </action>
+  <action name="actionShow_S_Shape">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show S-Shape</string>
+   </property>
+  </action>
+  <action name="actionShow_Geometric">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Geometric</string>
+   </property>
+  </action>
+  <action name="actionShow_Goel_Ukumoto">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Goel-Ukumoto</string>
+   </property>
+  </action>
+  <action name="actionShow_Jelinski_Moranda">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Jelinski-Moranda</string>
+   </property>
+  </action>
+  <action name="actionShow_Weibull">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Weibull</string>
+   </property>
+  </action>
+  <action name="actionShow_Data_on_Plot">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Data on Plot</string>
+   </property>
+  </action>
+  <action name="actionShow_Data_End_on_Plot">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Data End on Plot</string>
+   </property>
+  </action>
+  <action name="actionPlot_Points_2">
+   <property name="text">
+    <string>Plot: Points</string>
+   </property>
+  </action>
+  <action name="actionPlot_Lines_2">
+   <property name="text">
+    <string>Plot: Lines</string>
+   </property>
+  </action>
+  <action name="actionPlot_Both_2">
+   <property name="text">
+    <string>Plot: Both</string>
    </property>
   </action>
  </widget>
