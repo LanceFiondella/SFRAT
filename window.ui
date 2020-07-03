@@ -135,9 +135,9 @@
     <addaction name="actionPlot_Lines"/>
     <addaction name="actionPlot_Both"/>
     <addaction name="separator"/>
-    <addaction name="actionPlot_Data"/>
-    <addaction name="actionPlot_Trend_Test"/>
-    <addaction name="actionLaplace_Confidence"/>
+    <addaction name="actionTrendTest"/>
+    <addaction name="actionLapConf"/>
+    <addaction name="actionPlotArith"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMode"/>
@@ -207,12 +207,18 @@
     <string>Plot: Data</string>
    </property>
   </action>
-  <action name="actionPlot_Trend_Test">
+  <action name="actionTrendTest">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Plot: Trend Test</string>
    </property>
   </action>
-  <action name="actionLaplace_Confidence">
+  <action name="actionLapConf">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Laplace Confidence</string>
    </property>
@@ -220,6 +226,24 @@
   <action name="actionExport">
    <property name="text">
     <string>Export</string>
+   </property>
+  </action>
+  <action name="actionPlot_Running_Average">
+   <property name="text">
+    <string>Plot: Running Average</string>
+   </property>
+  </action>
+  <action name="actionPlot_Laplace_Trend_Test">
+   <property name="text">
+    <string>Plot: Laplace Trend Test</string>
+   </property>
+  </action>
+  <action name="actionPlotArith">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Plot: Arithmetic Average</string>
    </property>
   </action>
  </widget>

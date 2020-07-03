@@ -29,6 +29,9 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 	plotType = 'FT'
 	plotPtLines = 2	# initial state both dots n lines
+	plotLaplace = False
+	plotLaplaceConf = 0.9
+	plotArithAvg = False
 
 	sheetIndex = 0
 	sheetActions = []	# stores menu options for sheet names for deletion etc
@@ -147,35 +150,57 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 	def redrawPlot(self):
 		# draw plot
+		if self.curFileData == None:
+			return	# file not open
 		curSheet = self.curFileData[self.curSheetName]
 		self.plotWindow.axes.clear()
-		self.plotCurves[0] = [curSheet['FN'],
-							curSheet[self.plotType]]
 
-		if self.plotType == 'FT':
-			self.plotCurves[0].reverse()
+		if not self.plotLaplace:
+			self.plotCurves[0] = [curSheet['FN'],
+								curSheet[self.plotType]]
+			if self.plotType == 'FT':
+				self.plotCurves[0].reverse()
+
+		else:
+			# plot laplace test
+			if not self.plotArithAvg:
+				laplace = [0]
+				for i in range(1, len(curSheet['IF'])):
+					sumint = 0
+					for j in range(i):
+						sumint += curSheet['FT'][j]
+					laplace.append(((sumint/(i)) - (curSheet['FT'][i]/2)) / (curSheet['FT'][i] * (1/(12*(i))**0.5 )))
+				self.plotCurves[0] = [list(range(len(laplace))), laplace]
+			else:
+				runAvg = []
+				for i in range(len(curSheet['IF'])):
+					s1 = 0
+					for j in range(1+i):
+						s1 += curSheet['IF'][j]
+					runAvg.append(s1 / (i+1))
+				self.plotCurves[0] = [list(range(len(runAvg))), runAvg]
 
 		for plotaxes in self.plotCurves:
 			print('plotting')
 			if self.plotPtLines == 1 or self.plotPtLines == 2:
-				self.plotWindow.axes.step(plotaxes[0], plotaxes[1])
+				self.plotWindow.axes.step(plotaxes[0], plotaxes[1], where='post')
 			if self.plotPtLines == 0 or self.plotPtLines == 2:
 				self.plotWindow.axes.plot(plotaxes[0], plotaxes[1],'.')
+
 		self.plotWindow.draw()
-
-		# update table
-
 		self.dataTable.clear()
 
 		self.dataTable.setColumnCount(3)
 		self.dataTable.setRowCount(len(curSheet['FN']))
-		self.dataTable.setHorizontalHeaderLabels(['FN','IF','FT'])
+
+		self.dataTable.setHorizontalHeaderLabels(['FN','IF',
+			'Running Avg' if self.plotArithAvg else 'Laplace Statistic' if self.plotLaplace else 'FT'])
 
 
 		for i in range(len(curSheet['FN'])):
 			newFN = QtWidgets.QTableWidgetItem(str(curSheet['FN'][i]))
 			newIF = QtWidgets.QTableWidgetItem(str(curSheet['IF'][i]))
-			newFT = QtWidgets.QTableWidgetItem(str(curSheet['FT'][i]))
+			newFT = QtWidgets.QTableWidgetItem(str(runAvg[i]) if self.plotArithAvg else str(laplace[i]) if self.plotLaplace else str(curSheet['FT'][i]))
 
 			newFN.setFlags(newFN.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
 			newIF.setFlags(newIF.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
@@ -196,6 +221,30 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		self.plotPtLines = typeNum
 		self.redrawPlot()
 		print(f'set dot/line type to {typeNum}')
+
+	def laplaceToggle(self, en):
+		self.plotLaplace = en
+		self.redrawPlot()
+		print('toggled laplace trend test')
+
+	def arithToggle(self):
+		self.plotArithAvg = not self.plotArithAvg
+		if self.plotArithAvg:
+			self.actionPlotArith.setText('Plot: Toggle Laplace Test')
+		else:
+			self.actionPlotArith.setText('Plot: Arithmetic Average')
+		self.redrawPlot()
+
+	def laplaceQuery(self):
+		text, ok = QtWidgets.QInputDialog.getDouble(self,
+								"Laplace Trend Test",
+								"Enter a confidence level:",
+								self.plotLaplaceConf,
+								0, 1, 2, QtCore.Qt.WindowFlags(), 0.01)
+		if ok:
+			self.plotLaplaceConf = text
+			self.redrawPlot()
+			print(f'set laplace conf to {text}')
 	
 
 	def __init__(self, parent=None):
@@ -208,6 +257,10 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		self.actionCF.triggered.connect(lambda: self.setView(0))
 		self.actionTBF.triggered.connect(lambda: self.setView(1))
 		self.actionFI.triggered.connect(lambda: self.setView(2))
+
+		self.actionLapConf.triggered.connect(self.laplaceQuery)
+		self.actionTrendTest.triggered.connect(self.laplaceToggle)
+		self.actionPlotArith.triggered.connect(self.arithToggle)
 
 		self.actionPlot_Points.triggered.connect(lambda: self.setPlotType(0))
 		self.actionPlot_Lines.triggered.connect(lambda: self.setPlotType(1))
