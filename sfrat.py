@@ -224,7 +224,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
-        self.actionOpen.triggered.connect(MainWindow.openFile_click)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
