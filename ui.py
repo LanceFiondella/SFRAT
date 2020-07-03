@@ -24,7 +24,6 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 	curFilePath = None	# maybe not needed? fns can call between selves
 	curSheetName = None
-	curFileRaw = None
 	curFileData = None
 
 	plotType = 'FT'
@@ -44,6 +43,8 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 	futureFailCount = 1
 	futureFailTime = 1000
 	modelShow = []
+	modelDataOnPlot = True
+	modelDataEnd = True
 	modelPlotType = 'FT'
 	modelData = {}
 
@@ -59,46 +60,47 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		if fileName:
 			try:
 				self.curFilePath = fileName
-				self.curFileRaw = pd.read_excel(fileName, 
-									sheet_name=None,	# load all sheets
-									ignore_index=True)
-				print(f'File Loaded with {len(self.curFileRaw)} sheets')
+				curFileRaw = pd.read_excel(fileName, 
+								sheet_name=None,	# load all sheets
+								ignore_index=True)
+				print(f'File Loaded with {len(curFileRaw)} sheets')
 				# pd.read_csv
 			except:
 				print('Import Error')	# file not convertable to pandas
 				return
 
 			self.winTitle()
-			self.convertFileData()
+			self.convertFileData(curFileRaw)
 			self.updateSheetSelect(self.curFileData)	
 			self.curSheetName = list(self.curFileData.keys())[0]	# pick 1st sheet
 			self.plotStartIndex = 0
 			self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
-			self.redrawPlot()
+			self.redrawPlot(self.plotWindow)
 
 			return
 		print('open file failed')
 
-	def convertFileData(self):
+	def convertFileData(self, iData):
+
 		self.curFileData = {}	# uses FN, IF, and FT, some datasets dont use
-		for sheet in self.curFileRaw:
+		for sheet in iData:
 			newFrame = {}
-			keys = self.curFileRaw[sheet].keys()
+			keys = iData[sheet].keys()
 
 			if 'T' in keys:
-				newFrame['FN'] = self.curFileRaw[sheet]['T'].copy()
+				newFrame['FN'] = iData[sheet]['T'].copy()
 			elif 'FN' in keys:
-				newFrame['FN'] = self.curFileRaw[sheet]['FN'].copy()
+				newFrame['FN'] = iData[sheet]['FN'].copy()
 
 			if 'IF' in keys:
-				newFrame['IF'] = self.curFileRaw[sheet]['IF'].copy()
+				newFrame['IF'] = iData[sheet]['IF'].copy()
 			elif 'FC' in keys:
-				newFrame['IF'] = self.curFileRaw[sheet]['FC'].copy()
+				newFrame['IF'] = iData[sheet]['FC'].copy()
 
 			if 'FT' in keys:
-				newFrame['FT'] = self.curFileRaw[sheet]['FT'].copy()
+				newFrame['FT'] = iData[sheet]['FT'].copy()
 			elif 'CFC' in keys:
-				newFrame['FT'] = self.curFileRaw[sheet]['CFC'].copy()
+				newFrame['FT'] = iData[sheet]['CFC'].copy()
 
 			if 'IF' in newFrame.keys() and not 'FT' in newFrame.keys():
 				# sheet has IF, convert for FT/CFC
@@ -126,15 +128,13 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 			self.curFileData[str(sheet)] = newFrame
 
-		return
-
 	def switchSheet(self):
 		self.menuSelect_Sheet.setActiveAction(self.sender())
 		sheetName = self.sender().text()
 		self.curSheetName = sheetName
 		self.plotStartIndex = 0
 		self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
-		self.redrawPlot()
+		self.redrawPlot(self.plotWindow)
 		print(f'changed to sheet {sheetName}')
 
 	def updateSheetSelect(self, sheets):
@@ -166,12 +166,12 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 		return
 
-	def redrawPlot(self):
+	def redrawPlot(self, canvas):
 		# draw plot
 		if self.curFileData == None:
 			return	# file not open
 		curSheet = self.curFileData[self.curSheetName]
-		self.plotWindow.axes.clear()
+		canvas.axes.clear()
 
 		if not self.plotLaplace:
 			if self.plotType == 'FT':
@@ -203,13 +203,13 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 		for plotaxes in self.plotCurves:
 			print('plotting')
 			if self.plotPtLines == 1 or self.plotPtLines == 2:
-				self.plotWindow.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+				canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
 							plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post')
 			if self.plotPtLines == 0 or self.plotPtLines == 2:
-				self.plotWindow.axes.plot(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+				canvas.axes.plot(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
 							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.')
 
-		self.plotWindow.draw()
+		canvas.draw()
 		self.dataTable.clear()
 
 		self.dataTable.setColumnCount(3)
@@ -220,7 +220,6 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 
 		for i in range(len(curSheet['FN'])):
-
 			if self.plotLaplace:
 				if self.plotArithAvg:
 					num = runAvg[i]
@@ -243,26 +242,28 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 	def setView(self, viewNum):
 		self.plotType = ['FT','IF','FI'][viewNum]
-		self.redrawPlot()
+		self.redrawPlot(self.plotWindow)
 		print(f'set view type to {self.plotType}')
 
 	def setPlotType(self, typeNum):
 		self.plotPtLines = typeNum
-		self.redrawPlot()
+		self.redrawPlot(self.plotWindow)
 		print(f'set dot/line type to {typeNum}')
 
 	def laplaceToggle(self, en):
 		self.plotLaplace = en
-		self.redrawPlot()
+		self.redrawPlot(self.plotWindow)
 		print('toggled laplace trend test')
 
 	def arithToggle(self):
 		self.plotArithAvg = not self.plotArithAvg
+		self.plotLaplace = True
+		self.actionTrendTest.setChecked(True)
 		if self.plotArithAvg:
 			self.actionPlotArith.setText('Plot: Toggle Laplace Test')
 		else:
 			self.actionPlotArith.setText('Plot: Arithmetic Average')
-		self.redrawPlot()
+		self.redrawPlot(self.plotWindow)
 
 	def laplaceQuery(self):
 		text, ok = QtWidgets.QInputDialog.getDouble(self,
@@ -272,7 +273,7 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 								0, 1, 2, QtCore.Qt.WindowFlags(), 0.01)
 		if ok:
 			self.plotLaplaceConf = text
-			self.redrawPlot()
+			self.redrawPlot(self.plotWindow)
 			print(f'set laplace conf to {text}')
 
 	def rangeDialog(self, typ):
@@ -297,14 +298,16 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 			else:
 				self.plotStopIndex = text
 				print(f'set stop idx to {text}')
-			self.redrawPlot()
-			
+			self.redrawPlot(self.plotWindow)
+	
+	def computeModels():
+		return	
 
-	def redrawModelPlot():		# 2nd tab redraw
+	def redrawModelPlot():
 		if self.curFileData == None:
 			return	# file not open
-		
 
+		self.redrawPlot
 
 	def getFutureFailDur(self):
 		text, ok = QtWidgets.QInputDialog.getInt(self,
@@ -314,7 +317,7 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 					0, 1000000, 1000 )
 		if ok:
 			self.futureFailTime = text
-			self.redrawModelPlot()
+			self.redrawModelPlot(self.plotWindowModel)
 
 	def getFutureFailCount(self):
 		text, ok = QtWidgets.QInputDialog.getInt(self,
@@ -324,12 +327,20 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 					1, 1000000, 1 )
 		if ok:
 			self.futureFailCount = text
-			self.redrawModelPlot()
+			self.redrawModelPlot(self.plotWindowModel)
+
+	def setModelDataView(self, typeID, val):
+		if typeID == 0:
+			self.modelDataOnPlot = val
+			print(val)
+		elif typeID == 1:
+			self.modelDataEnd = val
 	
 
 	def __init__(self, parent=None):
 		super(SFRAT, self).__init__(parent)
 		self.setupUi(self)
+
 
 		self.plotWindow = MplCanvas(self, width=1, height=1)
 		self.gridLayout_2.addWidget(self.plotWindow, 0, 0, 1, 1)
@@ -358,6 +369,11 @@ class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow):
 
 		self.actionSelFFC.triggered.connect(self.getFutureFailCount)
 		self.actionSelFFD.triggered.connect(self.getFutureFailDur)
+
+		self.actionShowPlotData.triggered.connect(lambda x: self.setModelDataView(0, x))
+
+		self.plotWindowModel = MplCanvas(self, width=1, height=1)
+		self.gridLayout_6.addWidget(self.plotWindowModel, 0, 0, 1, 1)
 
 
 def main():

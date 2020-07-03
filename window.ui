@@ -15,6 +15,51 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="3">
+     <widget class="QFrame" name="evalResults">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QFrame" name="applyModels">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QTabWidget" name="tabWidget_2">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="plotModelTab">
+          <attribute name="title">
+           <string>Plot</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_6"/>
+         </widget>
+         <widget class="QWidget" name="dataModelTab">
+          <attribute name="title">
+           <string>Data</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="0" column="0">
+            <widget class="QTableWidget" name="modelTable"/>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QFrame" name="analyzeData">
       <property name="enabled">
@@ -59,44 +104,8 @@
       </layout>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QFrame" name="applyModels">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="0">
-        <widget class="QTabWidget" name="tabWidget_2">
-         <widget class="QWidget" name="tab">
-          <attribute name="title">
-           <string>Tab 1</string>
-          </attribute>
-         </widget>
-         <widget class="QWidget" name="tab_2">
-          <attribute name="title">
-           <string>Tab 2</string>
-          </attribute>
-         </widget>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="0" column="2">
      <widget class="QFrame" name="modelResults">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QFrame" name="evalResults">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -172,8 +181,8 @@
     <addaction name="actionShow_Jelinski_Moranda"/>
     <addaction name="actionShow_Weibull"/>
     <addaction name="separator"/>
-    <addaction name="actionShow_Data_on_Plot"/>
-    <addaction name="actionShow_Data_End_on_Plot"/>
+    <addaction name="actionShowPlotData"/>
+    <addaction name="actionShowPlotDataEnd"/>
     <addaction name="separator"/>
     <addaction name="actionPlot_Points_2"/>
     <addaction name="actionPlot_Lines_2"/>
@@ -352,16 +361,22 @@
     <string>Show Weibull</string>
    </property>
   </action>
-  <action name="actionShow_Data_on_Plot">
+  <action name="actionShowPlotData">
    <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="text">
     <string>Show Data on Plot</string>
    </property>
   </action>
-  <action name="actionShow_Data_End_on_Plot">
+  <action name="actionShowPlotDataEnd">
    <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="text">
