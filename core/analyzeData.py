@@ -192,3 +192,5 @@ class Module:
 		self.actionApplyModels.triggered.connect(lambda: self.showMode(1))
 		self.actionModelResults.triggered.connect(lambda: self.showMode(2))
 		self.actionEvaluateModels.triggered.connect(lambda: self.showMode(3))
+
+		print('init tab 1')

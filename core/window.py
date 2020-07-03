@@ -140,4 +140,4 @@ class Module:
 
 	def __init__(self):
 		self.actionOpen.triggered.connect(self.openFile_click)
-		print('loaded window connections')
+		print('init window')

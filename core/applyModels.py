@@ -6,6 +6,9 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
+from models import DSS, GM, GO, ISS, JM, WEI
+modules = [DSS.DSS, GM.GM, GO.GO, ISS.ISS, JM.JM, WEI.WEI]
+
 
 class MplCanvas(FigureCanvasQTAgg):
 
@@ -24,14 +27,34 @@ class Module:
 	modelPlotType = 'FT'
 	modelData = {}
 
-	def computeModels():
+	def toggleModel(self, state):
+		index = int(self.sender().objectName()[10:])
+		model = modules[index]
+		if state:
+			self.modelShow.append(model)
+		else:
+			self.modelShow.remove(model)
+
+	def listModels(self):
+		for idx, m in enumerate(modules):
+			newAction = QtWidgets.QAction(self)
+			newAction.setCheckable(True)
+			newAction.setObjectName(f"actionShow{idx}")
+			newAction.setText(f'Show {m.name}')
+			newAction.triggered.connect(self.toggleModel)
+			self.menuViewAM.insertAction(self.actionModelPlaceholder, newAction)
+
+
+	def computeModels(self):
+		for m in modules:
+			print(m)
 		return	
 
 	def redrawModelPlot():
 		if self.curFileData == None:
 			return	# file not open
 
-		self.redrawPlot
+		#self.redrawPlot
 
 	def getFutureFailDur(self):
 		text, ok = QtWidgets.QInputDialog.getInt(self,
@@ -71,3 +94,9 @@ class Module:
 
 		self.plotWindowModel = MplCanvas(self, width=1, height=1)
 		self.gridLayout_6.addWidget(self.plotWindowModel, 0, 0, 1, 1)
+
+		self.actionRun_Models.triggered.connect(self.computeModels)
+
+		self.listModels()
+
+		print('init tab 2')

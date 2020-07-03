@@ -2,13 +2,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
 import sys
 import os
-import sfrat
 import pandas as pd
+from core import ui, window, analyzeData, applyModels
 
-from core import window, analyzeData, applyModels
 
-
-class SFRAT(QtWidgets.QMainWindow, sfrat.Ui_MainWindow,
+class SFRAT(QtWidgets.QMainWindow, ui.Ui_MainWindow,
 				window.Module, analyzeData.Module, applyModels.Module):
 	
 

@@ -175,11 +175,7 @@
     <addaction name="actionSelFFD"/>
     <addaction name="actionRun_Models"/>
     <addaction name="separator"/>
-    <addaction name="actionShow_S_Shape"/>
-    <addaction name="actionShow_Geometric"/>
-    <addaction name="actionShow_Goel_Ukumoto"/>
-    <addaction name="actionShow_Jelinski_Moranda"/>
-    <addaction name="actionShow_Weibull"/>
+    <addaction name="actionModelPlaceholder"/>
     <addaction name="separator"/>
     <addaction name="actionShowPlotData"/>
     <addaction name="actionShowPlotDataEnd"/>
@@ -321,7 +317,7 @@
     <string>Run Models</string>
    </property>
   </action>
-  <action name="actionShow_S_Shape">
+  <action name="action">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -370,6 +366,14 @@
    </property>
    <property name="text">
     <string>Show Data on Plot</string>
+   </property>
+  </action>
+  <action name="actionModelPlaceholder">
+   <property name="text">
+    <string>placeholder</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionShowPlotDataEnd">
