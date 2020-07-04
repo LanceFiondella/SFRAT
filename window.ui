@@ -173,7 +173,6 @@
     </property>
     <addaction name="actionSelFFC"/>
     <addaction name="actionSelFFD"/>
-    <addaction name="actionRun_Models"/>
     <addaction name="separator"/>
     <addaction name="actionModelPlaceholder"/>
     <addaction name="separator"/>

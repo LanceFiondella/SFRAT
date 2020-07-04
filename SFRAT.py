@@ -9,6 +9,7 @@ from core import ui, window, analyzeData, applyModels
 class SFRAT(QtWidgets.QMainWindow, ui.Ui_MainWindow,
 				window.Module, analyzeData.Module, applyModels.Module):
 	
+	canvasDPI = 95
 
 	def __init__(self, parent=None):
 		super(SFRAT, self).__init__(parent)

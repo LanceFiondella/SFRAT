@@ -205,7 +205,6 @@ class Ui_MainWindow(object):
         self.menuViewAD.addAction(self.actionStopIndex)
         self.menuViewAM.addAction(self.actionSelFFC)
         self.menuViewAM.addAction(self.actionSelFFD)
-        self.menuViewAM.addAction(self.actionRun_Models)
         self.menuViewAM.addSeparator()
         self.menuViewAM.addAction(self.actionModelPlaceholder)
         self.menuViewAM.addSeparator()

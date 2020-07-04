@@ -95,7 +95,7 @@ class Module:
 					newFrame['FI'][i] = float('inf')
 					#newFrame['FI'][i] = 2*mx # todo make this better
 
-			self.curFileData[str(sheet)] = newFrame
+			self.curFileData[str(sheet)] = pd.DataFrame.from_dict(newFrame)
 
 
 	def switchSheet(self):
@@ -140,4 +140,9 @@ class Module:
 
 	def __init__(self):
 		self.actionOpen.triggered.connect(self.openFile_click)
+
+		self.statusBar = QtWidgets.QStatusBar()
+		self.setStatusBar(self.statusBar)
+		self.statusBar.showMessage("Ready", 1000)
+
 		print('init window')

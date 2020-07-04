@@ -9,8 +9,8 @@ from matplotlib.figure import Figure
 
 class MplCanvas(FigureCanvasQTAgg):
 
-	def __init__(self, parent=None, width=5, height=4, dpi=100):
-		fig = Figure(figsize=(width, height), dpi=dpi)
+	def __init__(self, parent=None, canvasDPI = 100):
+		fig = Figure(figsize=(5, 4), dpi = canvasDPI)
 		self.axes = fig.add_subplot(111)
 		super(MplCanvas, self).__init__(fig)
 
@@ -169,7 +169,7 @@ class Module:
 
 
 	def __init__(self):
-		self.plotWindow = MplCanvas(self, width=1, height=1)
+		self.plotWindow = MplCanvas(self, self.canvasDPI)
 		self.gridLayout_2.addWidget(self.plotWindow, 0, 0, 1, 1)
 
 		self.actionCF.triggered.connect(lambda: self.setView(0))
