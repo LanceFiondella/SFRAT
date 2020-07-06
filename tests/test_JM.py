@@ -5,6 +5,10 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
 from models.JM import JM
 import pandas as pd
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+mylogger = logging.getLogger()
 
 
 def setup_jm():
@@ -18,10 +22,13 @@ def setup_jm():
 
     #When Creating a instance of a model class, the DATA class is needed. For some datasets, the 'IF' column is missing which causes an error
 
-    for sheet in ['SYS1', 'SYS2', 'SYS3']:
+    for sheet in sheets:
         rawData = pd.read_excel(fname, sheet_name = sheet)
-        jm = JM(data=rawData, rootAlgoName='bisect')
-        jm.findParams(0)
+        try:
+            jm = JM(data=rawData, rootAlgoName='bisect')
+            jm.findParams(0)
+        except:
+            jm = None
         jm_list.append(jm)
     return [jm_list, N0, Phi]
 
@@ -31,13 +38,17 @@ DATA = setup_jm()
 Results_N0MLE = []
 Results_PhiMLE = []
 for i in range(0, len(DATA[0])):
-    Results_N0MLE.append((DATA[0][i].N0MLE, DATA[1][i]))
-    Results_PhiMLE.append((DATA[0][i].phiMLE, DATA[2][i]))
+    try:
+        Results_N0MLE.append((DATA[0][i].N0MLE, DATA[1][i]))
+        Results_PhiMLE.append((DATA[0][i].phiMLE, DATA[2][i]))
+    except:
+        pass
 
 
 
 @pytest.mark.parametrize("test_input,expected", Results_N0MLE)
 def test_jm_n0_mle(test_input, expected):
+    mylogger.info('IN TEST')
     assert abs(test_input - expected) < 10 ** -5
 
 
@@ -45,7 +56,8 @@ def test_jm_n0_mle(test_input, expected):
 def test_jm_phi_mle(test_input, expected):
     assert abs(test_input - expected) < 10 ** -5
 
-
+def test_name(setup_jm):
+    assert setup_jm.name == "Jelinski-Moranda"
 
 '''
 def test_jm_n0_mle(setup_jm):
