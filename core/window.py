@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtWidgets import QApplication
 import os
 import pandas as pd
 
@@ -15,29 +15,38 @@ class Module:
 	plotCurves = [[]]	# store all curves for plotting
 
 
-	def winTitle(self):
-		windowTitle = f"SFRAT - {os.path.split(self.curFilePath)[1]}"
+	def winTitle(self, name):
+		windowTitle = f"SFRAT - {os.path.split(name)[1]}"
 		self.setWindowTitle(windowTitle)
 
 
 	def openFile_click(self, other):
 		print('opening file')
-		options = QFileDialog.Options()
-		fileName, _ = QFileDialog.getOpenFileName(self,"Open Data", options=options)
-		# todo restrict input files to xlsx or csv
+
+		d = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+		fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self,
+					"Open Failure Data",
+					d,
+					"Excel (*.xls, *.xlsx), CSV (*.csv) (*.csv *.xls *.xlsx);; All files (*.*)")
+
 		if fileName:
-			try:
-				self.curFilePath = fileName
-				curFileRaw = pd.read_excel(fileName, 
-								sheet_name=None,	# load all sheets
-								ignore_index=True)
-				print(f'File Loaded with {len(curFileRaw)} sheets')
-				# pd.read_csv
+			try:	# if excel, load into dataframe
+					# if csv, make into dataframe with 1 sheet
+				ext = os.path.splitext(fileName)[1]
+				if ext == '.xls' or ext == '.xlsx':
+					curFileRaw = pd.read_excel(fileName, 
+									sheet_name=None,	# load all sheets
+									ignore_index=True)
+				elif ext == '.csv':
+					curFileRaw = {"Sheet": pd.read_csv(fileName)}
 			except:
 				print('Import Error')	# file not convertable to pandas
 				return
 
-			self.winTitle()
+			self.curFilePath = fileName
+			print(f'File Loaded with {len(curFileRaw)} sheets')
+
+			self.winTitle(fileName)
 			self.convertFileData(curFileRaw)
 			self.updateSheetSelect(self.curFileData)	
 			self.curSheetName = list(self.curFileData.keys())[0]	# pick 1st sheet
