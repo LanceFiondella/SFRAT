@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
 import sys
@@ -9,7 +11,7 @@ from core import ui, window, analyzeData, applyModels
 class SFRAT(QtWidgets.QMainWindow, ui.Ui_MainWindow,
 				window.Module, analyzeData.Module, applyModels.Module):
 	
-	canvasDPI = 95
+	canvasDPI = 90
 
 	def __init__(self, parent=None):
 		super(SFRAT, self).__init__(parent)
@@ -18,6 +20,8 @@ class SFRAT(QtWidgets.QMainWindow, ui.Ui_MainWindow,
 		window.Module.__init__(self)
 		analyzeData.Module.__init__(self)
 		applyModels.Module.__init__(self)
+
+		self.showMode(0)
 
 
 def main():

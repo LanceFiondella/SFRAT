@@ -187,10 +187,4 @@ class Module:
 		self.actionPlot_Lines.triggered.connect(lambda: self.setPlotType(1))
 		self.actionPlot_Both.triggered.connect(lambda: self.setPlotType(2))
 
-		self.showMode(0)
-		self.actionAnalyzeData.triggered.connect(lambda: self.showMode(0))
-		self.actionApplyModels.triggered.connect(lambda: self.showMode(1))
-		self.actionModelResults.triggered.connect(lambda: self.showMode(2))
-		self.actionEvaluateModels.triggered.connect(lambda: self.showMode(3))
-
 		print('init tab 1')

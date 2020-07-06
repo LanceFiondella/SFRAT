@@ -27,6 +27,9 @@
     </item>
     <item row="0" column="1">
      <widget class="QFrame" name="applyModels">
+      <property name="styleSheet">
+       <string notr="true">border:0</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -70,6 +73,9 @@
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:0</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -191,6 +197,9 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
    <property name="text">
+    <string>Open...</string>
+   </property>
+   <property name="toolTip">
     <string>Open</string>
    </property>
    <property name="shortcut">
@@ -270,7 +279,10 @@
   </action>
   <action name="actionExport">
    <property name="text">
-    <string>Export</string>
+    <string>Export...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="actionPlot_Running_Average">

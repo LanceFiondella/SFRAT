@@ -10,13 +10,18 @@ class Module:
 	curSheetName = None
 	curFileData = None
 
+	exportCanvas = None
+
 	sheetIndex = 0
 	sheetActions = []	# stores menu options for sheet names for deletion etc
 	plotCurves = [[]]	# store all curves for plotting
 
 
-	def winTitle(self, name):
-		windowTitle = f"SFRAT - {os.path.split(name)[1]}"
+	def winTitle(self):
+		ext = os.path.splitext(self.curFilePath)[1]
+		windowTitle = f"SFRAT - {os.path.split(self.curFilePath)[1]}"
+		if ext != ".csv":
+			windowTitle += f": {self.curSheetName}"
 		self.setWindowTitle(windowTitle)
 
 
@@ -37,8 +42,10 @@ class Module:
 					curFileRaw = pd.read_excel(fileName, 
 									sheet_name=None,	# load all sheets
 									ignore_index=True)
+					self.menuSelect_Sheet.menuAction().setVisible(True)
 				elif ext == '.csv':
 					curFileRaw = {"Sheet": pd.read_csv(fileName)}
+					self.menuSelect_Sheet.menuAction().setVisible(False)
 			except:
 				print('Import Error')	# file not convertable to pandas
 				return
@@ -46,13 +53,13 @@ class Module:
 			self.curFilePath = fileName
 			print(f'File Loaded with {len(curFileRaw)} sheets')
 
-			self.winTitle(fileName)
-			self.convertFileData(curFileRaw)
-			self.updateSheetSelect(self.curFileData)	
+			self.convertFileData(curFileRaw)	
 			self.curSheetName = list(self.curFileData.keys())[0]	# pick 1st sheet
 			self.plotStartIndex = 0
 			self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
+			self.updateSheetSelect(self.curFileData)
 			self.redrawPlot(self.plotWindow)
+			self.winTitle()
 
 			return
 		print('open file failed')
@@ -113,6 +120,7 @@ class Module:
 		self.curSheetName = sheetName
 		self.plotStartIndex = 0
 		self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
+		self.winTitle()
 		self.redrawPlot(self.plotWindow)
 		print(f'changed to sheet {sheetName}')
 
@@ -122,20 +130,21 @@ class Module:
 			old_action.deleteLater()	# remove sheets from last file
 
 		for sheet in sheets:
-			sheetAction = QtWidgets.QAction(self)
+			sheetAction = QtWidgets.QAction(self, checkable=True)
 			sheetAction.setText(sheet)
+			sheetAction.setChecked(sheet == self.curSheetName)
 			sheetAction.triggered.connect(self.switchSheet)
-			self.menuSelect_Sheet.addAction(sheetAction)
+			self.sheetList.addAction(sheetAction)
 			self.sheetActions.append(sheetAction)
+
+		self.menuSelect_Sheet.addActions(self.sheetList.actions())
 							# later maybe cleaner method for indexing button
 
 	def showMode(self, modeNum):
 		print(f'switch to mode {modeNum}')
-		for idx, mode in enumerate([self.analyzeData,
-									self.applyModels,
-									self.modelResults,
-									self.evalResults]):
-			if idx == modeNum:
+		for idx, mode in enumerate([self.analyzeData, self.applyModels,
+									self.modelResults, self.evalResults]):
+			if idx == modeNum:	# hide all but active tab
 				mode.show()
 			else:
 				mode.hide()
@@ -143,6 +152,12 @@ class Module:
 		for idx, mode in enumerate([self.menuViewAD,
 									self.menuViewAM]):
 			mode.menuAction().setVisible(idx == modeNum)
+								# show right view menu
+
+		for idx, mode in enumerate([self.plotWindow,
+									self.plotWindowModel]):
+			if idx == modeNum:
+				self.exportCanvas = mode
 
 		return
 
@@ -153,5 +168,16 @@ class Module:
 		self.statusBar = QtWidgets.QStatusBar()
 		self.setStatusBar(self.statusBar)
 		self.statusBar.showMessage("Ready", 1000)
+
+		self.sheetList = QtWidgets.QActionGroup(self.menuSelect_Sheet)
+		self.sheetList.setExclusive(True)
+		self.menuSelect_Sheet.menuAction().setVisible(False)
+
+		self.actionAnalyzeData.triggered.connect(lambda: self.showMode(0))
+		self.actionApplyModels.triggered.connect(lambda: self.showMode(1))
+		self.actionModelResults.triggered.connect(lambda: self.showMode(2))
+		self.actionEvaluateModels.triggered.connect(lambda: self.showMode(3))
+
+
 
 		print('init window')
