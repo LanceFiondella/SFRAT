@@ -53,13 +53,15 @@ class Module:
 			self.curFilePath = fileName
 			print(f'File Loaded with {len(curFileRaw)} sheets')
 
-			self.convertFileData(curFileRaw)	
+			self.convertFileData(curFileRaw)
+			self.listModels()	# do before cursheetname to only do once	
 			self.curSheetName = list(self.curFileData.keys())[0]	# pick 1st sheet
 			self.plotStartIndex = 0
 			self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
 			self.updateSheetSelect(self.curFileData)
 			self.redrawPlot(self.plotWindow)
 			self.winTitle()
+
 
 			return
 		print('open file failed')
@@ -115,19 +117,34 @@ class Module:
 
 
 	def switchSheet(self):
-		self.menuSelect_Sheet.setActiveAction(self.sender())
 		sheetName = self.sender().text()
+		if sheetName == self.curSheetName:
+			return	# only different sheet switch
+		self.menuSelect_Sheet.setActiveAction(self.sender())
 		self.curSheetName = sheetName
 		self.plotStartIndex = 0
 		self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
 		self.winTitle()
+
+		for m in self.modelShow:	# remove models and uncheck list
+			self.modelShow.remove(m)
+			del m
+
+		for m in self.modelActions:
+			m.setChecked(False)
+
 		self.redrawPlot(self.plotWindow)
+		self.redrawModelPlot()
 		print(f'changed to sheet {sheetName}')
 
 
 	def updateSheetSelect(self, sheets):
-		for old_action in self.sheetActions:
-			old_action.deleteLater()	# remove sheets from last file
+		#self.sheetList.clear()
+		for idx, old_action in enumerate(self.sheetActions):
+			old_action.deleteLater()
+		#print(len(self.sheetActions))
+		
+		self.sheetActions = []
 
 		for sheet in sheets:
 			sheetAction = QtWidgets.QAction(self, checkable=True)
@@ -158,6 +175,11 @@ class Module:
 									self.plotWindowModel]):
 			if idx == modeNum:
 				self.exportCanvas = mode
+
+		if modeNum == 0:
+			self.redrawPlot(self.plotWindow)
+		elif modeNum == 1:
+			self.redrawModelPlot()
 
 		return
 

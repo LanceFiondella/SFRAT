@@ -242,16 +242,28 @@
    </property>
   </action>
   <action name="actionPlot_Points">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Plot: Points</string>
    </property>
   </action>
   <action name="actionPlot_Lines">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Plot: Lines</string>
    </property>
   </action>
   <action name="actionPlot_Both">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Plot: Both</string>
    </property>
@@ -399,16 +411,25 @@
    </property>
   </action>
   <action name="actionPlot_Points_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Plot: Points</string>
    </property>
   </action>
   <action name="actionPlot_Lines_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Plot: Lines</string>
    </property>
   </action>
   <action name="actionPlot_Both_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Plot: Both</string>
    </property>

@@ -107,10 +107,14 @@ class Module:
 		print(f'set view type to {self.plotType}')
 
 
-	def setPlotType(self, typeNum):
+	def setPlotType(self, typeNum, rec = 0):
 		self.plotPtLines = typeNum
+		if rec == 0:
+			self.setPlotTypeModels(typeNum, 1)
+		for i, option in enumerate([self.actionPlot_Points, self.actionPlot_Lines, self.actionPlot_Both]):
+			option.setChecked(i == typeNum)
 		self.redrawPlot(self.plotWindow)
-		print(f'set dot/line type to {typeNum}')
+		print(f'set dot/line type 2 to {typeNum}')
 
 
 	def laplaceToggle(self, en):
@@ -186,5 +190,13 @@ class Module:
 		self.actionPlot_Points.triggered.connect(lambda: self.setPlotType(0))
 		self.actionPlot_Lines.triggered.connect(lambda: self.setPlotType(1))
 		self.actionPlot_Both.triggered.connect(lambda: self.setPlotType(2))
+
+		self.drawTypeGroup = QtWidgets.QActionGroup(self)
+		self.drawTypeGroup.setExclusive(True)
+		self.drawTypeGroup.addAction(self.actionPlot_Points)
+		self.drawTypeGroup.addAction(self.actionPlot_Lines)
+		self.drawTypeGroup.addAction(self.actionPlot_Both)
+
+		self.setPlotType(2)
 
 		print('init tab 1')

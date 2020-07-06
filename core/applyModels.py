@@ -28,9 +28,11 @@ class Module:
 	modelDataEnd = True
 	modelPlotType = 'FT'
 	modelData = {}
+	modelActions = []
 
 	def toggleModel(self, state):
 		if self.curFileData == None:
+			self.sender().setChecked(False)
 			return	# file not open
 
 		index = int(self.sender().objectName()[10:])
@@ -43,15 +45,18 @@ class Module:
 		else:
 			for m in self.modelShow:
 				if type(m) == model:
-					self.modelShow.remove(m)
+					del m
 		self.redrawModelPlot()
 
 	def listModels(self):	# add all models dynamically to the menu
+		if self.curSheetName != None:
+			return	# is called before setting cursheetname to only do once
 		for idx, m in enumerate(modules):
 			newAction = QtWidgets.QAction(self)
 			newAction.setCheckable(True)
 			newAction.setObjectName(f"actionShow{idx}")
 			newAction.setText(f'Show {m.name}')
+			self.modelActions.append(newAction)
 			newAction.triggered.connect(self.toggleModel)
 			self.menuViewAM.insertAction(self.actionModelPlaceholder, newAction)
 
@@ -110,10 +115,14 @@ class Module:
 		print('set plot param',typeID,'to',val)
 		self.redrawModelPlot()
 
-	def setPlotTypeModels(self, typeNum):
+	def setPlotTypeModels(self, typeNum, rec = 0):
 		self.plotPtLines = typeNum
+		if rec == 0:
+			self.setPlotType(typeNum, 1)
+		for i, option in enumerate([self.actionPlot_Points_2, self.actionPlot_Lines_2, self.actionPlot_Both_2]):
+			option.setChecked(i == typeNum)
 		self.redrawModelPlot()
-		print(f'set dot/line type to {typeNum}')
+		print(f'set dot/line type 1 to {typeNum}')
 
 
 
@@ -128,12 +137,17 @@ class Module:
 		self.plotWindowModel = MplCanvas(self, self.canvasDPI)
 		self.gridLayout_6.addWidget(self.plotWindowModel, 0, 0, 1, 1)
 
+		self.drawTypeGroup2 = QtWidgets.QActionGroup(self)
+		self.drawTypeGroup2.setExclusive(True)
+		self.drawTypeGroup2.addAction(self.actionPlot_Points_2)
+		self.drawTypeGroup2.addAction(self.actionPlot_Lines_2)
+		self.drawTypeGroup2.addAction(self.actionPlot_Both_2)
+
 		self.actionPlot_Points_2.triggered.connect(lambda: self.setPlotTypeModels(0))
 		self.actionPlot_Lines_2.triggered.connect(lambda: self.setPlotTypeModels(1))
 		self.actionPlot_Both_2.triggered.connect(lambda: self.setPlotTypeModels(2))
 
-		#self.actionRun_Models.triggered.connect(self.computeModels)
 
-		self.listModels()
+		#self.actionRun_Models.triggered.connect(self.computeModels)
 
 		print('init tab 2')
