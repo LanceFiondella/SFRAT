@@ -1,17 +1,28 @@
 import pytest
+import pandas as pd
+import logging
 import os,sys,inspect
+### Changes the curretnt working directory so the imports Work
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
 from models.JM import JM
-import pandas as pd
-import logging
+
 
 logging.basicConfig(level=logging.DEBUG)
 mylogger = logging.getLogger()
 
 
 def setup_jm():
+    """
+    Reads in the expected data for the JM BM results for each excel sheet.
+    Creates an instance of the JM Class for each sheet with the data
+    :return:
+    a list containing 3 lists
+    1) a list of JM instances
+    2) a list of expected N0
+    3) a list of expected Phi
+    """
     fname = "model_data.xlsx"
     dataResults = pd.read_excel(fname, sheet_name ='JM_BM_Results')
     sheets = dataResults['Data set'].to_numpy()
@@ -33,7 +44,9 @@ def setup_jm():
     return [jm_list, N0, Phi]
 
 
-
+'''
+creats tuples that would be ran each as individual test 
+'''
 DATA = setup_jm()
 Results_N0MLE = []
 Results_PhiMLE = []
