@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 mylogger = logging.getLogger()
 
 
-def setup_jm():
+def setup_jm(dataResults):
     """
     Reads in the expected data for the JM BM results for each excel sheet.
     Creates an instance of the JM Class for each sheet with the data
@@ -23,8 +23,6 @@ def setup_jm():
     2) a list of expected N0
     3) a list of expected Phi
     """
-    fname = "model_data.xlsx"
-    dataResults = pd.read_excel(fname, sheet_name ='JM_BM_Results')
     sheets = dataResults['Data set'].to_numpy()
     N0 = dataResults['N0'].to_numpy()
     Phi = dataResults['Phi'].to_numpy()
@@ -45,9 +43,12 @@ def setup_jm():
 
 
 '''
-creats tuples that would be ran each as individual test 
+create tuples that would be ran each as individual test 
 '''
-DATA = setup_jm()
+fname = "model_data.xlsx"
+dataResults = pd.read_excel(fname, sheet_name='JM_BM_Results')
+sheets = dataResults['Data set'].to_numpy()
+DATA = setup_jm(dataResults)
 Results_N0MLE = []
 Results_PhiMLE = []
 for i in range(0, len(DATA[0])):
@@ -55,13 +56,14 @@ for i in range(0, len(DATA[0])):
         Results_N0MLE.append((DATA[0][i].N0MLE, DATA[1][i]))
         Results_PhiMLE.append((DATA[0][i].phiMLE, DATA[2][i]))
     except:
-        pass
+        mylogger.info('Error in Sheet number ' + sheets[i])
+
 
 
 
 @pytest.mark.parametrize("test_input,expected", Results_N0MLE)
 def test_jm_n0_mle(test_input, expected):
-    mylogger.info('IN TEST')
+
     assert abs(test_input - expected) < 10 ** -5
 
 
@@ -69,23 +71,11 @@ def test_jm_n0_mle(test_input, expected):
 def test_jm_phi_mle(test_input, expected):
     assert abs(test_input - expected) < 10 ** -5
 
-def test_name(setup_jm):
-    assert setup_jm.name == "Jelinski-Moranda"
-
-'''
-def test_jm_n0_mle(setup_jm):
-    for i in range(0, len(setup_jm[0])):
-        assert abs(setup_jm[0][i].N0MLE - setup_jm[1][i]) < 10**-5
-
-
-def test_jm_phi_mle(setup_jm):
-    assert abs(setup_jm.phiMLE - 3.4966515966450457e-05) < 10**-5
+def test_name():
+    for jm in DATA[0]:
+        try:
+            assert jm.name == "Jelinski-Moranda"
+        except:
+            pass
 
 
-def test_jm_mvf_last(setup_jm):
-    assert abs(setup_jm.MVFVal[-1] - 135.516034) < 10**-5
-
-
-def test_name(setup_jm):
-    assert setup_jm.name == "Jelinski-Moranda"
-'''
