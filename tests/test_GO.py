@@ -9,7 +9,7 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 mylogger = logging.getLogger()
-
+mylogger.info('\n###############\nStarting GO Model Testing\n###############')
 
 def setup_go():
     fname = "model_data.xlsx"

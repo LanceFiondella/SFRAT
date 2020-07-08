@@ -10,6 +10,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 mylogger = logging.getLogger()
 
+mylogger.info('\n###############\nStarting GM Model Testing\n###############')
 
 def setup_gm(dataResults):
     """

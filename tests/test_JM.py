@@ -11,7 +11,7 @@ from models.JM import JM
 
 logging.basicConfig(level=logging.DEBUG)
 mylogger = logging.getLogger()
-
+mylogger.info('\n###############\nStarting JM Model Testing\n###############')
 
 def setup_jm(dataResults):
     """
