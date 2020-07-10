@@ -14,4 +14,9 @@ script:
   - cd "tests" && pytest -s test_JM.py
   - pytest -s test_GM.py
   - pytest -s test_GO.py'
-    
+notifications:
+  email:
+    recipients:
+    - zfaddi@umassd.edu
+    on_success: always
+    on_failure: always
