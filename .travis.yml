@@ -12,6 +12,6 @@ install:
   - pip install -r requirements.txt # install package + test dependencies
 script: 
   - cd "tests" && pytest -s test_JM.py
-  - cd "tests" && pytest -s test_JM.py
-  - cd "tests" && pytest -s test_GO.py'
+  - pytest -s test_GM.py
+  - pytest -s test_GO.py'
     
