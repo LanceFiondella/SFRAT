@@ -60,6 +60,7 @@ class Module:
 			self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
 			self.updateSheetSelect(self.curFileData)
 			self.redrawPlot(self.plotWindow)
+			self.redrawModelPlot()
 			self.winTitle()
 
 

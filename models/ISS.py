@@ -186,8 +186,6 @@ class ISS(Model):
 
 if __name__ == "__main__":
     #fname = "model_data.xlsx"
-    fname = "C:/Users/shekar/Dropbox/NASA OSMA SARP/FY18/reporting/Goddard F2F January 2019/copied/NASA/NASAX.xlsx"
-    #C:\Users\Shekar\Dropbox\NASA OSMA SARP\FY18\reporting\Goddard F2F January 2019\copied\NASA
     rawData = pd.read_excel(fname, sheet_name='NASA1')
     iss = ISS(data=rawData, rootAlgoName='newton')
     iss.findParams(1)
