@@ -10,10 +10,9 @@ before_install:
   - pip install codecov
 install:
   - pip install -r requirements.txt # install package + test dependencies
-script: 
-  - cd "tests" && pytest -s test_JM.py
-  - pytest -s test_GM.py
-  - pytest -s test_GO.py'
+script:
+  - cd "tests" && pytest -s test_JM.py && pytest -s test_GO.py'
+  - python SFRAT_GUI_Test.py
 notifications:
   email:
     recipients:
