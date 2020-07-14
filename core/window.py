@@ -68,6 +68,15 @@ class Module:
 		print('open file failed')
 
 
+	def exportPlot(self):
+		print('saving plot')
+		d = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+		fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Plot', d, 'PNG Image (*.png);; JPG Image (*.jpg *.jpeg)')
+		print(fname)
+		self.exportCanvas.figureref.savefig(fname[0])
+		print('export successful')
+
+
 	def convertFileData(self, iData):
 
 		self.curFileData = {}	# uses FN, IF, and FT, some datasets dont use
@@ -187,6 +196,7 @@ class Module:
 
 	def __init__(self):
 		self.actionOpen.triggered.connect(self.openFile_click)
+		self.actionExport.triggered.connect(self.exportPlot)
 
 		self.statusBar = QtWidgets.QStatusBar()
 		self.setStatusBar(self.statusBar)

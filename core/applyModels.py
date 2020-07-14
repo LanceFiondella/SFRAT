@@ -17,6 +17,7 @@ class MplCanvas(FigureCanvasQTAgg):
 	def __init__(self, parent=None, canvasDPI = 100):
 		fig = Figure(figsize=(5, 4), dpi = canvasDPI)
 		self.axes = fig.add_subplot(111)
+		self.figureref = fig
 		super(MplCanvas, self).__init__(fig)
 
 class Module:
@@ -66,14 +67,15 @@ class Module:
 			return	# file not open
 
 		self.plotWindowModel.axes.clear()
+
 		if self.modelDataOnPlot:
-			self.redrawPlot(self.plotWindowModel)
+			self.redrawPlot(self.plotWindowModel, legend=True)
 
 		for model in self.modelShow:
 			x = model.MVFPlot()[0]
 			y = model.MVFPlot()[1]
 
-			pL = None if self.plotPtLines == 0 else '-' if self.plotPtLines == 1 else '--'
+			pL = '' if self.plotPtLines == 0 else '-' if self.plotPtLines == 1 else '--'
 			pM = '.' if self.plotPtLines == 0 else None if self.plotPtLines == 1 else '.'
 			self.plotWindowModel.axes.plot(x, y, linestyle=pL, marker = pM, label = model.name)
 
@@ -84,7 +86,9 @@ class Module:
 			curSet = self.curFileData[self.curSheetName][self.plotType]
 			self.plotWindowModel.axes.axvline(curSet[len(curSet)-1],linestyle='--',color='k')
 
-		self.plotWindowModel.axes.legend(loc = 'best')
+		if len(self.modelShow) > 0:
+			self.plotWindowModel.axes.legend(loc = 'best')
+
 		self.plotWindowModel.draw()
 
 	def getFutureFailDur(self):

@@ -12,6 +12,7 @@ class MplCanvas(FigureCanvasQTAgg):
 	def __init__(self, parent=None, canvasDPI = 100):
 		fig = Figure(figsize=(5, 4), dpi = canvasDPI)
 		self.axes = fig.add_subplot(111)
+		self.figureref = fig
 		super(MplCanvas, self).__init__(fig)
 
 class Module:
@@ -26,7 +27,7 @@ class Module:
 	plotStopIndex = 0
 
 
-	def redrawPlot(self, canvas):
+	def redrawPlot(self, canvas, legend=False):
 		# draw plot
 		if self.curFileData == None:
 			return	# file not open
@@ -62,12 +63,31 @@ class Module:
 
 		for plotaxes in self.plotCurves:
 			print('plotting')
-			if self.plotPtLines == 1 or self.plotPtLines == 2:
-				canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
-							plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post')
-			if self.plotPtLines == 0 or self.plotPtLines == 2:
+			if self.plotPtLines == 0:
+				# points
+				#plotstyle = '.'
 				canvas.axes.plot(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
-							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.')
+							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.', label = 'Data')
+			elif self.plotPtLines == 1:
+				# lines
+				#plotstyle = '-'
+				canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+							plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post', label = 'Data')
+			elif self.plotPtLines == 2:
+				# both
+				#plotstyle = '-.'
+				dataplot = canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.-', where='post', label = 'Data')
+				colorplot = canvas.axes.plot([0],[0],'.')
+				clr = colorplot[0].get_color()
+				colorplot[0].remove()
+			
+				dataplot[0].set_markerfacecolor(clr)
+				dataplot[0].set_markeredgecolor(clr)
+
+			#canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+			#				plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post')
+
 
 		canvas.draw()
 		self.dataTable.clear()
