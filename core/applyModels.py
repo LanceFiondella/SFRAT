@@ -39,14 +39,25 @@ class Module:
 		index = int(self.sender().objectName()[10:])
 		model = modules[index]
 		if state:
-			new = model(data=self.curFileData[self.curSheetName], rootAlgoName='newton')
+			new = model(data=self.curFileData[self.curSheetName], rootAlgoName='bisect')
 			new.findParams(1)
-			self.modelShow.append(new)
 			self.statusBar.clearMessage()
+
+			if new.converged == False:
+				qm = QtWidgets.QMessageBox
+				ret = qm.question(self,'', "The model did not find a correct fit solution. This will likely result in an inaccurate curve. Would you still like to plot it?", qm.Yes | qm.No)
+				if ret == qm.No:
+					self.sender().setChecked(False)
+					return
+
+			self.modelShow.append(new)
+
+
 		else:
 			for m in self.modelShow:
 				if type(m) == model:
-					del m
+					print('remove',m)
+					self.modelShow.remove(m)
 		self.redrawModelPlot()
 
 	def listModels(self):	# add all models dynamically to the menu

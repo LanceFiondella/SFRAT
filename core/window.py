@@ -71,10 +71,10 @@ class Module:
 	def exportPlot(self):
 		print('saving plot')
 		d = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-		fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Plot', d, 'PNG Image (*.png);; JPG Image (*.jpg *.jpeg)')
-		print(fname)
-		self.exportCanvas.figureref.savefig(fname[0])
-		print('export successful')
+		fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Plot', d, 'PNG Image (*.png);; JPG Image (*.jpg *.jpeg)')[0]
+		if fname and fname != '':
+			self.exportCanvas.figureref.savefig(fname)
+			print('export successful to', fname)
 
 
 	def convertFileData(self, iData):
@@ -136,9 +136,7 @@ class Module:
 		self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
 		self.winTitle()
 
-		for m in self.modelShow:	# remove models and uncheck list
-			self.modelShow.remove(m)
-			del m
+		self.modelShow = []
 
 		for m in self.modelActions:
 			m.setChecked(False)
