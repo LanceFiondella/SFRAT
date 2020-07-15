@@ -13,7 +13,6 @@ install:
   - pip install -r requirements.txt # install package + test dependencies
 script:
   - pytest
-  - cd "tests" && python SFRAT_GUI_Test.py
 notifications:
   email:
     recipients:
