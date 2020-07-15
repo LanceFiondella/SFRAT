@@ -17,6 +17,7 @@ class MplCanvas(FigureCanvasQTAgg):
 	def __init__(self, parent=None, canvasDPI = 100):
 		fig = Figure(figsize=(5, 4), dpi = canvasDPI)
 		self.axes = fig.add_subplot(111)
+		self.axes.grid(True)
 		self.figureref = fig
 		super(MplCanvas, self).__init__(fig)
 
@@ -26,8 +27,9 @@ class Module:
 	futureFailTime = 1000
 	modelShow = []
 	modelDataOnPlot = True
+	modelRelPlot = False
+	modelRelInterval = 1000
 	modelDataEnd = True
-	modelPlotType = 'FT'
 	modelData = {}
 	modelActions = []
 
@@ -74,17 +76,22 @@ class Module:
 
 
 	def redrawModelPlot(self):
+
 		if self.curFileData == None:
 			return	# file not open
 
 		self.plotWindowModel.axes.clear()
+		self.plotWindowModel.axes.grid(True)
 
-		if self.modelDataOnPlot:
+		if self.modelDataOnPlot and not self.modelRelPlot:
 			self.redrawPlot(self.plotWindowModel, legend=True)
 
 		for model in self.modelShow:
-			x = model.MVFPlot()[0]
-			y = model.MVFPlot()[1]
+			# if plot reliability growth do stuff
+			if self.modelRelPlot:
+				x, y = model.relGrowthPlot(self.modelRelInterval)
+			else:
+				x, y = model.MVFPlot() if self.plotType == 'FT' else model.FIPlot() if self.plotType == 'FI' else model.MTTFPlot()
 
 			pL = '' if self.plotPtLines == 0 else '-' if self.plotPtLines == 1 else '--'
 			pM = '.' if self.plotPtLines == 0 else None if self.plotPtLines == 1 else '.'
@@ -139,7 +146,15 @@ class Module:
 		self.redrawModelPlot()
 		print(f'set dot/line type 1 to {typeNum}')
 
-
+	def getRelInterval(self):
+		text, ok = QtWidgets.QInputDialog.getInt(self,
+					"Reliability Interval",
+					"Enter interval for model reliability plot:",
+					self.modelRelInterval,
+					0, 1000000000, 1 )
+		if ok:
+			self.modelRelInterval = text
+			self.redrawModelPlot()
 
 	def __init__(self):
 
@@ -161,6 +176,13 @@ class Module:
 		self.actionPlot_Points_2.triggered.connect(lambda: self.setPlotTypeModels(0))
 		self.actionPlot_Lines_2.triggered.connect(lambda: self.setPlotTypeModels(1))
 		self.actionPlot_Both_2.triggered.connect(lambda: self.setPlotTypeModels(2))
+
+		self.actionCF_2.triggered.connect(lambda: self.setView(0))
+		self.actionTBF_2.triggered.connect(lambda: self.setView(1))
+		self.actionFI_2.triggered.connect(lambda: self.setView(2))
+		self.actionPlotRel.triggered.connect(lambda: self.setView(3))
+
+		self.actionSelRel.triggered.connect(self.getRelInterval)
 
 
 		#self.actionRun_Models.triggered.connect(self.computeModels)

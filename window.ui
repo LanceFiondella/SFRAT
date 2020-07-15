@@ -188,6 +188,13 @@
     <addaction name="actionPlot_Points_2"/>
     <addaction name="actionPlot_Lines_2"/>
     <addaction name="actionPlot_Both_2"/>
+    <addaction name="separator"/>
+    <addaction name="actionCF_2"/>
+    <addaction name="actionTBF_2"/>
+    <addaction name="actionFI_2"/>
+    <addaction name="separator"/>
+    <addaction name="actionPlotRel"/>
+    <addaction name="actionSelRel"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMode"/>
@@ -432,6 +439,31 @@
    </property>
    <property name="text">
     <string>Plot: Both</string>
+   </property>
+  </action>
+  <action name="actionCF_2">
+   <property name="text">
+    <string>Cumulative Failures</string>
+   </property>
+  </action>
+  <action name="actionTBF_2">
+   <property name="text">
+    <string>Time Between Failures</string>
+   </property>
+  </action>
+  <action name="actionFI_2">
+   <property name="text">
+    <string>Failure Intensity</string>
+   </property>
+  </action>
+  <action name="actionPlotRel">
+   <property name="text">
+    <string>Reliability Plot</string>
+   </property>
+  </action>
+  <action name="actionSelRel">
+   <property name="text">
+    <string>Select Reliability Interval</string>
    </property>
   </action>
  </widget>

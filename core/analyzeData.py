@@ -12,30 +12,35 @@ class MplCanvas(FigureCanvasQTAgg):
 	def __init__(self, parent=None, canvasDPI = 100):
 		fig = Figure(figsize=(5, 4), dpi = canvasDPI)
 		self.axes = fig.add_subplot(111)
+		self.axes.grid(True)
 		self.figureref = fig
 		super(MplCanvas, self).__init__(fig)
 
 class Module:
 
 
-	plotType = 'FT'
-	plotPtLines = 2	# initial state both dots n lines
-	plotLaplace = False
+	plotType = 'FT'			# tab 1 and 2 plot style
+	plotPtLines = 2			# initial state both dots n lines
+	plotLaplace = False		# show laplace / arith toggle
 	plotLaplaceConf = 0.9
 	plotArithAvg = False
-	plotStartIndex = 0
+	plotStartIndex = 0		# for custom plot windowing
 	plotStopIndex = 0
 
 
 	def redrawPlot(self, canvas, legend=False):
-		# draw plot
+		# draw plot on tab 1, has canvas and legend params for tab 2 usage
+
 		if self.curFileData == None:
-			return	# file not open
+			return		# file not open, do nothing
+
 		curSheet = self.curFileData[self.curSheetName]
-		canvas.axes.clear()
+		canvas.axes.clear()	# remove previous plot
+
+		canvas.axes.grid(True)
 
 		if not self.plotLaplace:
-			if self.plotType == 'FT':
+			if self.plotType == 'FT':	# plot selected curve type
 				self.plotCurves[0] = [curSheet['FT'], curSheet['FN']]
 			elif self.plotType == 'IF':
 				self.plotCurves[0] = [curSheet['FT'], curSheet['IF']]
@@ -43,7 +48,7 @@ class Module:
 				self.plotCurves[0] = [curSheet['FT'], curSheet['FI']]
 
 		else:
-			# plot laplace test
+			# plot laplace test or arith avg, calculate values (adapted from R code)
 			if not self.plotArithAvg:
 				laplace = [0]
 				for i in range(1, len(curSheet['IF'])):
@@ -61,45 +66,37 @@ class Module:
 					runAvg.append(s1 / (i+1))
 				self.plotCurves[0] = [list(range(len(runAvg))), runAvg]
 
-		for plotaxes in self.plotCurves:
+											# plot curves
+		for plotaxes in self.plotCurves:	# implemented with multiple plot in mind, never used
 			print('plotting')
 			if self.plotPtLines == 0:
 				# points
-				#plotstyle = '.'
 				canvas.axes.plot(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
 							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.', label = 'Data')
 			elif self.plotPtLines == 1:
 				# lines
-				#plotstyle = '-'
 				canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
 							plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post', label = 'Data')
 			elif self.plotPtLines == 2:
 				# both
-				#plotstyle = '-.'
 				dataplot = canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
 							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.-', where='post', label = 'Data')
-				colorplot = canvas.axes.plot([0],[0],'.')
-				clr = colorplot[0].get_color()
-				colorplot[0].remove()
-			
+				colorplot = canvas.axes.plot([0],[0],'.')	# old method was to plot pts and lines separately
+				clr = colorplot[0].get_color()				# caused problems w/ legend, so to keep same appearance
+				colorplot[0].remove()						# next plot color was taken and used
 				dataplot[0].set_markerfacecolor(clr)
 				dataplot[0].set_markeredgecolor(clr)
 
-			#canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
-			#				plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post')
-
-
-		canvas.draw()
-		self.dataTable.clear()
-
+		canvas.draw()	# draw curves
+		
+		self.dataTable.clear()		# re-add numeric data to table
 		self.dataTable.setColumnCount(3)
 		self.dataTable.setRowCount(len(curSheet['FN']))
-
 		self.dataTable.setHorizontalHeaderLabels(['FN','IF',
 			'Running Avg' if self.plotArithAvg else 'Laplace Statistic' if self.plotLaplace else 'FT'])
 
 
-		for i in range(len(curSheet['FN'])):
+		for i in range(len(curSheet['FN'])):	# make new table entries
 			if self.plotLaplace:
 				if self.plotArithAvg:
 					num = runAvg[i]
@@ -122,8 +119,11 @@ class Module:
 
 
 	def setView(self, viewNum):
-		self.plotType = ['FT','IF','FI'][viewNum]
+		if viewNum < 3:
+			self.plotType = ['FT','IF','FI'][viewNum]
+		self.modelRelPlot = (viewNum == 3)	# only appears on tab 2 so retain 1st tab functionality otherwise
 		self.redrawPlot(self.plotWindow)
+		self.redrawModelPlot()
 		print(f'set view type to {self.plotType}')
 
 

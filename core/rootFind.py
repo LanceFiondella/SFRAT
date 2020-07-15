@@ -88,7 +88,7 @@ class RootFind():
 			self.converged = result.converged
 		else:
 			x0 = self.initEstimate
-			root, result = self.algo(self.equation, x0, maxiter=1000, full_output=True)
+			root, result = self.algo(self.equation, x0, maxiter=1000, full_output=False)
 			self.converged = result.converged
 
 		return root
