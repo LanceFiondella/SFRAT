@@ -11,11 +11,11 @@ sys.path.insert(0,parentdir)
 import ui.mainWindow
 
 '''Testing the SFRAT GUI'''
-app = QApplication(sys.argv)
+
 form = ui.mainWindow.MainWindow()
 
 def test_defaults():
-    ''' TEst the GUI in it's defaul state'''
+    ''' Test the GUI in it's defaul state'''
     assert form.title == 'SFRAT'
     assert form.left == 10
     assert form.top == 10

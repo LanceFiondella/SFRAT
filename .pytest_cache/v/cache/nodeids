@@ -1,5 +1,4 @@
 [
-  "tests/SFRAT_GUI_Test.py::SFRATtest::test_defaults",
   "tests/test_GM.py::test_gm_d_mle[0.01063037324883456-0.977114771748347]",
   "tests/test_GM.py::test_gm_d_mle[0.002177170100243585-0.980482093366516]",
   "tests/test_GM.py::test_gm_d_mle[0.03031130579568424-0.992412571914574]",
@@ -63,6 +62,7 @@
   "tests/test_JM.py::test_jm_phi_mle[2.8285010220907116e-05-2.82850102209104e-05]",
   "tests/test_JM.py::test_jm_phi_mle[7.448237218522862e-07-4.4689423311132e-05]",
   "tests/test_JM.py::test_name",
+  "tests/test_SFRAT_GUI.py::test_defaults",
   "tests/test_generic.py::test_data_sheets",
   "tests/test_generic.py::test_data_current_sheet",
   "tests/test_generic.py::test_models_names",
