@@ -3,14 +3,6 @@ python:
   - 3.6
   - 3.7
   - 3.8
-before_install:
-  - python --version
-  - pip install -U pip
-  - pip install -U pytest
-  - pip install codecov
-  - sudo apt-get install -qq libegl1-mesa
-install:
-  - pip install -r requirements.txt # install package + test dependencies
 addons:
   apt:
     packages:
@@ -18,6 +10,8 @@ addons:
     - libxkbcommon-x11-0
 services: xvfb
 dist: xenial
+install:
+  - pip install -r requirements.txt # install package + test dependencies
 script:
   - pytest
 notifications:
