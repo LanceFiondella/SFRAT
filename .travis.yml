@@ -11,9 +11,15 @@ before_install:
   - sudo apt-get install -qq libegl1-mesa
 install:
   - pip install -r requirements.txt # install package + test dependencies
+addons:
+  apt:
+    packages:
+    - x11-utils
+    - libxkbcommon-x11-0
+services: xvfb
+dist: xenial
 script:
   - pytest
-  - cd "tests" && python GUI_Test.py
 notifications:
   email:
     recipients:
