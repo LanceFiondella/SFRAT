@@ -2,7 +2,7 @@ import pytest
 import os, sys, inspect
 from core.model import Model
 from core.dataClass import Data
-import models
+from models import DSS, GM, GO, ISS, JM, WEI
 import pandas as pd
 import logging
 
@@ -13,9 +13,10 @@ mylogger.info('\n###############\nStarting Generic Testing\n###############')
 
 """
 ISSUES: models.modelList is displaying the correct contents for some reason. It works when tested in the console but not on this script
+HARDCODED right now so it needs to be changed
 """
 
-
+ModelDict = {'DSS': DSS.DSS, 'GM' : GM.GM, 'GO' : GO.GO, 'ISS' : ISS.ISS, 'JM': JM.JM, 'WEI' : WEI.WEI}
 
 #DATA SETUP
 def setup_data():
@@ -26,9 +27,9 @@ sample_data.importFile("model_data.xlsx")
 
 
 #Model List Setup
-print(models.modelList.values())
+print(ModelDict.values())
 sample_models = []
-for values in models.modelList.values():
+for values in ModelDict.values():
     sample_models.append(values(data=pd.read_excel("model_data.xlsx"), rootAlgoName='bisect'))
 
 print(sample_models)
@@ -64,15 +65,58 @@ def test_models_params():
             assert type(key) is str
             assert type(value) is float
 
+
 def test_models_root_name():
     for model in sample_models:
         assert type(model.rootAlgoName) is str
+
 
 def test_models_coverged():
     for model in sample_models:
         assert type(model.converged) is bool
 
+
 #Testing functions in models
 def test_models_findParams():
     for model in sample_models:
         assert 'findParams' in dir(model)
+
+
+def test_models_predict():
+    for model in sample_models:
+        assert 'predict' in dir(model)
+
+
+def test_models_reliability():
+    for model in sample_models:
+        assert 'reliability' in dir(model)
+
+
+def test_models_lnL():
+    for model in sample_models:
+        assert 'lnL' in dir(model)
+
+
+def test_models_MVF():
+    for model in sample_models:
+        assert 'MVF' in dir(model)
+
+
+def test_models_MVFPlot():
+    for model in sample_models:
+        assert 'MVFPlot' in dir(model)
+
+
+def test_models_MTTFPlot():
+    for model in sample_models:
+        assert 'MTTFPlot' in dir(model)
+
+
+def test_models_FIPlot():
+    for model in sample_models:
+        assert 'FIPlot' in dir(model)
+
+
+def test_models_relGrowthPlot():
+    for model in sample_models:
+        assert 'relGrowthPlot' in dir(model)
