@@ -30,6 +30,7 @@ matrix:
       services:
         - xvfb
       script:
+        - python setup.py test
         - pytest
     - name: "Python 3.7 on Xenial Linux"
       python: 3.7
@@ -42,6 +43,7 @@ matrix:
         - sudo apt-get update
         - sudo apt-get -y install python3-pyqt5
       script:
+        - python setup.py test
         - pytest
 
     - name: "Python 3.6 on macOS"
@@ -55,6 +57,8 @@ matrix:
         - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
         - python --version
         - pip install -e .
+        - easy_install distribute
+        - pip install -r requirements.txt
         - pip freeze
         - pip install PyQt5
       script:
@@ -71,6 +75,8 @@ matrix:
         - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
         - python --version
         - pip install -e .
+        - easy_install distribute
+        - pip install -r requirements.txt
         - pip freeze
         - pip install PyQt5
       script:
@@ -86,6 +92,7 @@ matrix:
         - TOXENV=py36
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
       script:
+        - python setup.py test
         - pytest
     - name: "Python 3.7 on Windows"
       # if: branch = master
@@ -96,6 +103,7 @@ matrix:
         - TOXENV=py37
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
       script:
+        - python setup.py test
         - pytest
 
 
