@@ -1,13 +1,14 @@
 language: python
-script: tox
 sudo: required
 dist: trusty
-cache:
-  - pip
-  - directories:
-      - ~/cache
-      - $HOME/.pyenv/cache
-      - Library/Caches/Homebrew
+addons:
+  apt:
+    packages:
+    # Should you ever need to run tests on linux; these packages are
+    # required for testing PyQT5 applications on Ubuntu.
+    - x11-utils
+    - libxkbcommon-x11-0
+
 before_install:
   - python --version
   - pip install -U pip
@@ -48,6 +49,10 @@ matrix:
         - MAC_PYTHON_OSX_VERSION=10.6
       sudo: required
       install:
+        - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
+        - python --version
+        - pip install -e .
+        - pip freeze
         - pip install PyQt5
     - name: "Python 3.7 on macOS"
       os: osx
@@ -57,6 +62,10 @@ matrix:
         - MAC_PYTHON_OSX_VERSION=10.6
       sudo: required
       install:
+        - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
+        - python --version
+        - pip install -e .
+        - pip freeze
         - pip install PyQt5
 
     - name: "Python 3.6 on Windows"
