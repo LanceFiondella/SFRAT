@@ -23,10 +23,13 @@ matrix:
       python: 3.6
       env: TOXENV=py36
       dist: xenial          # required for Python >= 3.7
-      before_install:
+      install:
         - sudo apt-get install -y libdbus-1-3 libxkbcommon-x11-0
         - sudo apt-get update
         - sudo apt-get -y install python3-pyqt5
+        - git clone https://github.com/benlau/qtci.git
+        - source qtci/path.env
+        - install-qt 5.13.2
       services:
         - xvfb
     - name: "Python 3.7 on Xenial Linux"
@@ -39,6 +42,7 @@ matrix:
         - sudo apt-get install -y libdbus-1-3 libxkbcommon-x11-0
         - sudo apt-get update
         - sudo apt-get -y install python3-pyqt5
+
     - name: "Python 3.7 on macOS"
       # if: branch = master
       os: osx
