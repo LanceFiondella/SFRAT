@@ -1,9 +1,6 @@
-codecov
-pytest
 numpy
 pandas
 matplotlib
-pytest
 scipy
 xlrd
 PyQt5
