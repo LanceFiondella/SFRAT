@@ -41,18 +41,18 @@ matrix:
       # if: branch = master
       os: osx
       osx_image: xcode10.2  # Python 3.7.2 running on macOS 10.14.3
-      language: shell       # 'language: python' is an error on Travis CI macOS
+      language: minimal       # 'language: python' is an error on Travis CI macOS
       env: TOXENV=py37
     - name: "Python 3.6 on macOS"
       # if: branch = master
       os: osx
       osx_image: xcode9.4  # Python 3.7.2 running on macOS 10.14.3
-      language: shell       # 'language: python' is an error on Travis CI macOS
+      language: minimal       # 'language: python' is an error on Travis CI macOS
       env: TOXENV=py36
     - name: "Python 3.6 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
-      language: shell       # 'language: python' is an error on Travis CI Windows
+      language: minimal       # 'language: python' is an error on Travis CI Windows
       before_install: choco install python --version 3.6.8
       env:
         - TOXENV=py36
@@ -60,7 +60,7 @@ matrix:
     - name: "Python 3.7 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
-      language: shell       # 'language: python' is an error on Travis CI Windows
+      language: minimal       # 'language: python' is an error on Travis CI Windows
       before_install: choco install python --version 3.7.3
       env:
         - TOXENV=py37
