@@ -39,22 +39,26 @@ matrix:
         - sudo apt-get update
         - sudo apt-get -y install python3-pyqt5
 
-    - name: "Python 3.7 on macOS"
-      # if: branch = master
-      os: osx
-      osx_image: xcode10.2  # Python 3.7.2 running on macOS 10.14.3
-      language: minimal       # 'language: python' is an error on Travis CI macOS
-      install:
-        - pip install PyQt5
-      env: TOXENV=py37
+
     - name: "Python 3.6 on macOS"
-      # if: branch = master
       os: osx
-      osx_image: xcode9.4  # Python 3.7.2 running on macOS 10.14.3
-      language: minimal       # 'language: python' is an error on Travis CI macOS
+      language: generic
+      env:
+        - MAC_PYTHON_VERSION=3.6.8
+        - MAC_PYTHON_OSX_VERSION=10.6
+      sudo: required
       install:
         - pip install PyQt5
-      env: TOXENV=py36
+    - name: "Python 3.7 on macOS"
+      os: osx
+      language: generic       # 'language: python' is an error on Travis CI macOS
+      env:
+        - MAC_PYTHON_VERSION=3.7.3
+        - MAC_PYTHON_OSX_VERSION=10.6
+      sudo: required
+      install:
+        - pip install PyQt5
+
     - name: "Python 3.6 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
