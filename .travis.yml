@@ -53,6 +53,7 @@ matrix:
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
 install:
+  - easy_install distribute
   - pip install -r requirements.txt
 script:
   - pytest
