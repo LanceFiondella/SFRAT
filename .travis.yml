@@ -5,6 +5,9 @@ before_install:
   - pip install -U pip
   - pip install -U pytest
   - pip install codecov
+  - pip install pytest pytest-qt
+  - easy_install distribute
+  - pip install -r requirements.txt
 matrix:
   include:
     - name: "Python 3.6 on Xenial Linux"
@@ -52,9 +55,6 @@ matrix:
         - TOXENV=py37
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
 
-install:
-  - easy_install distribute
-  - pip install -r requirements.txt
 script:
   - pytest
 notifications:
