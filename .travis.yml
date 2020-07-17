@@ -1,5 +1,11 @@
 language: python
-
+script: tox
+cache:
+  - pip
+  - directories:
+      - ~/cache
+      - $HOME/.pyenv/cache
+      - Library/Caches/Homebrew
 before_install:
   - python --version
   - pip install -U pip
@@ -42,7 +48,12 @@ matrix:
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
       language: shell       # 'language: python' is an error on Travis CI Windows
-      before_install: choco install python --version 3.6.8
+      before_install:
+        -  wget https://www.python.org/ftp/python/3.6.7/python-3.6.7-amd64.exe
+        # default targetDir
+        - ./python-3.6.7-amd64.exe /quiet Include_test=0 AssociateFiles=0 Shortcuts=0 Include_doc=0 Include_launcher=0 InstallLauncherAllUsers=0 Include_tcltk=0
+        #custom targetDir
+        - ./python-3.6.7-amd64.exe /quiet TargetDir=C:\\pythons\\Python36-x64 Include_test=0 AssociateFiles=0 Shortcuts=0 Include_doc=0 Include_launcher=0 InstallLauncherAllUsers=0 Include_tcltk=0
       env:
         - TOXENV=py36
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
