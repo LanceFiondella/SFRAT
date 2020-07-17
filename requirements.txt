@@ -3,4 +3,3 @@ pandas
 matplotlib
 scipy
 xlrd
-PyQt5
