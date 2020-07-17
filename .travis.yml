@@ -26,9 +26,11 @@ matrix:
       install:
         - sudo apt-get install -y libdbus-1-3 libxkbcommon-x11-0
         - sudo apt-get update
-        - sudo apt-get -y install python3-pyqt5pytest
+        - sudo apt-get -y install python3-pyqt5
       services:
         - xvfb
+      script:
+        - pytest
     - name: "Python 3.7 on Xenial Linux"
       python: 3.7
       env: TOXENV=py37
@@ -39,7 +41,8 @@ matrix:
         - sudo apt-get install -y libdbus-1-3 libxkbcommon-x11-0
         - sudo apt-get update
         - sudo apt-get -y install python3-pyqt5
-
+      script:
+        - pytest
 
     - name: "Python 3.6 on macOS"
       os: osx
@@ -54,6 +57,8 @@ matrix:
         - pip install -e .
         - pip freeze
         - pip install PyQt5
+      script:
+        - pytest
     - name: "Python 3.7 on macOS"
       os: osx
       language: generic       # 'language: python' is an error on Travis CI macOS
@@ -67,7 +72,8 @@ matrix:
         - pip install -e .
         - pip freeze
         - pip install PyQt5
-
+      script:
+        - pytest
     - name: "Python 3.6 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
@@ -77,6 +83,8 @@ matrix:
       env:
         - TOXENV=py36
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+      script:
+        - pytest
     - name: "Python 3.7 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
@@ -85,9 +93,10 @@ matrix:
       env:
         - TOXENV=py37
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+      script:
+        - pytest
 
-script:
-  - pytest
+
 notifications:
   email:
     recipients:
