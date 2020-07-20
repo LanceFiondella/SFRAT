@@ -1,6 +1,12 @@
 language: python
 sudo: required
 dist: trusty
+cache:
+  - pip
+  - directories:
+      - ~/cache
+      - $HOME/.pyenv/cache
+      - Library/Caches/Homebrew
 addons:
   apt:
     packages:
@@ -30,7 +36,7 @@ matrix:
       services:
         - xvfb
       script:
-        - python setup.py tests
+        - pytest
     - name: "Python 3.7 on Xenial Linux"
       python: 3.7
       env: TOXENV=py37
@@ -42,7 +48,7 @@ matrix:
         - sudo apt-get update
         - sudo apt-get -y install python3-pyqt5
       script:
-        - python setup.py tests
+        - pytest
 
     - name: "Python 3.6 on macOS"
       os: osx
@@ -60,7 +66,7 @@ matrix:
         - pip freeze
         - pip install PyQt5
       script:
-        - python setup.py tests
+        - pytest
     - name: "Python 3.7 on macOS"
       os: osx
       language: generic       # 'language: python' is an error on Travis CI macOS
@@ -76,7 +82,7 @@ matrix:
         - pip install -r requirements.txt
         - pip freeze
       script:
-        - python setup.py tests
+        - pytest
     - name: "Python 3.6 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
@@ -87,7 +93,7 @@ matrix:
         - TOXENV=py36
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
       script:
-        - python setup.py tests
+        - pytest
     - name: "Python 3.7 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
@@ -97,7 +103,7 @@ matrix:
         - TOXENV=py37
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
       script:
-        - python setup.py tests
+        - pytest
 
 
 notifications:
