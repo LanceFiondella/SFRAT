@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
 
+from scipy.stats import norm
+
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
@@ -50,6 +52,8 @@ class Module:
 		else:
 			# plot laplace test or arith avg, calculate values (adapted from R code)
 			if not self.plotArithAvg:
+				lapConf = norm.ppf(1 - self.plotLaplaceConf)	#qnorm
+				print(lapConf)
 				laplace = [0]
 				for i in range(1, len(curSheet['IF'])):
 					sumint = 0
@@ -86,6 +90,9 @@ class Module:
 				colorplot[0].remove()						# next plot color was taken and used
 				dataplot[0].set_markerfacecolor(clr)
 				dataplot[0].set_markeredgecolor(clr)
+
+		if self.plotLaplace and not self.plotArithAvg:	# plot laplace, need to plot after due to plot limits
+			canvas.axes.axhline(lapConf,linestyle='--',color='r')
 
 		canvas.draw()	# draw curves
 		
@@ -148,9 +155,9 @@ class Module:
 		self.plotLaplace = True
 		self.actionTrendTest.setChecked(True)
 		if self.plotArithAvg:
-			self.actionPlotArith.setText('Plot: Toggle Laplace Test')
+			self.actionPlotArith.setText('Plot: Show Laplace Test')
 		else:
-			self.actionPlotArith.setText('Plot: Arithmetic Average')
+			self.actionPlotArith.setText('Plot: Show Arithmetic Avg.')
 		self.redrawPlot(self.plotWindow)
 
 

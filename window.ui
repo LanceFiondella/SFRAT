@@ -319,7 +319,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Plot: Arithmetic Average</string>
+    <string>Plot: Show Arithmetic Avg.</string>
    </property>
   </action>
   <action name="actionStartIndex">

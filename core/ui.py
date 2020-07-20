@@ -282,7 +282,7 @@ class Ui_MainWindow(object):
         self.actionExport.setShortcut(_translate("MainWindow", "Ctrl+E"))
         self.actionPlot_Running_Average.setText(_translate("MainWindow", "Plot: Running Average"))
         self.actionPlot_Laplace_Trend_Test.setText(_translate("MainWindow", "Plot: Laplace Trend Test"))
-        self.actionPlotArith.setText(_translate("MainWindow", "Plot: Arithmetic Average"))
+        self.actionPlotArith.setText(_translate("MainWindow", "Plot: Show Arithmetic Avg."))
         self.actionStartIndex.setText(_translate("MainWindow", "Plot: Edit Start Index"))
         self.actionStopIndex.setText(_translate("MainWindow", "Plot: Edit Stop Index"))
         self.actionSelFFC.setText(_translate("MainWindow", "Select Future Fail Count"))
