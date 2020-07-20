@@ -66,7 +66,7 @@ matrix:
         - pip freeze
         - pip install PyQt5
       script:
-        - pytest
+        - env pytest
     - name: "Python 3.7 on macOS"
       os: osx
       language: generic       # 'language: python' is an error on Travis CI macOS
@@ -81,8 +81,9 @@ matrix:
         - easy_install distribute
         - pip install -r requirements.txt
         - pip freeze
+        - pip install PyQt5
       script:
-        - pytest
+        - env pytest
     - name: "Python 3.6 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
