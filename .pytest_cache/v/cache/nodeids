@@ -1,1 +1,20 @@
-[]
+[
+  "tests/test_generic.py::test_data_sheets",
+  "tests/test_generic.py::test_data_current_sheet",
+  "tests/test_generic.py::test_data_property_current_sheet",
+  "tests/test_generic.py::test_data_currentSheet_setter",
+  "tests/test_generic.py::test_models_names",
+  "tests/test_generic.py::test_models_params",
+  "tests/test_generic.py::test_models_root_name",
+  "tests/test_generic.py::test_models_coverged",
+  "tests/test_generic.py::test_models_findParams",
+  "tests/test_generic.py::test_models_predict",
+  "tests/test_generic.py::test_models_reliability",
+  "tests/test_generic.py::test_models_lnL",
+  "tests/test_generic.py::test_models_MVF",
+  "tests/test_generic.py::test_models_MVFPlot",
+  "tests/test_generic.py::test_models_MTTFPlot",
+  "tests/test_generic.py::test_models_FIPlot",
+  "tests/test_generic.py::test_models_relGrowthPlot",
+  "tests/test_generic.py::test_getData"
+]

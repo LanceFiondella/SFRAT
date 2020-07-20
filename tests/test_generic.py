@@ -45,7 +45,28 @@ def test_data_sheets():
 def test_data_current_sheet():
     assert type(sample_data._currentSheet) is int
 
+
+def test_data_property_current_sheet():
+    assert sample_data._currentSheet == sample_data.currentSheet
+
+
+def test_getData():
+    for sheetnum in range(0, len(sample_data.sheetNames)):
+        sample_data.currentSheet = sheetnum
+        assert sample_data.getData() is dict
+
 """
+def test_data_currentSheet_setter():
+    sample_data.currentSheet(10)
+    assert sample_data.currentSheet == 10
+    sample_data.currentSheet(100)
+    assert sample_data.currentSheet == 0
+    sample_data.currentSheet(len(sample_data.sheetNames))
+    assert sample_data.currentSheet == 0
+    sample_data.currentSheet(-1)
+    assert sample_data.currentSheet == 0
+
+
 def test_data_dataSet():
     assert type(sample_data.dataSet) is dict
     for key, value in sample_data.dataSet:
