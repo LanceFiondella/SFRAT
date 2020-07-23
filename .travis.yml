@@ -100,13 +100,19 @@ matrix:
       env:
         - TOXENV=py37
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
-
+      install:                                                                                  #
+        - python --version
+        - pip install -e .
+        - easy_install distribute
+        - pip install -r requirements.txt
+        - pip freeze
+        - pip install PyQt5
 
 script:
   - python setup.py test
-  - cd "tests" && pytest -s test_JM.py  #
-  - pytest -s test_GM.py                #
-  - pytest -s test_GO.py                #
+  #- cd "tests" && pytest -s test_JM.py  #
+  #- pytest -s test_GM.py                #
+  #- pytest -s test_GO.py                #
 notifications:
   email:
     recipients:
