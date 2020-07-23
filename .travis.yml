@@ -85,6 +85,14 @@ matrix:
       env:
         - TOXENV=py36
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+      install:                                                                                  #
+        - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
+        - python --version
+        - pip install -e .
+        - easy_install distribute
+        - pip install -r requirements.txt
+        - pip freeze
+        - pip install PyQt5
     - name: "Python 3.7 on Windows"
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
@@ -97,6 +105,9 @@ matrix:
 
 script:
   - python setup.py test
+  - cd "tests" && pytest -s test_JM.py  #
+  - pytest -s test_GM.py                #
+  - pytest -s test_GO.py                #
 notifications:
   email:
     recipients:
