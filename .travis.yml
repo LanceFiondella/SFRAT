@@ -86,7 +86,6 @@ matrix:
         - TOXENV=py36
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
       install:                                                                                  #
-        - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
         - python --version
         - pip install -e .
         - easy_install distribute
