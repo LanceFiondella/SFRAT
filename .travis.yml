@@ -110,9 +110,9 @@ matrix:
 
 script:
   - python setup.py test
-  - cd "tests" && pytest -s test_JM.py  #
-  - pytest -s test_GM.py                #
-  - pytest -s test_GO.py                #
+  #- cd "tests" && pytest -s test_JM.py  #
+  #- pytest -s test_GM.py                #
+  #- pytest -s test_GO.py                #
 notifications:
   email:
     recipients:
