@@ -92,7 +92,7 @@ matrix:
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
       install:                                                                                  #
         - python --version
-        - pip3 install --upgrade pip
+        - python -m pip install --upgrade pip
         - pip install -e .
         - pip install -U pytest
         - easy_install distribute
@@ -109,7 +109,7 @@ matrix:
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
       install:                                                                                  #
         - python --version
-        - pip3 install --upgrade pip
+        - python -m pip install --upgrade pip
         - pip install -e .
         - pip install -U pytest
         - easy_install distribute
