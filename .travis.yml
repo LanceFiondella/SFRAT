@@ -92,7 +92,9 @@ matrix:
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
       install:                                                                                  #
         - python --version
+        - pip3 install --upgrade pip
         - pip install -e .
+        - pip install -U pytest
         - easy_install distribute
         - pip install -r requirements.txt
         - pip freeze
@@ -107,7 +109,9 @@ matrix:
         - PATH=/c/Python37:/c/Python37/Scripts:$PATH
       install:                                                                                  #
         - python --version
+        - pip3 install --upgrade pip
         - pip install -e .
+        - pip install -U pytest
         - easy_install distribute
         - pip install -r requirements.txt
         - pip freeze
