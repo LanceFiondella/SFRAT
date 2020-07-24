@@ -57,7 +57,9 @@ matrix:
       install:
         - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
         - python --version
+        - pip3 install --upgrade pip
         - pip install -e .
+        - pip install -U pytest 
         - easy_install distribute
         - pip install -r requirements.txt
         - pip freeze
@@ -72,7 +74,9 @@ matrix:
       install:
         - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
         - python --version
+        - pip3 install --upgrade pip
         - pip install -e .
+        - pip install -U pytest 
         - easy_install distribute
         - pip install -r requirements.txt
         - pip freeze
