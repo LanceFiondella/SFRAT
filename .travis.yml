@@ -15,13 +15,6 @@ addons:
     - x11-utils
     - libxkbcommon-x11-0
 
-before_install:
-  - python --version
-  - pip install -U pip
-  - pip install -U pytest
-  - pip install pytest pytest-qt
-  - easy_install distribute
-  - pip install -r requirements.txt
 
 matrix:
   include:
@@ -36,8 +29,14 @@ matrix:
         - sudo apt-get update
         - sudo apt install python-pyqt5
       install:
-        - pip3 install --upgrade pip
-        - pip install -U pytest 
+        - python --version
+        - python -m pip install --upgrade pip
+        - pip install -e .
+        - pip install -U pytest
+        - easy_install distribute
+        - pip install -r requirements.txt
+        - pip freeze
+        - pip install PyQt5
         
     - name: "Python 3.7 on Xenial Linux"
       python: 3.7
@@ -50,8 +49,14 @@ matrix:
         - sudo apt-get update
         - sudo apt install python-pyqt5
       install:
-        - pip3 install --upgrade pip
-        - pip install -U pytest 
+        - python --version
+        - python -m pip install --upgrade pip
+        - pip install -e .
+        - pip install -U pytest
+        - easy_install distribute
+        - pip install -r requirements.txt
+        - pip freeze
+        - pip install PyQt5
         
     - name: "Python 3.6 on macOS"
       os: osx
