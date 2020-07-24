@@ -38,6 +38,7 @@ matrix:
         - pip freeze
         - pip install PyQt5
         
+        
     - name: "Python 3.7 on Xenial Linux"
       python: 3.7
       env: TOXENV=py37
@@ -130,7 +131,7 @@ matrix:
 
 script:
   #- python setup.py test
-  -  pytest #
+  -  pytest --excelreport=report.xls
 
 notifications:
   email:
