@@ -131,7 +131,7 @@ matrix:
 
 script:
   #- python setup.py test
-  -  pytest --excelreport=report.xls
+  -  pytest --excelreport=tests/report.xls
 
 notifications:
   email:
