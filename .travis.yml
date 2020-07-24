@@ -54,7 +54,7 @@ matrix:
         - MAC_PYTHON_VERSION=3.6.8
         - MAC_PYTHON_OSX_VERSION=10.6
       sudo: required
-      before_install:
+      install:
         - source ./.travis/osx_setup_python.sh $MAC_PYTHON_VERSION $MAC_PYTHON_OSX_VERSION
         - python --version
         - pip install -e .
@@ -97,24 +97,22 @@ matrix:
       # if: branch = master
       os: windows           # Windows 10.0.17134 N/A Build 17134
       language: minimal       # 'language: python' is an error on Travis CI Windows
-      before_install: 
-        - choco install python --version 3.7.3
+      before_install: choco install python --version 3.7.3
+      env:
+        - TOXENV=py37
+        - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+      install:                                                                                  #
         - python --version
         - pip install -e .
         - easy_install distribute
         - pip install -r requirements.txt
         - pip freeze
         - pip install PyQt5
-      env:
-        - TOXENV=py37
-        - PATH=/c/Python37:/c/Python37/Scripts:$PATH
-
 
 script:
   #- python setup.py test
-  - cd "tests" && pytest  #
+  -  pytest #
 
-  
 notifications:
   email:
     recipients:
