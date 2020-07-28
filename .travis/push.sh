@@ -13,7 +13,7 @@ commit_website_files() {
 
 upload_files() {
   git remote add  https://${GITHUB_TOKEN}@github.com/LanceFiondella/SFRAT/tree/dev > /dev/null 2>&1
-  git push --quiet --set-upstream
+  git push --quiet --set-upstream origin HEAD: dev
 }
 
 
