@@ -40,8 +40,8 @@ class Module:
 				ext = os.path.splitext(fileName)[1]
 				if ext == '.xls' or ext == '.xlsx':
 					curFileRaw = pd.read_excel(fileName, 
-									sheet_name=None,	# load all sheets
-									ignore_index=True)
+									sheet_name=None)
+					#print(curFileRaw)
 					self.menuSelect_Sheet.menuAction().setVisible(True)
 				elif ext == '.csv':
 					curFileRaw = {"Sheet": pd.read_csv(fileName)}
