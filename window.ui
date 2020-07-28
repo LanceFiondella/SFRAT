@@ -214,21 +214,33 @@
    </property>
   </action>
   <action name="actionAnalyzeData">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Analyze Data</string>
    </property>
   </action>
   <action name="actionApplyModels">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Apply Models</string>
    </property>
   </action>
   <action name="actionModelResults">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Model Results</string>
    </property>
   </action>
   <action name="actionEvaluateModels">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Evaluate Models</string>
    </property>

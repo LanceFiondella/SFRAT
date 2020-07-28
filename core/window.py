@@ -193,6 +193,9 @@ class Module:
 
 
 	def __init__(self):
+
+		self.setWindowIcon(QtGui.QIcon('favicon.png'))
+
 		self.actionOpen.triggered.connect(self.openFile_click)
 		self.actionExport.triggered.connect(self.exportPlot)
 
@@ -204,11 +207,12 @@ class Module:
 		self.sheetList.setExclusive(True)
 		self.menuSelect_Sheet.menuAction().setVisible(False)
 
-		self.actionAnalyzeData.triggered.connect(lambda: self.showMode(0))
-		self.actionApplyModels.triggered.connect(lambda: self.showMode(1))
-		self.actionModelResults.triggered.connect(lambda: self.showMode(2))
-		self.actionEvaluateModels.triggered.connect(lambda: self.showMode(3))
-
-
+		self.selPageGroup = QtWidgets.QActionGroup(self.menuMode)
+		self.selPageGroup.setExclusive(True)
+		self.actionAnalyzeData.setChecked(True)
+		for i, x in enumerate([self.actionAnalyzeData, self.actionApplyModels,
+										self.actionModelResults, self.actionEvaluateModels]):
+			self.selPageGroup.addAction(x)
+			x.triggered.connect(lambda _, idx = i: self.showMode(idx))
 
 		print('init window')
