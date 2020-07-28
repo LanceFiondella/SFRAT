@@ -15,7 +15,8 @@ addons:
     - x11-utils
     - libxkbcommon-x11-0
 
-
+install:
+ - sudo gem install travis
 matrix:
   include:
     - name: "Python 3.6 on Xenial Linux"
@@ -132,6 +133,7 @@ matrix:
 script:
   #- python setup.py test
   -  pytest --excelreport=tests/report.xls
+  - .travis/push.sh
 
 deploy:
   provider: pages
