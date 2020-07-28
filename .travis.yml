@@ -132,7 +132,7 @@ matrix:
 
 script:
   #- python setup.py test
-  -  pytest --excelreport=tests/report.xls
+  -  pytest --excelreport=report.xls
   - .travis/push.sh
 
 deploy:
