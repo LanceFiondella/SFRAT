@@ -141,7 +141,6 @@ deploy:
   on:
     branch: dev
 
-
 notifications:
   email:
     recipients:
