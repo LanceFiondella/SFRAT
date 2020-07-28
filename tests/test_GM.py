@@ -57,7 +57,6 @@ for i in range(0, len(DATA[0])):
 
 @pytest.mark.parametrize("test_input,expected", Results_DMLE)
 def test_gm_d_mle(test_input, expected):
-    mylogger.info('IN TEST')
     assert abs(test_input - expected) < 10 ** -5
 
 

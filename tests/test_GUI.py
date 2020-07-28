@@ -16,10 +16,10 @@ app = QApplication(sys.argv)
 class SFRATtest(unittest.TestCase):
     '''Testing the SFRAT GUI'''
     def setUp(self):
-        """Crating the GUI"""
+        """Creating the GUI"""
         self.form = ui.mainWindow.MainWindow()
     def test_defaults(self):
-        ''' TEst the GUI in it's defaul state'''
+        ''' Test the GUI in it's defaul state'''
         self.assertEqual(self.form.title,'SFRAT')
         self.assertEqual(self.form.left,10)
         self.assertEqual(self.form.top,10)

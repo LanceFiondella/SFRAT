@@ -55,7 +55,7 @@ def test_gm_a_hat(test_input, expected):
     assert abs(test_input - expected) < 10 ** -5
 
 
-def test_name(setup_go):
+def test_name():
     for go in DATA[0]:
         try:
             assert go.name == "Goel-Okumoto"
