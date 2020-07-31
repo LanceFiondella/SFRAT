@@ -175,7 +175,9 @@ class Module:
 				mode.hide()
 
 		for idx, mode in enumerate([self.menuViewAD,
-									self.menuViewAM]):
+									self.menuViewAM,
+									self.menuViewQ,
+									self.menuViewE]):
 			mode.menuAction().setVisible(idx == modeNum)
 								# show right view menu
 
