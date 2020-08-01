@@ -132,7 +132,8 @@ matrix:
 
 script:
   #- python setup.py test
-  -  pytest --cov-report term --cov=app/test/
+  - pytest --cov-report term
+  - bash <(curl -s https://codecov.io/bash)
 after_script:
   - codecov
 deploy:
