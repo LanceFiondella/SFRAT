@@ -132,9 +132,9 @@ matrix:
 
 script:
   #- python setup.py test
-  -  pytest --excelreport=report.xls
-  - .travis/push.sh
-
+  -  pytest --cov-report term --cov=app/test/
+after_script:
+  - codecov
 deploy:
   provider: pages
   skip_cleanup: true
