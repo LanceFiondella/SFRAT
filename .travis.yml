@@ -132,17 +132,9 @@ matrix:
 
 script:
   #- python setup.py test
-  - pytest --cov-report term
-  - bash <(curl -s https://codecov.io/bash)
+  - py.test --cov-report=xml --cov=myproj tests/
 after_script:
   - codecov
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep_history: true
-  on:
-    branch: dev
 
 notifications:
   email:
