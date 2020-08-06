@@ -44,6 +44,7 @@ class Module:
 			new = model(data=self.curFileData[self.curSheetName], rootAlgoName='bisect')
 			new.findParams(1)
 			self.statusBar.clearMessage()
+			print(self.PSSE(new, self.curFileData[self.curSheetName]['FT']))
 
 			if new.converged == False:
 				qm = QtWidgets.QMessageBox
@@ -53,7 +54,6 @@ class Module:
 					return
 
 			self.modelShow.append(new)
-
 
 		else:
 			for m in self.modelShow:
