@@ -1,5 +1,5 @@
 import scipy.optimize
-from core import bat
+#from core import bat
 
 
 class RootFind():
@@ -8,7 +8,7 @@ class RootFind():
 	"""
 	bracketedAlgos = ['brentq', 'brenth', 'ridder', 'bisect']
 	nonbracketedAlgos = ['newton']
-	swarmAlgos = ['bat']
+	#swarmAlgos = ['bat']
 	
 	def __init__(self, *args, **kwargs):
 		"""
@@ -22,10 +22,10 @@ class RootFind():
 		"""
 		self.algoName = kwargs['rootAlgoName']
 
-		if self.algoName in self.swarmAlgos:
-			self.algo = self.swarmAlgo
-		else:
-			self.algo = getattr(scipy.optimize, self.algoName)
+		#if self.algoName in self.swarmAlgos:
+		#	self.algo = self.swarmAlgo
+		#else:
+		self.algo = getattr(scipy.optimize, self.algoName)
 
 		if self.algoName in self.bracketedAlgos:
 			self.bracket = True

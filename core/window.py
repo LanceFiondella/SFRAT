@@ -203,7 +203,6 @@ class Module:
 
 		self.statusBar = QtWidgets.QStatusBar()
 		self.setStatusBar(self.statusBar)
-		self.statusBar.showMessage("Ready", 1000)
 
 		self.sheetList = QtWidgets.QActionGroup(self.menuSelect_Sheet)
 		self.sheetList.setExclusive(True)
@@ -217,4 +216,6 @@ class Module:
 			self.selPageGroup.addAction(x)
 			x.triggered.connect(lambda _, idx = i: self.showMode(idx))
 
+
+		#self.statusBar.showMessage("Import Failure Data", 0)
 		print('init window')

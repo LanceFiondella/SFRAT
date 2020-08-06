@@ -5,11 +5,11 @@ from PyQt5.QtWidgets import QApplication, QFileDialog
 import sys
 import os
 import pandas as pd
-from core import ui, window, analyzeData, applyModels
+from core import ui, window, analyzeData, applyModels, evaluateModels
 
 
 class SFRAT(QtWidgets.QMainWindow, ui.Ui_MainWindow,
-				window.Module, analyzeData.Module, applyModels.Module):
+				window.Module, analyzeData.Module, applyModels.Module, evaluateModels.Module):
 	
 	canvasDPI = 90
 
