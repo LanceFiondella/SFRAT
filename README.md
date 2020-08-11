@@ -1,6 +1,6 @@
 # SFRAT
 [![Build Status](https://travis-ci.com/LanceFiondella/SFRAT.svg?branch=master)](https://travis-ci.com/LanceFiondella/SFRAT)
-
+[![codecov](https://codecov.io/gh/LanceFiondella/SFRAT/branch/master/graph/badge.svg)](https://codecov.io/gh/LanceFiondella/SFRAT)
 python implementation of SFRAT tool
 
 Development branch
