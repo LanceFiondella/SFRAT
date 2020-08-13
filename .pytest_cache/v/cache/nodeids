@@ -41,6 +41,7 @@
   "tests/test_GO.py::test_go_b_hat[6.906299380767323e-07-4.14377154545155e-05]",
   "tests/test_GO.py::test_go_b_hat[9.865012316078951e-05-9.86501231031933e-05]",
   "tests/test_GO.py::test_name",
+  "tests/test_GUI.py::SFRATtest::test_defaults",
   "tests/test_JM.py::test_jm_n0_mle[105.01280722878519-105.012807228783]",
   "tests/test_JM.py::test_jm_n0_mle[116.61453419346401-116.614534193463]",
   "tests/test_JM.py::test_jm_n0_mle[132.2953097092432-132.295309709242]",
