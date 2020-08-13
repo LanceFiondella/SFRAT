@@ -132,7 +132,7 @@ matrix:
 
 script:
   #- python setup.py test
-  - py.test --cov-report=xml --cov=myproj tests/
+  -ptest --cov=./
 env:
     - CODECOV_TOKEN = 9c4ae31302434e38992d35a1d23866b5
 
