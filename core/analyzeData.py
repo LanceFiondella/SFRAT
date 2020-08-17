@@ -124,6 +124,8 @@ class Module:
 			self.dataTable.setItem(i, 1, newIF)
 			self.dataTable.setItem(i, 2, newFT)
 
+		self.dataTable.resizeColumnsToContents()
+
 
 	def setView(self, viewNum):
 		if viewNum < 3:

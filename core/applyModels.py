@@ -8,9 +8,6 @@ from matplotlib.figure import Figure
 
 import time
 
-from models import DSS, GM, GO, ISS, JM, WEI
-modules = [DSS.DSS, GM.GM, GO.GO, ISS.ISS, JM.JM, WEI.WEI]
-
 
 class MplCanvas(FigureCanvasQTAgg):
 
@@ -38,17 +35,17 @@ class Module:
 			self.sender().setChecked(False)
 			return	# file not open
 
-		index = int(self.sender().objectName()[10:])
-		model = modules[index]
+		index = int(self.sender().objectName()[10:])#everything after "actionShow"
+		model = self.modules[index]
+
 		if state:
 			new = model(data=self.curFileData[self.curSheetName], rootAlgoName='bisect')
 			new.findParams(1)
 			self.statusBar.clearMessage()
-			print(self.PSSE(new, self.curFileData[self.curSheetName]['FT']))
 
 			if new.converged == False:
 				qm = QtWidgets.QMessageBox
-				ret = qm.question(self,'', "The model did not find a correct fit solution. This will likely result in an inaccurate curve. Would you still like to plot it?", qm.Yes | qm.No)
+				ret = qm.question(self,'', "The model did not find a correct fit solution. This will likely result in an inaccurate curve. Would you still like to evaluate it?", qm.Yes | qm.No)
 				if ret == qm.No:
 					self.sender().setChecked(False)
 					return
@@ -58,22 +55,34 @@ class Module:
 		else:
 			for m in self.modelShow:
 				if type(m) == model:
-					print('remove',m)
+					#print('remove',m)
 					self.modelShow.remove(m)
+
+		# assumes model toggle succeeded past this point
+
+		for checkBox in self.modelActions:	# update checked status between menus
+			if checkBox.objectName()[10:] == str(index):	# index match so model match
+				checkBox.setChecked(state)
+
+		self.plotModelTable()	# update model accuracy table (tab4)
 		self.redrawModelPlot()
 
-	def listModels(self):	# add all models dynamically to the menu
+	def listModels(self):	# add all models dynamically to the menus
+
+		menus = [self.menuViewAM, self.menuViewQ, self.menuViewE]	# menus and corresponding placeholder locations
+		place = [self.actionModelPlaceholder, self.actionQueryPlaceholder, self.actionEvalPlaceholder]
+
 		if self.curSheetName != None:
 			return	# is called before setting cursheetname to only do once
-		for idx, m in enumerate(modules):
-			newAction = QtWidgets.QAction(self)
-			newAction.setCheckable(True)
-			newAction.setObjectName(f"actionShow{idx}")
-			newAction.setText(f'Show {m.name}')
-			self.modelActions.append(newAction)
-			newAction.triggered.connect(self.toggleModel)
-			self.menuViewAM.insertAction(self.actionModelPlaceholder, newAction)
-
+		for midx in range(len(menus)):
+			for idx, m in enumerate(self.modules):
+				newAction = QtWidgets.QAction(self)
+				newAction.setCheckable(True)
+				newAction.setObjectName(f"actionShow{idx}")
+				newAction.setText(f'Show {m.name}')
+				self.modelActions.append(newAction)
+				newAction.triggered.connect(self.toggleModel)
+				menus[midx].insertAction(place[midx], newAction)
 
 	def redrawModelPlot(self):
 
@@ -183,8 +192,5 @@ class Module:
 		self.actionPlotRel.triggered.connect(lambda: self.setView(3))
 
 		self.actionSelRel.triggered.connect(self.getRelInterval)
-
-
-		#self.actionRun_Models.triggered.connect(self.computeModels)
-
+		
 		print('init tab 2')

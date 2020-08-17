@@ -17,7 +17,7 @@ class Module:
 	plotCurves = [[]]	# store all curves for plotting
 
 
-	def winTitle(self):
+	def winTitle(self):	# update the window title to match the open file name
 		ext = os.path.splitext(self.curFilePath)[1]
 		windowTitle = f"SFRAT - {os.path.split(self.curFilePath)[1]}"
 		if ext != ".csv":
@@ -53,6 +53,8 @@ class Module:
 			self.curFilePath = fileName
 			print(f'File Loaded with {len(curFileRaw)} sheets')
 
+
+			self.statusBar.clearMessage()
 			self.convertFileData(curFileRaw)
 			self.listModels()	# do before cursheetname to only do once	
 			self.curSheetName = list(self.curFileData.keys())[0]	# pick 1st sheet
@@ -217,5 +219,5 @@ class Module:
 			x.triggered.connect(lambda _, idx = i: self.showMode(idx))
 
 
-		#self.statusBar.showMessage("Import Failure Data", 0)
+		self.statusBar.showMessage("Import a file to begin", 0)
 		print('init window')
