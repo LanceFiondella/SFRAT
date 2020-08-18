@@ -240,7 +240,7 @@
     </property>
     <addaction name="actionEvalPlaceholder"/>
     <addaction name="separator"/>
-    <addaction name="actionSpecify_PSSE_Percent"/>
+    <addaction name="actionPSSEpct"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMode"/>
@@ -561,7 +561,7 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionSpecify_PSSE_Percent">
+  <action name="actionPSSEpct">
    <property name="text">
     <string>Specify PSSE Percent</string>
    </property>

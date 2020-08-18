@@ -21,13 +21,24 @@ class Module:
 	def fisher(self, model=None, data=None):
 		return 0
 
+	def getPSSEpct(self):
+		text, ok = QtWidgets.QInputDialog.getDouble(self,
+								"PSSE Data Percentage",
+								"Specify the percentage of data to use for PSSE:",
+								self.plotLaplaceConf,
+								0, 1, 2, QtCore.Qt.WindowFlags(), 0.01)
+		if ok:
+			self.pctPSSE = text
+			self.plotModelTable()
+			print(f'set PSSE to {text*100}%')
+
 
 	def plotModelTable(self):	# calculates AIC and PSSE for each model
 								# called when a model is toggled (via applyModels)
 		self.modelEvalTable.clear()
 		self.modelEvalTable.setColumnCount(4)
 		self.modelEvalTable.setRowCount(len(self.modelShow))
-		self.modelEvalTable.setHorizontalHeaderLabels(['Model', 'AIC', 'PSSE', 'Fisher Information'])
+		self.modelEvalTable.setHorizontalHeaderLabels(['Model', 'AIC', f'PSSE {round(self.pctPSSE*100)}% Data', 'Fisher Information'])
 
 		for idx, model in enumerate(self.modelShow):
 
@@ -48,9 +59,10 @@ class Module:
 
 
 		self.modelEvalTable.resizeColumnsToContents()
+		print('re-evaluate model table')
 
 
 	def __init__(self):
 
-
+		self.actionPSSEpct.triggered.connect(self.getPSSEpct)
 		print('init tab 4')
