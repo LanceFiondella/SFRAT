@@ -138,8 +138,7 @@ env:
   - CODECOV_TOKEN = 9c4ae31302434e38992d35a1d23866b5
 
 after_script:
-  - curl -s https://codecov.io/bash | bash -s -- -c -F aFlag -t :9c4ae31302434e38992d35a1d23866b5 -f tests/htmlcov/index.html -t :9c4ae31302434e38992d35a1d23866b5
-
+  - codecov
 notifications:
   email:
     recipients:
