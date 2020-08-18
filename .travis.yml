@@ -135,7 +135,7 @@ script:
   - coverage report -m
   - coverage html
 env:
-  - CODECOV_TOKEN = 9c4ae31302434e38992d35a1d23866b5
+  - CODECOV_TOKEN = 17c16986-cfba-4ccd-a773-aa4fb84e25f3
 
 after_script:
   - codecov
