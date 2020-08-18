@@ -23,7 +23,6 @@
   "tests/test_GO.py::test_gm_a_hat[43.19762267396901-43.1976361261063]": true,
   "tests/test_GO.py::test_gm_a_hat[478.8008385588782-478.800822955704]": true,
   "tests/test_GO.py::test_go_b_hat[6.906299380767323e-07-4.14377154545155e-05]": true,
-  "tests/test_GUI.py::SFRATtest": true,
   "tests/test_JM.py::test_jm_phi_mle[1.116733091948334e-08-1.11673309194836e-05]": true,
   "tests/test_JM.py::test_jm_phi_mle[2.1827504063861843e-08-2.18275040638617e-05]": true,
   "tests/test_JM.py::test_jm_phi_mle[7.448237218522862e-07-4.4689423311132e-05]": true,
