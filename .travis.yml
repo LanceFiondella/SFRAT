@@ -131,9 +131,7 @@ matrix:
         - pip install PyQt5
 
 script:
-  #- python setup.py test
-  - pytest
-  - pytest --cov=myproj tests/
+  - pytest --cov=SFRAT tests/
 env:
     - CODECOV_TOKEN = 9c4ae31302434e38992d35a1d23866b5
 
