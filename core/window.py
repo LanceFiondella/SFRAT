@@ -1,3 +1,8 @@
+'''
+window.py - controls functionality of SFRAT overhead menu
+actions as well as taskbar, menu bar, switch between tabs
+'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 import os
@@ -10,7 +15,7 @@ class Module:
 	curSheetName = None
 	curFileData = None
 
-	exportCanvas = None
+	currentTab = None
 
 	sheetIndex = 0
 	sheetActions = []	# stores menu options for sheet names for deletion etc
@@ -25,7 +30,7 @@ class Module:
 		self.setWindowTitle(windowTitle)
 
 
-	def openFile_click(self, other):
+	def openFile_click(self, other):	# open a failure data listing
 		print('opening file')
 
 		d = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -72,11 +77,37 @@ class Module:
 
 	def exportPlot(self):
 		print('saving plot')
+
 		d = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-		fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Plot', d, 'PNG Image (*.png);; JPG Image (*.jpg *.jpeg)')[0]
-		if fname and fname != '':
-			self.exportCanvas.figureref.savefig(fname)
-			print('export successful to', fname)
+		exportPlotWindow = self.currentTab < 2 and ([self.analyzeTab, self.modelTab][self.currentTab].currentIndex() == 0)
+		# if in plot tab, select is plot open or data open, otherwise data is open so export csv
+
+		if exportPlotWindow:	# export plot
+			fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Plot', d, 'PNG Image (*.png);; JPG Image (*.jpg *.jpeg)')[0]
+			if fname and fname != '':
+				[self.plotWindow, self.plotWindowModel][self.currentTab].figureref.savefig(fname)
+				print('export successful to', fname)
+
+		else:	# export data as csv
+
+			fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Data', d,
+				'Excel (*.xlsx)(*.xlsx);; CSV (*.csv)(*.csv);; HTML (*.html)(*.html);; JSON (*.json)(*.json);; LaTeX (*.tex)(*.tex)')[0]
+
+			if fname and fname != '':
+
+				exportObj = [self.dataTable, self.modelTable, self.queryTable, self.modelEvalTable][self.currentTab]
+				exportFrame = pd.DataFrame(columns=[exportObj.horizontalHeaderItem(x).text() for x in range(exportObj.columnCount())])
+				extidx = ['.xlsx', '.csv', '.html', '.json', '.tex'].index(os.path.splitext(fname)[1])
+					# get table to export, create a new dataframe, and get the file extension to select which pandas export to use
+
+				for index in range(exportObj.rowCount()):
+					for colIndex, col in enumerate(exportFrame.columns):
+						exportFrame.at[index + 1, col] = float(exportObj.item(index, colIndex).text())
+					# populate dataframe by row and column
+
+				pdExport = [exportFrame.to_excel, exportFrame.to_csv, exportFrame.to_html, exportFrame.to_json, exportFrame.to_latex][extidx]
+				pdExport(fname)	# select pandas export to use then export it
+				print('export successful to', fname)
 
 
 	def convertFileData(self, iData):
@@ -167,6 +198,7 @@ class Module:
 		self.menuSelect_Sheet.addActions(self.sheetList.actions())
 							# later maybe cleaner method for indexing button
 
+
 	def showMode(self, modeNum):
 		print(f'switch to mode {modeNum}')
 		for idx, mode in enumerate([self.analyzeData, self.applyModels,
@@ -183,22 +215,15 @@ class Module:
 			mode.menuAction().setVisible(idx == modeNum)
 								# show right view menu
 
-		for idx, mode in enumerate([self.plotWindow,
-									self.plotWindowModel]):
-			if idx == modeNum:
-				self.exportCanvas = mode
-
 		if modeNum == 0:
 			self.redrawPlot(self.plotWindow)
 		elif modeNum == 1:
 			self.redrawModelPlot()
 
-		return
+		self.currentTab = modeNum	# used to keep track of current export
 
 
 	def __init__(self):
-
-		self.setWindowIcon(QtGui.QIcon('favicon.png'))
 
 		self.actionOpen.triggered.connect(self.openFile_click)
 		self.actionExport.triggered.connect(self.exportPlot)
@@ -221,3 +246,4 @@ class Module:
 
 		self.statusBar.showMessage("Import a file to begin", 0)
 		print('init window')
+

@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>842</width>
-    <height>716</height>
+    <width>750</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>SFRAT</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>core/favicon.png</normaloff>core/favicon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
@@ -47,7 +51,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_5">
        <item row="0" column="0">
-        <widget class="QTabWidget" name="tabWidget_2">
+        <widget class="QTabWidget" name="modelTab">
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -98,7 +102,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QTabWidget" name="tabWidget">
+        <widget class="QTabWidget" name="analyzeTab">
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -154,7 +158,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>842</width>
+     <width>750</width>
      <height>31</height>
     </rect>
    </property>
