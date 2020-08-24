@@ -86,15 +86,12 @@ class Module:
 			fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Plot', d, 'PNG Image (*.png);; JPG Image (*.jpg *.jpeg)')[0]
 			if fname and fname != '':
 				[self.plotWindow, self.plotWindowModel][self.currentTab].figureref.savefig(fname)
-				print('export successful to', fname)
 
 		else:	# export data as csv
-
 			fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Data', d,
 				'Excel (*.xlsx)(*.xlsx);; CSV (*.csv)(*.csv);; HTML (*.html)(*.html);; JSON (*.json)(*.json);; LaTeX (*.tex)(*.tex)')[0]
 
 			if fname and fname != '':
-
 				exportObj = [self.dataTable, self.modelTable, self.queryTable, self.modelEvalTable][self.currentTab]
 				exportFrame = pd.DataFrame(columns=[exportObj.horizontalHeaderItem(x).text() for x in range(exportObj.columnCount())])
 				extidx = ['.xlsx', '.csv', '.html', '.json', '.tex'].index(os.path.splitext(fname)[1])
@@ -107,7 +104,11 @@ class Module:
 
 				pdExport = [exportFrame.to_excel, exportFrame.to_csv, exportFrame.to_html, exportFrame.to_json, exportFrame.to_latex][extidx]
 				pdExport(fname)	# select pandas export to use then export it
-				print('export successful to', fname)
+
+		if fname:		
+			print('export successful to', fname)
+		else:
+			print('export failed')
 
 
 	def convertFileData(self, iData):

@@ -91,32 +91,87 @@ class Module:
 
 		self.plotWindowModel.axes.clear()
 		self.plotWindowModel.axes.grid(True)
+		curSet = self.curFileData[self.curSheetName][self.plotType]
 
 		if self.modelDataOnPlot and not self.modelRelPlot:
 			self.redrawPlot(self.plotWindowModel, legend=True)
+
+		if self.modelDataEnd:
+			self.plotWindowModel.axes.axvline(curSet[len(curSet)-1],linestyle='--',color='k')
 
 		for model in self.modelShow:
 			# if plot reliability growth do stuff
 			if self.modelRelPlot:
 				x, y = model.relGrowthPlot(self.modelRelInterval)
 			else:
+				model.predict(self.futureFailCount)
 				x, y = model.MVFPlot() if self.plotType == 'FT' else model.FIPlot() if self.plotType == 'FI' else model.MTTFPlot()
 
 			pL = '' if self.plotPtLines == 0 else '-' if self.plotPtLines == 1 else '--'
 			pM = '.' if self.plotPtLines == 0 else None if self.plotPtLines == 1 else '.'
 			self.plotWindowModel.axes.plot(x, y, linestyle=pL, marker = pM, label = model.name)
 
-		x1, x2 = self.plotWindowModel.axes.get_xlim()
-		self.plotWindowModel.axes.set_xlim(right = x2 + self.futureFailTime)
-
-		if self.modelDataEnd:
-			curSet = self.curFileData[self.curSheetName][self.plotType]
-			self.plotWindowModel.axes.axvline(curSet[len(curSet)-1],linestyle='--',color='k')
+		#x1, x2 = self.plotWindowModel.axes.get_xlim()
+		self.plotWindowModel.axes.set_xlim(right = curSet[len(curSet)-1] + self.futureFailTime)
 
 		if len(self.modelShow) > 0:
 			self.plotWindowModel.axes.legend(loc = 'best')
 
 		self.plotWindowModel.draw()
+
+
+		curSheet = self.curFileData[self.curSheetName]
+		self.modelTable.clear()		# re-add numeric data to table
+		self.modelTable.setColumnCount(1 + (5 * len(self.modelShow)))
+		self.modelTable.setRowCount(len(curSheet['FN']) + self.futureFailCount)
+
+		
+		modelLabels = ['FN']
+
+		for i, fn in enumerate(curSheet['FN']):
+			newfn = QtWidgets.QTableWidgetItem(str(fn))
+			newfn.setFlags(newfn.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
+			self.modelTable.setItem(i, 0, newfn)
+
+		for midx, x in enumerate(self.modelShow):
+			mdl = x.__class__.__name__
+			modelLabels += [f'{mdl} Time', f'{mdl} FT', f'{mdl} IF', f'{mdl} FI', f'{mdl} Rel. Growth']
+			#print(len(x.MVFPlot()[0]), len(x.MTTFPlot()), len(x.FIPlot()))
+
+			for i, mvf in enumerate(x.MVFPlot()[0]):
+				newMVF = QtWidgets.QTableWidgetItem(str(mvf))
+				newMVF.setFlags(newfn.flags())
+				self.modelTable.setItem(i, 1 + 5*midx, newMVF)
+
+			for i, cft in enumerate(x.MVFPlot()[1]):
+				newCFT = QtWidgets.QTableWidgetItem(str(cft))
+				newCFT.setFlags(newfn.flags())
+				self.modelTable.setItem(i, 2 + 5*midx, newCFT)
+
+			for i, ift in enumerate(x.MTTFPlot()[1]):
+				newIFT = QtWidgets.QTableWidgetItem(str(ift))
+				newIFT.setFlags(newfn.flags())
+				self.modelTable.setItem(i, 3 + 5*midx, newIFT)
+
+			for i, nfi in enumerate(x.FIPlot()[1]):
+				newNFI = QtWidgets.QTableWidgetItem(str(nfi))
+				newNFI.setFlags(newfn.flags())
+				self.modelTable.setItem(i, 4 + 5*midx, newNFI)
+
+			for i, rel in enumerate(x.relGrowthPlot(self.modelRelInterval)[1]):
+				newREL = QtWidgets.QTableWidgetItem(str(rel))
+				newREL.setFlags(newfn.flags())
+				self.modelTable.setItem(i, 5 + 5*midx, newREL)
+
+		for row in range(self.modelTable.rowCount()):	# fill empty cells so that they can't be edited
+			for col in range(self.modelTable.columnCount()):
+				if self.modelTable.item(row, col) == None:
+					emptyItem = QtWidgets.QTableWidgetItem('')
+					emptyItem.setFlags(newfn.flags())
+					self.modelTable.setItem(row, col, emptyItem)
+
+		self.modelTable.setHorizontalHeaderLabels(modelLabels)
+		self.modelTable.resizeColumnsToContents()
 
 	def getFutureFailDur(self):
 		text, ok = QtWidgets.QInputDialog.getInt(self,

@@ -93,6 +93,7 @@ class JM(Model):
         self.predictedFailureTimes = np.append(self.data.FT, self.predictedFailureTimes)
         self.MTTFVal = self.MTTF(np.append(self.data.FN, self.futureFailures))
         self.FIVal = self.FI(self.predictedFailureTimes)
+        print('predicted')
 
     def FI(self, t, params=None):
         """

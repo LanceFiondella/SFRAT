@@ -1,3 +1,9 @@
+'''
+analyzeData.py - default tab that will simply plot data
+(can be FT, IF, FI) and can view via spreadsheet-like
+can also show laplace 
+'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
 
@@ -20,7 +26,6 @@ class MplCanvas(FigureCanvasQTAgg):
 
 class Module:
 
-
 	plotType = 'FT'			# tab 1 and 2 plot style
 	plotPtLines = 2			# initial state both dots n lines
 	plotLaplace = False		# show laplace / arith toggle
@@ -28,7 +33,6 @@ class Module:
 	plotArithAvg = False
 	plotStartIndex = 0		# for custom plot windowing
 	plotStopIndex = 0
-
 
 	def redrawPlot(self, canvas, legend=False):
 		# draw plot on tab 1, has canvas and legend params for tab 2 usage
@@ -95,6 +99,7 @@ class Module:
 			canvas.axes.axhline(lapConf,linestyle='--',color='r')
 
 		canvas.draw()	# draw curves
+		
 		
 		self.dataTable.clear()		# re-add numeric data to table
 		self.dataTable.setColumnCount(3)
