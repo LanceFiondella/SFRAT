@@ -70,8 +70,8 @@ class Module:
 			self.redrawModelPlot()
 			self.winTitle()
 
-
 			return
+			
 		print('open file failed')
 
 
@@ -99,7 +99,10 @@ class Module:
 
 				for index in range(exportObj.rowCount()):
 					for colIndex, col in enumerate(exportFrame.columns):
-						exportFrame.at[index + 1, col] = float(exportObj.item(index, colIndex).text())
+						try:	# some cells are empty and will not be exported as a number
+							exportFrame.at[index + 1, col] = float(exportObj.item(index, colIndex).text())
+						except:	# plaintext, include it anyway
+							exportFrame.at[index + 1, col] = (exportObj.item(index, colIndex).text())
 					# populate dataframe by row and column
 
 				pdExport = [exportFrame.to_excel, exportFrame.to_csv, exportFrame.to_html, exportFrame.to_json, exportFrame.to_latex][extidx]

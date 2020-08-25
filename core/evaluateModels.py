@@ -65,4 +65,5 @@ class Module:
 	def __init__(self):
 
 		self.actionPSSEpct.triggered.connect(self.getPSSEpct)
+		self.plotModelTable()
 		print('init tab 4')
