@@ -71,7 +71,7 @@ class Module:
 			self.winTitle()
 
 			return
-			
+
 		print('open file failed')
 
 
@@ -106,7 +106,10 @@ class Module:
 					# populate dataframe by row and column
 
 				pdExport = [exportFrame.to_excel, exportFrame.to_csv, exportFrame.to_html, exportFrame.to_json, exportFrame.to_latex][extidx]
-				pdExport(fname)	# select pandas export to use then export it
+				try:
+					pdExport(fname, index=False)	# select pandas export to use then export it
+				except:
+					pdExport(fname)	# for formats that don't have indexing option
 
 		if fname:		
 			print('export successful to', fname)

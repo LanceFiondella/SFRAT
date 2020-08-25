@@ -26,7 +26,7 @@ class Module:
 	modelShow = []
 	modelDataOnPlot = True
 	modelRelPlot = False
-	modelRelInterval = 1
+	modelRelInterval = 1000
 	modelDataEnd = True
 	modelData = {}
 	modelActions = []
@@ -239,6 +239,7 @@ class Module:
 		if ok:
 			self.futureFailCount = text
 			self.redrawModelPlot()
+			self.updateQueryTable()		# query table also predicts future N failures, share between tabs
 
 
 	def setViewModel(self, viewNum):
@@ -279,6 +280,7 @@ class Module:
 		if ok:
 			self.modelRelInterval = text
 			self.redrawModelPlot()
+			self.updateQueryTable()	# parameter also saved with query table
 
 
 	def __init__(self):

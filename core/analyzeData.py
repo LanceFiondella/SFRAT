@@ -139,6 +139,7 @@ class Module:
 		
 		self.plotLaplace = viewNum >= 3
 		self.plotArithAvg = viewNum == 4	# accomodate 2 extra tab 1 options
+		self.actionLapConf.setVisible(viewNum == 3)	# hide laplace conf button when not plotting it
 
 		self.redrawPlot()
 
