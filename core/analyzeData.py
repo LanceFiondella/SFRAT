@@ -34,73 +34,74 @@ class Module:
 	plotStartIndex = 0		# for custom plot windowing
 	plotStopIndex = 0
 
-	def redrawPlot(self, canvas, legend=False):
-		# draw plot on tab 1, has canvas and legend params for tab 2 usage
+	def redrawPlot(self):
+		# draw plot ONLY for tab 1
 
 		if self.curFileData == None:
 			return		# file not open, do nothing
 
 		curSheet = self.curFileData[self.curSheetName]
-		canvas.axes.clear()	# remove previous plot
+		self.plotWindow.axes.clear()	# remove previous plot
 
-		canvas.axes.grid(True)
+		self.plotWindow.axes.grid(True)
 
 		if not self.plotLaplace:
+			plotTitle = '{0} {1} vs Test Time'.format(self.curSheetName,
+				['Cumulative Failures', 'Interfailure Times', 'Failure Intensity'][['FT','IF','FI'].index(self.plotType)])
 			if self.plotType == 'FT':	# plot selected curve type
-				self.plotCurves[0] = [curSheet['FT'], curSheet['FN']]
+				plotaxes = [curSheet['FT'], curSheet['FN']]
 			elif self.plotType == 'IF':
-				self.plotCurves[0] = [curSheet['FT'], curSheet['IF']]
+				plotaxes = [curSheet['FT'], curSheet['IF']]
 			elif self.plotType == 'FI':
-				self.plotCurves[0] = [curSheet['FT'], curSheet['FI']]
-
+				plotaxes = [curSheet['FT'], curSheet['FI']]
 		else:
 			# plot laplace test or arith avg, calculate values (adapted from R code)
 			if not self.plotArithAvg:
+				plotTitle = f'{self.curSheetName} Laplace Trend Test @ {int(100*self.plotLaplaceConf)}% Confidence'
 				lapConf = norm.ppf(1 - self.plotLaplaceConf)	#qnorm
-				print(lapConf)
+				#print(lapConf)
 				laplace = [0]
 				for i in range(1, len(curSheet['IF'])):
 					sumint = 0
 					for j in range(i):
 						sumint += curSheet['FT'][j]
 					laplace.append(((sumint/(i)) - (curSheet['FT'][i]/2)) / (curSheet['FT'][i] * (1/(12*(i))**0.5 )))
-				self.plotCurves[0] = [list(range(len(laplace))), laplace]
+				plotaxes = [list(range(len(laplace))), laplace]
 			else:
+				plotTitle = f'{self.curSheetName} Running Average Trend Test'
 				runAvg = []
 				for i in range(len(curSheet['IF'])):
 					s1 = 0
 					for j in range(1+i):
 						s1 += curSheet['IF'][j]
 					runAvg.append(s1 / (i+1))
-				self.plotCurves[0] = [list(range(len(runAvg))), runAvg]
+				plotaxes = [list(range(len(runAvg))), runAvg]
 
-											# plot curves
-		for plotaxes in self.plotCurves:	# implemented with multiple plot in mind, never used
-			print('plotting')
-			if self.plotPtLines == 0:
-				# points
-				canvas.axes.plot(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
-							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.', label = 'Data')
-			elif self.plotPtLines == 1:
-				# lines
-				canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
-							plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post', label = 'Data')
-			elif self.plotPtLines == 2:
-				# both
-				dataplot = canvas.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
-							plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.-', where='post', label = 'Data')
-				colorplot = canvas.axes.plot([0],[0],'.')	# old method was to plot pts and lines separately
-				clr = colorplot[0].get_color()				# caused problems w/ legend, so to keep same appearance
-				colorplot[0].remove()						# next plot color was taken and used
-				dataplot[0].set_markerfacecolor(clr)
-				dataplot[0].set_markeredgecolor(clr)
+		print('plotting')
+		if self.plotPtLines == 0:
+			# points
+			self.plotWindow.axes.plot(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+						plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.', label = 'Data')
+		elif self.plotPtLines == 1:
+			# lines
+			self.plotWindow.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+						plotaxes[1][self.plotStartIndex:self.plotStopIndex], where='post', label = 'Data')
+		elif self.plotPtLines == 2:
+			# both
+			dataplot = self.plotWindow.axes.step(plotaxes[0][self.plotStartIndex:self.plotStopIndex],
+						plotaxes[1][self.plotStartIndex:self.plotStopIndex],'.-', where='post', label = 'Data')
+			colorplot = self.plotWindow.axes.plot([0],[0],'.')	# old method was to plot pts and lines separately
+			clr = colorplot[0].get_color()				# caused problems w/ legend, so to keep same appearance
+			colorplot[0].remove()						# next plot color was taken and used
+			dataplot[0].set_markerfacecolor(clr)
+			dataplot[0].set_markeredgecolor(clr)
 
 		if self.plotLaplace and not self.plotArithAvg:	# plot laplace, need to plot after due to plot limits
-			canvas.axes.axhline(lapConf,linestyle='--',color='r')
+			self.plotWindow.axes.axhline(lapConf,linestyle='--',color='r')
 
-		canvas.draw()	# draw curves
-		
-		
+		self.plotWindow.axes.set_title(plotTitle)
+		self.plotWindow.draw()	# draw curves
+
 		self.dataTable.clear()		# re-add numeric data to table
 		self.dataTable.setColumnCount(3)
 		self.dataTable.setRowCount(len(curSheet['FN']))
@@ -132,13 +133,16 @@ class Module:
 		self.dataTable.resizeColumnsToContents()
 
 
-	def setView(self, viewNum):
+	def setViewAnalyze(self, viewNum):
 		if viewNum < 3:
 			self.plotType = ['FT','IF','FI'][viewNum]
-		self.modelRelPlot = (viewNum == 3)	# only appears on tab 2 so retain 1st tab functionality otherwise
-		self.redrawPlot(self.plotWindow)
-		self.redrawModelPlot()
-		print(f'set view type to {self.plotType}')
+		
+		self.plotLaplace = viewNum >= 3
+		self.plotArithAvg = viewNum == 4	# accomodate 2 extra tab 1 options
+
+		self.redrawPlot()
+
+		print(f'set view type A to {viewNum}')
 
 
 	def setPlotType(self, typeNum, rec = 0):
@@ -147,14 +151,8 @@ class Module:
 			self.setPlotTypeModels(typeNum, 1)
 		for i, option in enumerate([self.actionPlot_Points, self.actionPlot_Lines, self.actionPlot_Both]):
 			option.setChecked(i == typeNum)
-		self.redrawPlot(self.plotWindow)
+		self.redrawPlot()
 		print(f'set dot/line type 2 to {typeNum}')
-
-
-	def laplaceToggle(self, en):
-		self.plotLaplace = en
-		self.redrawPlot(self.plotWindow)
-		print('toggled laplace trend test')
 
 
 	def arithToggle(self):
@@ -165,7 +163,7 @@ class Module:
 			self.actionPlotArith.setText('Plot: Show Laplace Test')
 		else:
 			self.actionPlotArith.setText('Plot: Show Arithmetic Avg.')
-		self.redrawPlot(self.plotWindow)
+		self.redrawPlot()
 
 
 	def laplaceQuery(self):
@@ -176,7 +174,7 @@ class Module:
 								0, 1, 2, QtCore.Qt.WindowFlags(), 0.01)
 		if ok:
 			self.plotLaplaceConf = text
-			self.redrawPlot(self.plotWindow)
+			self.redrawPlot()
 			print(f'set laplace conf to {text}')
 
 
@@ -202,7 +200,7 @@ class Module:
 			else:
 				self.plotStopIndex = text
 				print(f'set stop idx to {text}')
-			self.redrawPlot(self.plotWindow)
+			self.redrawPlot()
 
 
 
@@ -210,13 +208,13 @@ class Module:
 		self.plotWindow = MplCanvas(self, self.canvasDPI)
 		self.gridLayout_2.addWidget(self.plotWindow, 0, 0, 1, 1)
 
-		self.actionCF.triggered.connect(lambda: self.setView(0))
-		self.actionTBF.triggered.connect(lambda: self.setView(1))
-		self.actionFI.triggered.connect(lambda: self.setView(2))
+		self.actionCF.triggered.connect(lambda: self.setViewAnalyze(0))
+		self.actionTBF.triggered.connect(lambda: self.setViewAnalyze(1))
+		self.actionFI.triggered.connect(lambda: self.setViewAnalyze(2))
+		self.actionLap.triggered.connect(lambda: self.setViewAnalyze(3))
+		self.actionArith.triggered.connect(lambda: self.setViewAnalyze(4))
 
 		self.actionLapConf.triggered.connect(self.laplaceQuery)
-		self.actionTrendTest.triggered.connect(self.laplaceToggle)
-		self.actionPlotArith.triggered.connect(self.arithToggle)
 
 		self.actionStartIndex.triggered.connect(lambda: self.rangeDialog(True))
 		self.actionStopIndex.triggered.connect(lambda: self.rangeDialog(False))
@@ -224,6 +222,15 @@ class Module:
 		self.actionPlot_Points.triggered.connect(lambda: self.setPlotType(0))
 		self.actionPlot_Lines.triggered.connect(lambda: self.setPlotType(1))
 		self.actionPlot_Both.triggered.connect(lambda: self.setPlotType(2))
+
+
+		self.analyzePlotType = QtWidgets.QActionGroup(self)
+		self.analyzePlotType.setExclusive(True)
+		self.analyzePlotType.addAction(self.actionCF)
+		self.analyzePlotType.addAction(self.actionTBF)
+		self.analyzePlotType.addAction(self.actionFI)
+		self.analyzePlotType.addAction(self.actionLap)
+		self.analyzePlotType.addAction(self.actionArith)
 
 		self.drawTypeGroup = QtWidgets.QActionGroup(self)
 		self.drawTypeGroup.setExclusive(True)

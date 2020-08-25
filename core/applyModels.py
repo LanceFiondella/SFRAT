@@ -22,15 +22,17 @@ class Module:
 
 	futureFailCount = 1
 	futureFailTime = 1000
+	modelPlotType = 'FT'
 	modelShow = []
 	modelDataOnPlot = True
 	modelRelPlot = False
-	modelRelInterval = 1000
+	modelRelInterval = 1
 	modelDataEnd = True
 	modelData = {}
 	modelActions = []
 
-	def toggleModel(self, state):
+
+	def toggleModel(self, state):	# called every time a model is toggled via any of last 3 tabs
 		if self.curFileData == None:
 			self.sender().setChecked(False)
 			return	# file not open
@@ -64,8 +66,10 @@ class Module:
 			if checkBox.objectName()[10:] == str(index):	# index match so model match
 				checkBox.setChecked(state)
 
+		self.updateQueryTable()
 		self.plotModelTable()	# update model accuracy table (tab4)
 		self.redrawModelPlot()
+
 
 	def listModels(self):	# add all models dynamically to the menus
 
@@ -84,6 +88,40 @@ class Module:
 				newAction.triggered.connect(self.toggleModel)
 				menus[midx].insertAction(place[midx], newAction)
 
+
+	def redrawDataModelPlot(self):	#copied from tab 1 to save lot of frustration between drawing modes
+
+		curSheet = self.curFileData[self.curSheetName]
+		self.plotWindowModel.axes.clear()	# remove previous plot
+
+		self.plotWindowModel.axes.grid(True)
+
+		if self.modelPlotType == 'FT':	# plot selected curve type
+			plotaxes = [curSheet['FT'], curSheet['FN']]
+		elif self.modelPlotType == 'IF':
+			plotaxes = [curSheet['FT'], curSheet['IF']]
+		elif self.modelPlotType == 'FI':
+			plotaxes = [curSheet['FT'], curSheet['FI']]
+
+		print('plotting')
+		if self.plotPtLines == 0:
+			# points
+			self.plotWindowModel.axes.plot(plotaxes[0], plotaxes[1],'.', label = 'Data')
+		elif self.plotPtLines == 1:
+			# lines
+			self.plotWindowModel.axes.step(plotaxes[0], plotaxes[1], where='post', label = 'Data')
+		elif self.plotPtLines == 2:
+			# both
+			dataplot = self.plotWindowModel.axes.step(plotaxes[0], plotaxes[1],'.-', where='post', label = 'Data')
+			colorplot = self.plotWindowModel.axes.plot([0],[0],'.')	# old method was to plot pts and lines separately
+			clr = colorplot[0].get_color()				# caused problems w/ legend, so to keep same appearance
+			colorplot[0].remove()						# next plot color was taken and used
+			dataplot[0].set_markerfacecolor(clr)
+			dataplot[0].set_markeredgecolor(clr)
+
+		self.plotWindowModel.draw()	# draw curves
+
+
 	def redrawModelPlot(self):
 
 		if self.curFileData == None:
@@ -91,13 +129,16 @@ class Module:
 
 		self.plotWindowModel.axes.clear()
 		self.plotWindowModel.axes.grid(True)
-		curSet = self.curFileData[self.curSheetName][self.plotType]
+		curSet = self.curFileData[self.curSheetName]['FT']	# keep track of FT as other plots also need time scale
+
+		if self.modelRelPlot:
+			plotTitle = f'{self.curSheetName} Reliability Plot @ {self.modelRelInterval} Length Interval'
+		else:
+			plotTitle = '{0} {1} vs Test Time'.format(self.curSheetName,
+				['Cumulative Failures', 'Interfailure Times', 'Failure Intensity'][['FT','IF','FI'].index(self.modelPlotType)])
 
 		if self.modelDataOnPlot and not self.modelRelPlot:
-			self.redrawPlot(self.plotWindowModel, legend=True)
-
-		if self.modelDataEnd:
-			self.plotWindowModel.axes.axvline(curSet[len(curSet)-1],linestyle='--',color='k')
+			self.redrawDataModelPlot()
 
 		for model in self.modelShow:
 			# if plot reliability growth do stuff
@@ -105,11 +146,14 @@ class Module:
 				x, y = model.relGrowthPlot(self.modelRelInterval)
 			else:
 				model.predict(self.futureFailCount)
-				x, y = model.MVFPlot() if self.plotType == 'FT' else model.FIPlot() if self.plotType == 'FI' else model.MTTFPlot()
+				x, y = model.MVFPlot() if self.modelPlotType == 'FT' else model.FIPlot() if self.modelPlotType == 'FI' else model.MTTFPlot()
 
 			pL = '' if self.plotPtLines == 0 else '-' if self.plotPtLines == 1 else '--'
 			pM = '.' if self.plotPtLines == 0 else None if self.plotPtLines == 1 else '.'
 			self.plotWindowModel.axes.plot(x, y, linestyle=pL, marker = pM, label = model.name)
+
+		if self.modelDataEnd:
+			self.plotWindowModel.axes.axvline(curSet[len(curSet)-1],linestyle='--',color='k')
 
 		#x1, x2 = self.plotWindowModel.axes.get_xlim()
 		self.plotWindowModel.axes.set_xlim(right = curSet[len(curSet)-1] + self.futureFailTime)
@@ -117,6 +161,7 @@ class Module:
 		if len(self.modelShow) > 0:
 			self.plotWindowModel.axes.legend(loc = 'best')
 
+		self.plotWindowModel.axes.set_title(plotTitle)
 		self.plotWindowModel.draw()
 
 
@@ -173,6 +218,7 @@ class Module:
 		self.modelTable.setHorizontalHeaderLabels(modelLabels)
 		self.modelTable.resizeColumnsToContents()
 
+
 	def getFutureFailDur(self):
 		text, ok = QtWidgets.QInputDialog.getInt(self,
 					"Model Prediction",
@@ -182,6 +228,7 @@ class Module:
 		if ok:
 			self.futureFailTime = text
 			self.redrawModelPlot()
+
 
 	def getFutureFailCount(self):
 		text, ok = QtWidgets.QInputDialog.getInt(self,
@@ -193,6 +240,17 @@ class Module:
 			self.futureFailCount = text
 			self.redrawModelPlot()
 
+
+	def setViewModel(self, viewNum):
+		if viewNum < 3:
+			self.modelPlotType = ['FT','IF','FI'][viewNum]
+
+		self.modelRelPlot = (viewNum == 3)	# only appears on tab 2 so retain 1st tab functionality otherwise
+		self.actionSelRel.setVisible(viewNum == 3)
+		self.redrawModelPlot()
+		print(f'set view type B to {viewNum}')
+
+
 	def setModelDataView(self, typeID, val):
 		if typeID == 0:
 			self.modelDataOnPlot = val
@@ -200,6 +258,7 @@ class Module:
 			self.modelDataEnd = val
 		print('set plot param',typeID,'to',val)
 		self.redrawModelPlot()
+
 
 	def setPlotTypeModels(self, typeNum, rec = 0):
 		self.plotPtLines = typeNum
@@ -210,6 +269,7 @@ class Module:
 		self.redrawModelPlot()
 		print(f'set dot/line type 1 to {typeNum}')
 
+
 	def getRelInterval(self):
 		text, ok = QtWidgets.QInputDialog.getInt(self,
 					"Reliability Interval",
@@ -219,6 +279,7 @@ class Module:
 		if ok:
 			self.modelRelInterval = text
 			self.redrawModelPlot()
+
 
 	def __init__(self):
 
@@ -231,6 +292,13 @@ class Module:
 		self.plotWindowModel = MplCanvas(self, self.canvasDPI)
 		self.gridLayout_6.addWidget(self.plotWindowModel, 0, 0, 1, 1)
 
+		self.modelPlotGroup = QtWidgets.QActionGroup(self)
+		self.modelPlotGroup.setExclusive(True)
+		self.modelPlotGroup.addAction(self.actionCF_2)
+		self.modelPlotGroup.addAction(self.actionTBF_2)
+		self.modelPlotGroup.addAction(self.actionFI_2)
+		self.modelPlotGroup.addAction(self.actionPlotRel)
+
 		self.drawTypeGroup2 = QtWidgets.QActionGroup(self)
 		self.drawTypeGroup2.setExclusive(True)
 		self.drawTypeGroup2.addAction(self.actionPlot_Points_2)
@@ -241,10 +309,10 @@ class Module:
 		self.actionPlot_Lines_2.triggered.connect(lambda: self.setPlotTypeModels(1))
 		self.actionPlot_Both_2.triggered.connect(lambda: self.setPlotTypeModels(2))
 
-		self.actionCF_2.triggered.connect(lambda: self.setView(0))
-		self.actionTBF_2.triggered.connect(lambda: self.setView(1))
-		self.actionFI_2.triggered.connect(lambda: self.setView(2))
-		self.actionPlotRel.triggered.connect(lambda: self.setView(3))
+		self.actionCF_2.triggered.connect(lambda: self.setViewModel(0))
+		self.actionTBF_2.triggered.connect(lambda: self.setViewModel(1))
+		self.actionFI_2.triggered.connect(lambda: self.setViewModel(2))
+		self.actionPlotRel.triggered.connect(lambda: self.setViewModel(3))
 
 		self.actionSelRel.triggered.connect(self.getRelInterval)
 		

@@ -25,7 +25,7 @@ class Module:
 		text, ok = QtWidgets.QInputDialog.getDouble(self,
 								"PSSE Data Percentage",
 								"Specify the percentage of data to use for PSSE:",
-								self.plotLaplaceConf,
+								self.pctPSSE,
 								0, 1, 2, QtCore.Qt.WindowFlags(), 0.01)
 		if ok:
 			self.pctPSSE = text

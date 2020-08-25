@@ -192,14 +192,14 @@
     <addaction name="actionCF"/>
     <addaction name="actionTBF"/>
     <addaction name="actionFI"/>
+    <addaction name="actionLap"/>
+    <addaction name="actionArith"/>
+    <addaction name="separator"/>
+    <addaction name="actionLapConf"/>
     <addaction name="separator"/>
     <addaction name="actionPlot_Points"/>
     <addaction name="actionPlot_Lines"/>
     <addaction name="actionPlot_Both"/>
-    <addaction name="separator"/>
-    <addaction name="actionTrendTest"/>
-    <addaction name="actionLapConf"/>
-    <addaction name="actionPlotArith"/>
     <addaction name="separator"/>
     <addaction name="actionStartIndex"/>
     <addaction name="actionStopIndex"/>
@@ -208,24 +208,24 @@
     <property name="title">
      <string>View</string>
     </property>
-    <addaction name="actionSelFFC"/>
-    <addaction name="actionSelFFD"/>
-    <addaction name="separator"/>
     <addaction name="actionModelPlaceholder"/>
     <addaction name="separator"/>
-    <addaction name="actionShowPlotData"/>
-    <addaction name="actionShowPlotDataEnd"/>
+    <addaction name="actionCF_2"/>
+    <addaction name="actionTBF_2"/>
+    <addaction name="actionFI_2"/>
+    <addaction name="actionPlotRel"/>
+    <addaction name="separator"/>
+    <addaction name="actionSelRel"/>
+    <addaction name="separator"/>
+    <addaction name="actionSelFFC"/>
+    <addaction name="actionSelFFD"/>
     <addaction name="separator"/>
     <addaction name="actionPlot_Points_2"/>
     <addaction name="actionPlot_Lines_2"/>
     <addaction name="actionPlot_Both_2"/>
     <addaction name="separator"/>
-    <addaction name="actionCF_2"/>
-    <addaction name="actionTBF_2"/>
-    <addaction name="actionFI_2"/>
-    <addaction name="separator"/>
-    <addaction name="actionPlotRel"/>
-    <addaction name="actionSelRel"/>
+    <addaction name="actionShowPlotData"/>
+    <addaction name="actionShowPlotDataEnd"/>
    </widget>
    <widget class="QMenu" name="menuViewQ">
     <property name="title">
@@ -233,10 +233,10 @@
     </property>
     <addaction name="actionQueryPlaceholder"/>
     <addaction name="separator"/>
-    <addaction name="actionSpecify_Failure_Count"/>
-    <addaction name="actionSpecify_Additional_Runtime"/>
-    <addaction name="actionSpecify_Desired_Reliability"/>
-    <addaction name="actionSpecify_Reliability_Interval"/>
+    <addaction name="actionSpecFC"/>
+    <addaction name="actionSpecRuntime"/>
+    <addaction name="actionDesRel"/>
+    <addaction name="actionSpecRelInt"/>
    </widget>
    <widget class="QMenu" name="menuViewE">
     <property name="title">
@@ -297,16 +297,28 @@
    </property>
   </action>
   <action name="actionCF">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Cumulative Failures</string>
    </property>
   </action>
   <action name="actionTBF">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Time Between Failures</string>
    </property>
   </action>
   <action name="actionFI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Failure Intensity</string>
    </property>
@@ -343,12 +355,12 @@
     <string>Plot: Data</string>
    </property>
   </action>
-  <action name="actionTrendTest">
+  <action name="actionLap">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Plot: Trend Test</string>
+    <string>Laplace Test</string>
    </property>
   </action>
   <action name="actionLapConf">
@@ -377,12 +389,12 @@
     <string>Plot: Laplace Trend Test</string>
    </property>
   </action>
-  <action name="actionPlotArith">
+  <action name="actionArith">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
-    <string>Plot: Show Arithmetic Avg.</string>
+    <string>Running Average</string>
    </property>
   </action>
   <action name="actionStartIndex">
@@ -505,28 +517,46 @@
    </property>
   </action>
   <action name="actionCF_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Cumulative Failures</string>
    </property>
   </action>
   <action name="actionTBF_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Time Between Failures</string>
    </property>
   </action>
   <action name="actionFI_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Failure Intensity</string>
    </property>
   </action>
   <action name="actionPlotRel">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Reliability Plot</string>
+    <string>Reliability</string>
    </property>
   </action>
   <action name="actionSelRel">
    <property name="text">
     <string>Select Reliability Interval</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionQueryPlaceholder">
@@ -537,22 +567,22 @@
     <bool>false</bool>
    </property>
   </action>
-  <action name="actionSpecify_Failure_Count">
+  <action name="actionSpecFC">
    <property name="text">
     <string>Specify Failure Count</string>
    </property>
   </action>
-  <action name="actionSpecify_Additional_Runtime">
+  <action name="actionSpecRuntime">
    <property name="text">
     <string>Specify Additional Runtime</string>
    </property>
   </action>
-  <action name="actionSpecify_Desired_Reliability">
+  <action name="actionDesRel">
    <property name="text">
     <string>Specify Desired Reliability</string>
    </property>
   </action>
-  <action name="actionSpecify_Reliability_Interval">
+  <action name="actionSpecRelInt">
    <property name="text">
     <string>Specify Reliability Interval</string>
    </property>

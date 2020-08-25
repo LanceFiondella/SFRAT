@@ -66,7 +66,7 @@ class Module:
 			self.plotStartIndex = 0
 			self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
 			self.updateSheetSelect(self.curFileData)
-			self.redrawPlot(self.plotWindow)
+			self.redrawPlot()
 			self.redrawModelPlot()
 			self.winTitle()
 
@@ -175,7 +175,7 @@ class Module:
 		for m in self.modelActions:
 			m.setChecked(False)
 
-		self.redrawPlot(self.plotWindow)
+		self.redrawPlot()
 		self.redrawModelPlot()
 		print(f'changed to sheet {sheetName}')
 
@@ -217,7 +217,7 @@ class Module:
 								# show right view menu
 
 		if modeNum == 0:
-			self.redrawPlot(self.plotWindow)
+			self.redrawPlot()
 		elif modeNum == 1:
 			self.redrawModelPlot()
 
