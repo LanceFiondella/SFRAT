@@ -1,3 +1,8 @@
+'''
+evaluateModels.py - apply different score values to models
+in order to quickly compare how well they work
+'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from math import floor
@@ -18,9 +23,6 @@ class Module:
 		mvfTab = [model.MVF(i) for i in failTimes]
 		return sum((i - mvfTab[idx])**2 for idx, i in enumerate(failNums))
 
-	def fisher(self, model=None, data=None):
-		return 0
-
 	def getPSSEpct(self):
 		text, ok = QtWidgets.QInputDialog.getDouble(self,
 								"PSSE Data Percentage",
@@ -36,26 +38,23 @@ class Module:
 	def plotModelTable(self):	# calculates AIC and PSSE for each model
 								# called when a model is toggled (via applyModels)
 		self.modelEvalTable.clear()
-		self.modelEvalTable.setColumnCount(4)
+		self.modelEvalTable.setColumnCount(3)
 		self.modelEvalTable.setRowCount(len(self.modelShow))
-		self.modelEvalTable.setHorizontalHeaderLabels(['Model', 'AIC', f'PSSE {round(self.pctPSSE*100)}% Data', 'Fisher Information'])
+		self.modelEvalTable.setHorizontalHeaderLabels(['Model', 'AIC', f'PSSE {round(self.pctPSSE*100)}% Data'])
 
 		for idx, model in enumerate(self.modelShow):
 
 			newMName = QtWidgets.QTableWidgetItem(model.name)
-			newMAIC = QtWidgets.QTableWidgetItem(str(self.AIC(model)))
-			newMPSSE = QtWidgets.QTableWidgetItem(str(self.PSSE(model, self.curFileData[self.curSheetName]['FT'])))
-			newMfisher = QtWidgets.QTableWidgetItem(str(self.fisher()))
+			newMAIC = QtWidgets.QTableWidgetItem(self.numfmt(self.AIC(model)))
+			newMPSSE = QtWidgets.QTableWidgetItem(self.numfmt(self.PSSE(model, self.curFileData[self.curSheetName]['FT'])))
 
 			newMName.setFlags(newMName.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
 			newMAIC.setFlags(newMName.flags())
-			newMfisher.setFlags(newMName.flags())
 			newMPSSE.setFlags(newMName.flags())	# copy flags from first element
 
 			self.modelEvalTable.setItem(idx, 0, newMName)
 			self.modelEvalTable.setItem(idx, 1, newMAIC)
 			self.modelEvalTable.setItem(idx, 2, newMPSSE)
-			self.modelEvalTable.setItem(idx, 3, newMfisher)
 
 
 		self.modelEvalTable.resizeColumnsToContents()
@@ -65,5 +64,4 @@ class Module:
 	def __init__(self):
 
 		self.actionPSSEpct.triggered.connect(self.getPSSEpct)
-		self.plotModelTable()
 		print('init tab 4')

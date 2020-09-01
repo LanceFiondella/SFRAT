@@ -1,3 +1,10 @@
+'''
+applyModels.py - view data as well as apply different
+SRGMs, view and compare data plus show reliability growth
+
+TODO: cache model results so that when they're toggled they don't re-calculate
+'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
 
@@ -181,30 +188,29 @@ class Module:
 		for midx, x in enumerate(self.modelShow):
 			mdl = x.__class__.__name__
 			modelLabels += [f'{mdl} Time', f'{mdl} FT', f'{mdl} IF', f'{mdl} FI', f'{mdl} Rel. Growth']
-			#print(len(x.MVFPlot()[0]), len(x.MTTFPlot()), len(x.FIPlot()))
 
 			for i, mvf in enumerate(x.MVFPlot()[0]):
-				newMVF = QtWidgets.QTableWidgetItem(str(mvf))
+				newMVF = QtWidgets.QTableWidgetItem(self.numfmt(mvf))
 				newMVF.setFlags(newfn.flags())
 				self.modelTable.setItem(i, 1 + 5*midx, newMVF)
 
 			for i, cft in enumerate(x.MVFPlot()[1]):
-				newCFT = QtWidgets.QTableWidgetItem(str(cft))
+				newCFT = QtWidgets.QTableWidgetItem(self.numfmt(cft))
 				newCFT.setFlags(newfn.flags())
 				self.modelTable.setItem(i, 2 + 5*midx, newCFT)
 
 			for i, ift in enumerate(x.MTTFPlot()[1]):
-				newIFT = QtWidgets.QTableWidgetItem(str(ift))
+				newIFT = QtWidgets.QTableWidgetItem(self.numfmt(ift))
 				newIFT.setFlags(newfn.flags())
 				self.modelTable.setItem(i, 3 + 5*midx, newIFT)
 
 			for i, nfi in enumerate(x.FIPlot()[1]):
-				newNFI = QtWidgets.QTableWidgetItem(str(nfi))
+				newNFI = QtWidgets.QTableWidgetItem(self.numfmt(nfi))
 				newNFI.setFlags(newfn.flags())
 				self.modelTable.setItem(i, 4 + 5*midx, newNFI)
 
 			for i, rel in enumerate(x.relGrowthPlot(self.modelRelInterval)[1]):
-				newREL = QtWidgets.QTableWidgetItem(str(rel))
+				newREL = QtWidgets.QTableWidgetItem(self.numfmt(rel))
 				newREL.setFlags(newfn.flags())
 				self.modelTable.setItem(i, 5 + 5*midx, newREL)
 

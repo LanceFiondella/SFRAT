@@ -391,7 +391,7 @@
     <string>Export...</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+E</string>
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionPlot_Running_Average">

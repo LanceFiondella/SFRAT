@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'window.ui'
+# Form implementation generated from reading ui file 'core/window.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -16,7 +16,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(750, 750)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("core/favicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("core/core/favicon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -352,7 +352,7 @@ class Ui_MainWindow(object):
         self.actionLap.setText(_translate("MainWindow", "Laplace Test"))
         self.actionLapConf.setText(_translate("MainWindow", "Laplace Confidence"))
         self.actionExport.setText(_translate("MainWindow", "Export..."))
-        self.actionExport.setShortcut(_translate("MainWindow", "Ctrl+E"))
+        self.actionExport.setShortcut(_translate("MainWindow", "Ctrl+S"))
         self.actionPlot_Running_Average.setText(_translate("MainWindow", "Plot: Running Average"))
         self.actionPlot_Laplace_Trend_Test.setText(_translate("MainWindow", "Plot: Laplace Trend Test"))
         self.actionArith.setText(_translate("MainWindow", "Running Average"))

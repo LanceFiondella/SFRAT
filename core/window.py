@@ -1,6 +1,8 @@
 '''
 window.py - controls functionality of SFRAT overhead menu
 actions as well as taskbar, menu bar, switch between tabs
+
+TODO: make decimal places an option in the UI
 '''
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -21,6 +23,7 @@ class Module:
 	sheetActions = []	# stores menu options for sheet names for deletion etc
 	plotCurves = [[]]	# store all curves for plotting
 
+	dataDecimalPlaces = 3
 
 	def winTitle(self):	# update the window title to match the open file name
 		ext = os.path.splitext(self.curFilePath)[1]
@@ -30,9 +33,13 @@ class Module:
 		self.setWindowTitle(windowTitle)
 
 
-	def openFile_click(self, other):	# open a failure data listing
-		print('opening file')
+	def numfmt(self, number):	# round to decimal places and remove following zeros
+		n = round(number, self.dataDecimalPlaces)
+		return str(int(n)) if n % 1 == 0 else str(n)
 
+
+	def openFile_click(self, other = None, auto = False):	# open a failure data listing
+		print('opening file')
 		d = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 		fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self,
 					"Open Failure Data",
@@ -47,10 +54,12 @@ class Module:
 					curFileRaw = pd.read_excel(fileName, 
 									sheet_name=None)
 					#print(curFileRaw)
-					self.menuSelect_Sheet.menuAction().setVisible(True)
+					if not auto:	# for auto report disgregard ui
+						self.menuSelect_Sheet.menuAction().setVisible(True)
 				elif ext == '.csv':
 					curFileRaw = {"Sheet": pd.read_csv(fileName)}
-					self.menuSelect_Sheet.menuAction().setVisible(False)
+					if not auto:
+						self.menuSelect_Sheet.menuAction().setVisible(False)
 			except:
 				print('Import Error')	# file not convertable to pandas
 				return
@@ -58,16 +67,15 @@ class Module:
 			self.curFilePath = fileName
 			print(f'File Loaded with {len(curFileRaw)} sheets')
 
+			if not auto:
+				self.statusBar.clearMessage()
 
-			self.statusBar.clearMessage()
 			self.convertFileData(curFileRaw)
+
 			self.listModels()	# do before cursheetname to only do once	
-			self.curSheetName = list(self.curFileData.keys())[0]	# pick 1st sheet
-			self.plotStartIndex = 0
-			self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
 			self.updateSheetSelect(self.curFileData)
-			self.redrawPlot()
-			self.redrawModelPlot()
+			self.switchSheet(force = list(self.curFileData.keys())[0])	# pick 1st sheet
+
 			self.winTitle()
 
 			return
@@ -166,11 +174,19 @@ class Module:
 			self.curFileData[str(sheet)] = pd.DataFrame.from_dict(newFrame)
 
 
-	def switchSheet(self):
-		sheetName = self.sender().text()
+	def switchSheet(self, action = None, force = None):
+
+		sheetName = force if force != None else self.sender().text() 
+					# functionality for forced sheet switch
 		if sheetName == self.curSheetName:
 			return	# only different sheet switch
-		self.menuSelect_Sheet.setActiveAction(self.sender())
+
+		if force == None:	# select via button to 
+			self.menuSelect_Sheet.setActiveAction(self.sender())
+		else:
+			for act in self.sheetActions:
+				act.setChecked(force == act.text())
+
 		self.curSheetName = sheetName
 		self.plotStartIndex = 0
 		self.plotStopIndex = len(self.curFileData[self.curSheetName]['IF'])
@@ -181,16 +197,23 @@ class Module:
 		for m in self.modelActions:
 			m.setChecked(False)
 
+		self.futureFailTime = self.curFileData[self.curSheetName].FT.iloc[-1] - \
+								self.curFileData[self.curSheetName].FT.iloc[-2]
+		self.modelRelInterval = self.futureFailTime
+		self.additionalRuntime = self.futureFailTime
+
+
 		self.redrawPlot()
 		self.redrawModelPlot()
+		self.plotModelTable()
+		self.updateQueryTable()
+
+		self.showMode(0)
+
 		print(f'changed to sheet {sheetName}')
 
 
 	def updateSheetSelect(self, sheets):
-		#self.sheetList.clear()
-		for idx, old_action in enumerate(self.sheetActions):
-			old_action.deleteLater()
-		#print(len(self.sheetActions))
 		
 		self.sheetActions = []
 
@@ -221,6 +244,11 @@ class Module:
 									self.menuViewE]):
 			mode.menuAction().setVisible(idx == modeNum)
 								# show right view menu
+
+		for idx, mode in enumerate([self.actionAnalyzeData, self.actionApplyModels,
+									self.actionModelResults, self.actionEvaluateModels]):
+			mode.setChecked(idx == modeNum)
+				# set mode checked (for force open mode)
 
 		if modeNum == 0:
 			self.redrawPlot()

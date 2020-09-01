@@ -65,11 +65,11 @@ class Module:
 				time_to = root(
 					lambda t: self.desiredReliability - model.reliability(t, self.modelRelInterval), [x0])
 				if time_to.success:
-					result = str(time_to.x[0] - x0) if (time_to.x[0] - x0 > 0) else "Achieved"
+					result = self.numfmt( (time_to.x[0] - x0) ) if (time_to.x[0] - x0 > 0) else "Achieved"
 				else:
 					result = "Unavailable"
 
-				resnum = str(model.MVF(x0 + self.additionalRuntime) - model.MVF(x0))
+				resnum = model.MVF(x0 + self.additionalRuntime) - model.MVF(x0)
 
 			else:
 				result = ""	# don't repeatedly show result
@@ -82,9 +82,9 @@ class Module:
 
 				newMName = QtWidgets.QTableWidgetItem(failnum == 0 and model.name or '')
 				newTTo = QtWidgets.QTableWidgetItem(failnum == 0 and result or '')
-				newNumF = QtWidgets.QTableWidgetItem(failnum == 0 and resnum)
+				newNumF = QtWidgets.QTableWidgetItem(failnum == 0 and self.numfmt(resnum))
 				newNth = QtWidgets.QTableWidgetItem(str(len(mvfs)))
-				newTTN = QtWidgets.QTableWidgetItem(str(mvfs[-1] - mvfs[len(self.curFileData[self.curSheetName]['FT'])-1]))
+				newTTN = QtWidgets.QTableWidgetItem(self.numfmt(mvfs[-1] - mvfs[len(self.curFileData[self.curSheetName]['FT'])-1]))
 
 				newMName.setFlags(newMName.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
 				newNth.setFlags(newMName.flags())
@@ -115,7 +115,4 @@ class Module:
 		self.actionSpecRuntime.triggered.connect(self.getRuntime)
 		self.actionDesRel.triggered.connect(self.getReliability)
 		self.actionSpecRelInt.triggered.connect(self.getRelInterval)
-
-		self.updateQueryTable()
-
 		print('init tab 3')
