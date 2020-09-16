@@ -37,19 +37,19 @@ Results_aMLE = []
 Results_bMLE = []
 for i in range(0, len(DATA[0])):
     try:
-        Results_aMLE.append((DATA[0][i].aMLEs, DATA[1][i]))
-        Results_bMLE.append((DATA[0][i].bMLEs, DATA[2][i]))
+        Results_aMLE.append((DATA[0][i].aMLE, DATA[1][i]))
+        Results_bMLE.append((DATA[0][i].bMLE, DATA[2][i]))
     except:
         mylogger.info('Error in Sheet number ' + sheets[i])
 
 
 @pytest.mark.parametrize("test_input,expected", Results_aMLE)
-def test_gm_d_mle(test_input, expected):
+def test_dss_a_mle(test_input, expected):
     assert abs(test_input - expected) < 10 ** -5
 
 
 @pytest.mark.parametrize("test_input,expected", Results_bMLE)
-def test_gm_phi_mle(test_input, expected):
+def test_dss_b_mle(test_input, expected):
     assert abs(test_input - expected) < 10 ** -5
 
 
