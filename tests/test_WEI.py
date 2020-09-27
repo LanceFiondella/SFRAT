@@ -48,6 +48,9 @@ for i in range(0, len(DATA[0])):
 
 @pytest.mark.parametrize("test_input,expected", Results_aMLE)
 def test_wei_a_mle(test_input, expected):
+    mylogger.info("****************************")
+    mylogger.info(test_input)
+    mylogger.info(expected)
     assert abs(test_input - expected) < 10 ** -5
 
 
