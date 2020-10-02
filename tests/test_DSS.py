@@ -14,7 +14,7 @@ mylogger = logging.getLogger()
 mylogger.info('\n###############\nStarting DSS Model Testing\n###############')
 
 def setup_dss(Systemdata):
-    fname = "test_model_data.xlsx"
+    fname = "model_data.xlsx"
     dataResults = pd.read_excel(fname, sheet_name='DSS')
     aMLE = dataResults['DSS (aMLEs)'].to_numpy()
     bMLE = dataResults['DSS (bMLEs)'].to_numpy()
@@ -53,7 +53,7 @@ def test_dss_a_mle(test_input, expected,SheetName):
 
 @pytest.mark.parametrize("test_input,expected,SheetName", Results_bMLE)
 def test_dss_b_mle(test_input, expected,SheetName):
-    print("\n DSS B MLE " + SheetName)
+    print("\n WEI B MLE " + SheetName)
     assert abs(test_input - expected) < 10 ** -5
 
 

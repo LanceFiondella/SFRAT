@@ -33,7 +33,7 @@ def setup_go(Systemdata):
     return [go_list, bHat, aHat]
 
 
-fname = "test_model_data.xlsx"
+fname = "model_data.xlsx"
 Systemdata = Data()
 Systemdata.importFile(fname)
 DATA = setup_go(Systemdata)

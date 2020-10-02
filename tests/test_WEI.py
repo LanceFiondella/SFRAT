@@ -14,7 +14,7 @@ mylogger = logging.getLogger()
 mylogger.info('\n###############\nStarting Weibull Model Testing\n###############')
 
 def setup_wei(Systemdata):
-    fname = "test_model_data.xlsx"
+    fname = "model_data.xlsx"
     dataResults = pd.read_excel(fname, sheet_name='Weibull')
     aMLE = dataResults['a (MLE)'].to_numpy()
     bMLE = dataResults['b (MLE)'].to_numpy()
