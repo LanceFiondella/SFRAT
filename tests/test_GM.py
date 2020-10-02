@@ -4,6 +4,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 from models.GM import GM
+from core.dataClass import Data
 import pandas as pd
 import logging
 
@@ -12,7 +13,7 @@ mylogger = logging.getLogger()
 
 mylogger.info('\n###############\nStarting GM Model Testing\n###############')
 
-def setup_gm(dataResults):
+def setup_gm(Systemdata):
     """
     Reads in the expected data for the GM BM results for each excel sheet.
     Creates an instance of the JM Class for each sheet with the data
@@ -22,7 +23,8 @@ def setup_gm(dataResults):
     2) a list of expected N0
     3) a list of expected Phi
     """
-    sheets = dataResults['Data.set'].to_numpy()
+    fname = "model_data.xlsx"
+    dataResults = pd.read_excel(fname, sheet_name='GM_BM_Results')
     D0 = dataResults['D0'].to_numpy()
     Phi = dataResults['Phi'].to_numpy()
 
@@ -30,38 +32,40 @@ def setup_gm(dataResults):
 
     # When Creating a instance of a model class, the DATA class is needed. For some datasets, the 'IF' column is missing which causes an error
 
-    for sheet in sheets:
-        rawData = pd.read_excel(fname, sheet_name=sheet)
+    for sheet in Systemdata.sheetNames:
+        rawData = Systemdata.dataSet[sheet]
         try:
             gm = GM(data=rawData, rootAlgoName='bisect')
             gm.findParams(0)
         except:
-            gm = None
+            pass
         gm_list.append(gm)
     return [gm_list, D0, Phi]
 
 
 fname = "model_data.xlsx"
-dataResults = pd.read_excel(fname, sheet_name='GM_BM_Results')
-sheets = dataResults['Data.set'].to_numpy()
-DATA = setup_gm(dataResults)
+Systemdata = Data()
+Systemdata.importFile(fname)
+DATA = setup_gm(Systemdata)
 Results_DMLE = []
 Results_PhiMLE = []
 for i in range(0, len(DATA[0])):
     try:
-        Results_DMLE.append((DATA[0][i].DMLE, DATA[1][i]))
-        Results_PhiMLE.append((DATA[0][i].phiMLE, DATA[2][i]))
+        Results_DMLE.append((DATA[0][i].DMLE, DATA[1][i],Systemdata.sheetNames[i]))
+        Results_PhiMLE.append((DATA[0][i].phiMLE, DATA[2][i],Systemdata.sheetNames[i]))
     except:
-        mylogger.info('Error in Sheet number ' + sheets[i])
+        mylogger.info('Error in Sheet number ' + Systemdata.sheetNames[i])
 
 
-@pytest.mark.parametrize("test_input,expected", Results_DMLE)
-def test_gm_d_mle(test_input, expected):
+@pytest.mark.parametrize("test_input,expected,SheetName", Results_DMLE)
+def test_gm_d_mle(test_input, expected,SheetName):
+    print("\n GM D MLE " + SheetName)
     assert abs(test_input - expected) < 10 ** -5
 
 
-@pytest.mark.parametrize("test_input,expected", Results_PhiMLE)
-def test_gm_phi_mle(test_input, expected):
+@pytest.mark.parametrize("test_input,expected,SheetName", Results_PhiMLE)
+def test_gm_phi_mle(test_input, expected,SheetName):
+    print("\n GM phi MLE " + SheetName)
     assert abs(test_input - expected) < 10 ** -5
 
 
