@@ -14,7 +14,7 @@ mylogger = logging.getLogger()
 mylogger.info('\n###############\nStarting ISS Model Testing\n###############')
 
 def setup_iss(Systemdata):
-    fname = "model_data.xlsx"
+    fname = "test_model_data.xlsx"
     dataResults = pd.read_excel(fname, sheet_name='ISS')
     aMLE = dataResults['a (MLE)'].to_numpy()
     bMLE = dataResults['b (MLE)'].to_numpy()

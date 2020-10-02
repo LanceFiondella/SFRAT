@@ -14,7 +14,7 @@ mylogger = logging.getLogger()
 mylogger.info('\n###############\nStarting DSS Model Testing\n###############')
 
 def setup_dss(Systemdata):
-    fname = "model_data.xlsx"
+    fname = "test_model_data.xlsx"
     dataResults = pd.read_excel(fname, sheet_name='DSS')
     aMLE = dataResults['DSS (aMLEs)'].to_numpy()
     bMLE = dataResults['DSS (bMLEs)'].to_numpy()

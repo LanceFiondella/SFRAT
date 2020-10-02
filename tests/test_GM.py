@@ -23,7 +23,7 @@ def setup_gm(Systemdata):
     2) a list of expected N0
     3) a list of expected Phi
     """
-    fname = "model_data.xlsx"
+    fname = "test_model_data.xlsx"
     dataResults = pd.read_excel(fname, sheet_name='GM_BM_Results')
     D0 = dataResults['D0'].to_numpy()
     Phi = dataResults['Phi'].to_numpy()
