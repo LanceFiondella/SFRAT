@@ -1,7 +1,8 @@
-pyqt5
-pandas
+pytest-cov
+codecov
 numpy
-scipy
+pandas
 matplotlib
+scipy
 xlrd
-openpyxl
+pytest-excel

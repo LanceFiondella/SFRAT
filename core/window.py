@@ -9,6 +9,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication
 import os
 import pandas as pd
+import numpy as np
 
 
 class Module:
@@ -24,6 +25,8 @@ class Module:
 	plotCurves = [[]]	# store all curves for plotting
 
 	dataDecimalPlaces = 3
+
+
 
 	def winTitle(self):	# update the window title to match the open file name
 		ext = os.path.splitext(self.curFilePath)[1]

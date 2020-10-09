@@ -6,7 +6,6 @@ import sys, os, datetime
 import pandas as pd
 from core import report_ui, window, analyzeData, applyModels, queryResults, evaluateModels
 
-
 from models import DSS, GM, GO, ISS, JM, WEI
 models = [DSS.DSS, GM.GM, GO.GO, ISS.ISS, JM.JM, WEI.WEI]	# must include for model to appear
 
