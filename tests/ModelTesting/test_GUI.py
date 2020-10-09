@@ -1,3 +1,6 @@
+"""
+
+
 import sys
 import unittest
 from PyQt5.QtWidgets import QApplication
@@ -17,7 +20,7 @@ app = QApplication(sys.argv)
 class SFRATtest(unittest.TestCase):
     '''Testing the SFRAT GUI'''
     def setUp(self):
-        """Creating the GUI"""
+        '''Creating the GUI'''
         self.form = ui.mainWindow.MainWindow()
         print(self.form.data.sheetNames)
 
@@ -75,3 +78,4 @@ class SFRATtest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+"""
