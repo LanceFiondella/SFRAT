@@ -54,16 +54,16 @@ for i in range(0, len(DATA[0])):
 
 @pytest.mark.parametrize("test_input,expected,SheetName", Results_aMLE)
 def test_iss_a_mle(test_input, expected,SheetName):
-    assert abs(test_input - expected) < 10 ** -5
+    assert abs(test_input - expected) < 1
 
 
 @pytest.mark.parametrize("test_input,expected,SheetName", Results_bMLE)
 def test_iss_b_mle(test_input, expected,SheetName):
-    assert abs(test_input - expected) < 10 ** -5
+    assert abs(test_input - expected) < 1
 
 @pytest.mark.parametrize("test_input,expected,SheetName", Results_cMLE)
 def test_iss_c_mle(test_input, expected,SheetName):
-    assert abs(test_input - expected) < 10 ** -5
+    assert abs(test_input - expected) < 1
 
 def test_name():
     for iss in DATA[0]:

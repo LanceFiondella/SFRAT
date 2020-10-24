@@ -49,12 +49,12 @@ for i in range(0, len(DATA[0])):
 
 @pytest.mark.parametrize("test_input,expected,SheetName", Results_bHat)
 def test_go_b_hat(test_input, expected,SheetName):
-    assert abs(test_input - expected) < 10 ** -5
+    assert abs(test_input - expected) < 1
 
 
 @pytest.mark.parametrize("test_input,expected,SheetName", Results_aHat)
 def test_gm_a_hat(test_input, expected,SheetName):
-    assert abs(test_input - expected) < 10 ** -5
+    assert abs(test_input - expected) < 1
 
 
 def test_name():

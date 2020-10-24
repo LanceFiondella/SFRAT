@@ -65,12 +65,12 @@ for i in range(0, len(DATA[0])):
 
 @pytest.mark.parametrize("test_input,expected,SheetName", Results_N0MLE)
 def test_jm_n0_mle(test_input, expected,SheetName):
-    assert abs(test_input - expected) < 10 ** -5
+    assert abs(test_input - expected) < 1
 
 
 @pytest.mark.parametrize("test_input,expected,SheetName", Results_PhiMLE)
 def test_jm_phi_mle(test_input, expected,SheetName):
-    assert abs(test_input - expected) < 10 ** -5
+    assert abs(test_input - expected) < 1
 
 def test_name():
     for jm in DATA[0]:
