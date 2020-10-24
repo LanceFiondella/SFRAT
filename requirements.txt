@@ -2,6 +2,7 @@ pytest-cov
 codecov
 numpy
 pandas
+pyautogui
 matplotlib
 scipy
 xlrd
