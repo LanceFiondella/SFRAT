@@ -35,17 +35,17 @@ class SFRATtest(unittest.TestCase):
         self.assertEqual(self.form.menuMode.title(),"Mode")
         self.assertEqual(self.form.menuViewAD.title(),"View")
 
-    def test_ExcelImporting(self):
-        self.form.show()
-        filename = "example_failure_data_sets.xlsx"
-        command = 'echo ' + filename.strip() + '| clip'
-        os.system(command)
+    #def test_ExcelImporting(self):
+        #self.form.show()
+        #filename = "example_failure_data_sets.xlsx"
+        #command = 'echo ' + filename.strip() + '| clip'
+        #os.system(command)
         #self.form.menuFile.exec_()
-        pyautogui.hotkey('ctrl','o')
-        pyautogui.hotkey('ctrl', 'v')
+        #pyautogui.hotkey('ctrl','o')
+       # pyautogui.hotkey('ctrl', 'v')
 
 
-        app.exec_()
+        #app.exec_()
 
 
 
