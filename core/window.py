@@ -162,19 +162,22 @@ class Module:
 					newFrame['IF'].append(newFrame['FT'][idx] - newFrame['FT'][idx - 1])
 				print(f'{sheet} missing IF, calc from FT')
 
-			newFrame['FI'] = []
-			for fi in newFrame['IF']:
-				if fi == 0:
-					newFrame['FI'].append(-1)
-					continue
-				newFrame['FI'].append(1/fi)
-			mx = max(newFrame['FI'])
-			for i, fi in enumerate(newFrame['FI']):
-				if fi == -1:
-					newFrame['FI'][i] = float('inf')
-					#newFrame['FI'][i] = 2*mx # todo make this better
+			try:
+				newFrame['FI'] = []
+				for fi in newFrame['IF']:
+					if fi == 0:
+						newFrame['FI'].append(-1)
+						continue
+					newFrame['FI'].append(1/fi)
+				mx = max(newFrame['FI'])
+				for i, fi in enumerate(newFrame['FI']):
+					if fi == -1:
+						newFrame['FI'][i] = float('inf')
+						#newFrame['FI'][i] = 2*mx # todo make this better
 
-			self.curFileData[str(sheet)] = pd.DataFrame.from_dict(newFrame)
+				self.curFileData[str(sheet)] = pd.DataFrame.from_dict(newFrame)
+			except:
+				print(f'cannot convert "{sheet}" sheet')
 
 
 	def switchSheet(self, action = None, force = None):
