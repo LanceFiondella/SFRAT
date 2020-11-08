@@ -1,58 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d2faa8fe-1f09-4dd0-bb1f-255a55c7026a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.coverage" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/SFRAT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SFRAT.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/GM_test-checkpoint.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/GO_test-checkpoint.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled-checkpoint.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pytest_cache/v/cache/lastfailed" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pytest_cache/v/cache/nodeids" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.pytest_cache/v/cache/stepwise" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GM_test.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GO_test.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Untitled.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/dataClass.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/graphSettings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/prediction.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/rootFind.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/rootFind.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/trendTests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/.ipynb_checkpoints/Wei_test-checkpoint.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/ISS.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/ISS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/WEI.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/WEI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shortcuts.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/.ipynb_checkpoints/Untitled-checkpoint.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Untitled.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/report_GM.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/report_GO.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/report_JM.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_DSS.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_GM.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_GO.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_GUI.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_ISS.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_JM.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_WEI.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_generic.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/commonWidgets.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/mainWindow.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/resultWindow.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ModelTesting/test_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ModelTesting/test_GUI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,28 +40,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.DSS">
-    <configuration name="DSS" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="SFRAT" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/models" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/models/DSS.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.SFRAT">
     <configuration name="SFRAT" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -114,7 +62,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="window" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="SFRAT" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/core" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/core/window.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_GUI.SFRATtest.test_importCSV" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -124,11 +93,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_ExcelImporting&quot;" />
+      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_importCSV&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_GUI.SFRATtest.test_OpenFile" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_GUI.SFRATtest.test_importingExcel" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -138,11 +107,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_OpenFile&quot;" />
+      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_importingExcel&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests in test_GUI.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_GUI.SFRATtest.test_sheetselection" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -152,24 +121,24 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/ModelTesting/test_GUI.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_sheetselection&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.DSS" />
       <item itemvalue="Python.SFRAT" />
-      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ExcelImporting" />
-      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_OpenFile" />
-      <item itemvalue="Python tests.Unittests in test_GUI.py" />
+      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_importingExcel" />
+      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_importCSV" />
+      <item itemvalue="Python.window" />
+      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_sheetselection" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.DSS" />
         <item itemvalue="Python.SFRAT" />
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_OpenFile" />
-        <item itemvalue="Python tests.Unittests in test_GUI.py" />
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ExcelImporting" />
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_sheetselection" />
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_importCSV" />
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_importingExcel" />
+        <item itemvalue="Python.window" />
       </list>
     </recent_temporary>
   </component>
@@ -187,61 +156,98 @@
     </task>
     <servers />
   </component>
-  <component name="TestHistory">
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ExcelImporting - 2020.10.26 at 22h 36m 04s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ExcelImporting - 2020.10.26 at 22h 36m 30s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ExcelImporting - 2020.10.26 at 22h 37m 44s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ExcelImporting - 2020.10.26 at 22h 38m 20s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ExcelImporting - 2020.10.26 at 22h 38m 38s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ExcelImporting - 2020.10.26 at 22h 39m 41s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ExcelImporting - 2020.10.26 at 22h 41m 47s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ExcelImporting - 2020.10.26 at 22h 42m 27s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_ExcelImporting" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_OpenFile - 2020.10.26 at 22h 44m 24s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_OpenFile" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_OpenFile - 2020.10.26 at 22h 44m 56s.xml">
-      <configuration name="Unittests for test_GUI.SFRATtest.test_OpenFile" configurationId="tests" />
-    </history-entry>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1604858809356">
+    <state x="716" y="273" key="#xdebugger.XInspectDialog" timestamp="1604863086352">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604858809356" />
-    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1604858809355">
+    <state x="716" y="273" key="#xdebugger.XInspectDialog/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604863086352" />
+    <state width="925" height="466" key="DebuggerActiveHint" timestamp="1604862085658">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604858809355" />
-    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1604858809355">
+    <state width="925" height="466" key="DebuggerActiveHint/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604862085658" />
+    <state width="1899" height="471" key="GridCell.Tab.0.bottom" timestamp="1604868753486">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604858809355" />
-    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1604858809356">
+    <state width="1899" height="471" key="GridCell.Tab.0.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868753486" />
+    <state width="1899" height="471" key="GridCell.Tab.0.center" timestamp="1604868753486">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604858809356" />
+    <state width="1899" height="471" key="GridCell.Tab.0.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868753486" />
+    <state width="1899" height="471" key="GridCell.Tab.0.left" timestamp="1604868753485">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="471" key="GridCell.Tab.0.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868753485" />
+    <state width="1899" height="471" key="GridCell.Tab.0.right" timestamp="1604868753486">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="471" key="GridCell.Tab.0.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868753486" />
+    <state width="1899" height="347" key="GridCell.Tab.1.bottom" timestamp="1604868662528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="347" key="GridCell.Tab.1.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868662528" />
+    <state width="1899" height="347" key="GridCell.Tab.1.center" timestamp="1604868662528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="347" key="GridCell.Tab.1.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868662528" />
+    <state width="1899" height="347" key="GridCell.Tab.1.left" timestamp="1604868662528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="347" key="GridCell.Tab.1.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868662528" />
+    <state width="1899" height="347" key="GridCell.Tab.1.right" timestamp="1604868662528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="347" key="GridCell.Tab.1.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868662528" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1604789370558">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604789370558" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/ModelTesting/test_GUI.py</url>
+          <line>43</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/core/window.py</url>
+          <line>79</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="tests">
+        <watch expression="self.form.curFileData" language="Python" />
+        <watch expression="p" language="Python" />
+        <watch expression="self.form.sheetActions" language="Python" />
+        <watch expression="self.form.curSheetName" language="Python" />
+        <watch expression="self.form.modelTable." language="Python" />
+        <watch expression="pd.read_csv(fileName)" language="Python" />
+        <watch expression="self.form.convertFileData(pd.read_csv(fileName))" language="Python" />
+        <watch expression="self.form.menuSelect_Sheet.menuAction" language="Python" />
+        <watch expression="self.form.menuSelect_Sheet.actions()" language="Python" />
+      </configuration>
+      <configuration name="PythonConfigurationType">
+        <watch expression="curFileRaw" language="Python" />
+        <watch expression="self.curFileData" language="Python" />
+        <watch expression="list(self.curFileData.keys())" language="Python" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
