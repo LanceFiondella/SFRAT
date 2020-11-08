@@ -47,7 +47,7 @@ class Module:
 		fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self,
 					"Open Failure Data",
 					d,
-					"Excel (*.xls, *.xlsx), CSV (*.csv) (*.csv *.xls *.xlsx);; All files (*.*)")
+					"Excel (*.xls, *.xlsx), CSV (*.csv) (*.csv *.xls *.xlsx)")#;; All files (*.*)")
 
 		if fileName:
 			try:	# if excel, load into dataframe
