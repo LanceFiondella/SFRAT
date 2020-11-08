@@ -36,33 +36,29 @@ class SFRATtest(unittest.TestCase):
         self.assertEqual(self.form.menuViewAD.title(),"View")
 
     def test_sheetselection(self):
-        self.importingExcel();
+        self.importingExcel()
         for  i in self.form.menuSelect_Sheet.actions():
             i.trigger()
             self.assertEqual(i.text() , list(self.form.curFileData.keys())[self.form.menuSelect_Sheet.actions().index(i)])
 
     def importingExcel(self):
 
-        fileName = "../../example_failure_data_sets.xlsx" ;
-        self.form.curFilePath = fileName;
-        self.form.convertFileData(pd.read_excel(fileName, sheet_name=None));
+        fileName = "example_failure_data_sets.xlsx"
+        self.form.curFilePath = fileName
+        self.form.convertFileData(pd.read_excel(fileName, sheet_name=None))
         self.form.listModels()
         self.form.updateSheetSelect(self.form.curFileData)
         self.form.menuSelect_Sheet.menuAction().setVisible(True)
         self.form.switchSheet(force=list(self.form.curFileData.keys())[0])  # pick 1st sheet
 
     def importCSV(self):
-        fileName = "../../example_failure_data_sets.csv"
+        fileName = "example_failure_data_sets.csv"
         self.form.curFilePath = fileName
         self.form.convertFileData({"Sheet": pd.read_csv(fileName)})
         self.form.updateSheetSelect(self.form.curFileData)
         self.form.menuSelect_Sheet.menuAction().setVisible(False)
         self.form.statusBar.clearMessage()
         self.form.switchSheet(force=list(self.form.curFileData.keys())[0])  # pick 1st sheet
-
-
-
-
 
 
 
