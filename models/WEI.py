@@ -45,7 +45,7 @@ class WEI(Model):
         self.lnLvalue = Log likelihood value.
         """
         sol = scipy.optimize.root(self.MLEeq, [self.n, self.n/sum(self.data.FT), 1.0], options={'maxfev':10000})
-        print(sol)
+        #print(sol)
         self.aMLE, self.bMLE, self.cMLE = sol.x
         self.params['a'] = self.aMLE
         self.params['b'] = self.bMLE

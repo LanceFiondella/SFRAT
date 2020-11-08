@@ -1,18 +1,14 @@
 # SFRAT
-[![Build Status](https://travis-ci.com/LanceFiondella/SFRAT.svg?branch=master)](https://travis-ci.com/LanceFiondella/SFRAT)
-[![codecov](https://codecov.io/gh/LanceFiondella/SFRAT/branch/master/graph/badge.svg)](https://codecov.io/gh/LanceFiondella/SFRAT)
-python implementation of SFRAT tool
 
-Development branch
+### The Software Failure and Reliability Assessment Tool
+The Python implementation of the [R-based SFRAT](https://github.com/LanceFiondella/srt.core/) to evaluate model-fit curves on failure data
+## Installation
 
-FR - Failure Rate Model
-FC - Failure Count Model
+Use [pip](https://pip.pypa.io/en/stable/) inside the downloaded repository to install the necessary requirements with
 
-Models Implemented
-1) Jelinski Moranda - FR
+```bash
+pip install -r requirements.txt
+```
 
-Models Remaining
-1) Geometric - FR (KJM)
-2) Goel-Okumoto - FC (KJM)
-3) Weibull - FC (DPS)
-4) Delayed S-shaped -FC (DPS/KJM)
+## Usage
+The script should act as an executable - double click `SFRAT.py` to run, or execute with a console to view debug messages.
