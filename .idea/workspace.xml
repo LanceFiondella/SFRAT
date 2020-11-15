@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2faa8fe-1f09-4dd0-bb1f-255a55c7026a" name="Default" comment="" />
+    <list default="true" id="d2faa8fe-1f09-4dd0-bb1f-255a55c7026a" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,7 +40,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.SFRAT">
+  <component name="RunManager" selected="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab">
     <configuration name="SFRAT" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -59,7 +62,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="window" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="evaluateModels" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -71,7 +74,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/core/window.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/core/evaluateModels.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -80,31 +83,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_GUI.SFRATtest.test_importCSV" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/ModelTesting" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/GuiTesting" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_importCSV&quot;" />
+      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_AnalyzeDataTab&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_GUI.SFRATtest.test_importingExcel" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_GUI.SFRATtest.test_plotTableswitching" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/ModelTesting" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/GuiTesting" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_importingExcel&quot;" />
+      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_plotTableswitching&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -113,7 +116,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/ModelTesting" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/GuiTesting" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -124,18 +127,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.SFRAT" />
-      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_importingExcel" />
-      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_importCSV" />
-      <item itemvalue="Python.window" />
+      <item itemvalue="Python.evaluateModels" />
+      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_plotTableswitching" />
+      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" />
       <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_sheetselection" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" />
         <item itemvalue="Python.SFRAT" />
         <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_sheetselection" />
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_importCSV" />
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_importingExcel" />
-        <item itemvalue="Python.window" />
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_plotTableswitching" />
+        <item itemvalue="Python.evaluateModels" />
       </list>
     </recent_temporary>
   </component>
@@ -163,6 +166,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -176,53 +180,56 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="925" height="466" key="DebuggerActiveHint/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604862085658" />
-    <state width="1899" height="471" key="GridCell.Tab.0.bottom" timestamp="1604868931980">
+    <state x="739" y="275" key="FileChooserDialogImpl" timestamp="1604872754538">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="471" key="GridCell.Tab.0.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868931980" />
-    <state width="1899" height="471" key="GridCell.Tab.0.center" timestamp="1604868931980">
+    <state x="739" y="275" key="FileChooserDialogImpl/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604872754538" />
+    <state width="948" height="195" key="GridCell.Tab.0.bottom" timestamp="1605467211256">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="471" key="GridCell.Tab.0.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868931980" />
-    <state width="1899" height="471" key="GridCell.Tab.0.left" timestamp="1604868931980">
+    <state width="948" height="195" key="GridCell.Tab.0.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605467211256" />
+    <state width="1893" height="344" key="GridCell.Tab.0.bottom/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
+    <state width="948" height="195" key="GridCell.Tab.0.center" timestamp="1605467211256">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="471" key="GridCell.Tab.0.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868931980" />
-    <state width="1899" height="471" key="GridCell.Tab.0.right" timestamp="1604868931980">
+    <state width="948" height="195" key="GridCell.Tab.0.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605467211256" />
+    <state width="1893" height="344" key="GridCell.Tab.0.center/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949992" />
+    <state width="948" height="195" key="GridCell.Tab.0.left" timestamp="1605467211256">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="471" key="GridCell.Tab.0.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868931980" />
-    <state width="1899" height="347" key="GridCell.Tab.1.bottom" timestamp="1604868930495">
+    <state width="948" height="195" key="GridCell.Tab.0.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605467211256" />
+    <state width="1893" height="344" key="GridCell.Tab.0.left/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949992" />
+    <state width="948" height="195" key="GridCell.Tab.0.right" timestamp="1605467211256">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="347" key="GridCell.Tab.1.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868930495" />
-    <state width="1899" height="347" key="GridCell.Tab.1.center" timestamp="1604868930495">
+    <state width="948" height="195" key="GridCell.Tab.0.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605467211256" />
+    <state width="1893" height="344" key="GridCell.Tab.0.right/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
+    <state width="1735" height="346" key="GridCell.Tab.1.bottom" timestamp="1605466635134">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="347" key="GridCell.Tab.1.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868930495" />
-    <state width="1899" height="347" key="GridCell.Tab.1.left" timestamp="1604868930495">
+    <state width="1735" height="346" key="GridCell.Tab.1.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605466635134" />
+    <state width="1893" height="344" key="GridCell.Tab.1.bottom/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
+    <state width="1735" height="346" key="GridCell.Tab.1.center" timestamp="1605466635134">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="347" key="GridCell.Tab.1.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868930495" />
-    <state width="1899" height="347" key="GridCell.Tab.1.right" timestamp="1604868930495">
+    <state width="1735" height="346" key="GridCell.Tab.1.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605466635134" />
+    <state width="1893" height="344" key="GridCell.Tab.1.center/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
+    <state width="1735" height="346" key="GridCell.Tab.1.left" timestamp="1605466635134">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="347" key="GridCell.Tab.1.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604868930495" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1604789370558">
+    <state width="1735" height="346" key="GridCell.Tab.1.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605466635134" />
+    <state width="1893" height="344" key="GridCell.Tab.1.left/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
+    <state width="1735" height="346" key="GridCell.Tab.1.right" timestamp="1605466635134">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="165" key="SettingsEditor/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604789370558" />
+    <state width="1735" height="346" key="GridCell.Tab.1.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605466635134" />
+    <state width="1893" height="344" key="GridCell.Tab.1.right/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1604873230094">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604873230094" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/core/window.py</url>
-          <line>79</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="tests">
         <watch expression="self.form.curFileData" language="Python" />
