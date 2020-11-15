@@ -38,7 +38,7 @@ class SFRATtest(unittest.TestCase):
 
     def test_AnalyzeDataTab(self):
         '''testing Data Analysis tab'''
-        self.form.show()
+        #self.form.show()
         self.plotTableswitching(self.form.analyzeTab)
         self.importingExcel()
         self.form.actionCF.trigger()
@@ -53,7 +53,7 @@ class SFRATtest(unittest.TestCase):
         self.form.actionLap.trigger()
         self.form.actionArith.trigger()
         '''
-        app.exec_()
+        #app.exec_()
     def test_sheetselection(self):
         '''Testing sheet selction after importing excel spreadsheet'''
         self.importingExcel()
