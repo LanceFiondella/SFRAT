@@ -55,7 +55,7 @@ class Module:
 				ext = os.path.splitext(fileName)[1]
 				if ext == '.xls' or ext == '.xlsx':
 					curFileRaw = pd.read_excel(fileName, 
-									sheet_name=None)
+									sheet_name=None, engine='openpyxl')
 					#print(curFileRaw)
 					if not auto:	# for auto report disgregard ui
 						self.menuSelect_Sheet.menuAction().setVisible(True)
