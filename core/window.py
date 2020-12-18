@@ -63,8 +63,8 @@ class Module:
 					curFileRaw = {"Sheet": pd.read_csv(fileName)}
 					if not auto:
 						self.menuSelect_Sheet.menuAction().setVisible(False)
-			except:
-				print('Import Error')	# file not convertable to pandas
+			except Exception as e:
+				print(f'Import Error:\n {e}')	# file not convertable to pandas
 				return
 
 			self.curFilePath = fileName
