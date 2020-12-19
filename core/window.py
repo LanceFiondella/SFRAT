@@ -244,17 +244,25 @@ class Module:
 			else:
 				mode.hide()
 
-		for idx, mode in enumerate([self.menuViewAD,
-									self.menuViewAM,
-									self.menuViewQ,
-									self.menuViewE]):
+		for idx, mode in enumerate([self.menuViewAD, self.menuViewAM,
+									self.menuViewQ, self.menuViewE]):
 			mode.menuAction().setVisible(idx == modeNum)
 								# show right view menu
+
 
 		for idx, mode in enumerate([self.actionAnalyzeData, self.actionApplyModels,
 									self.actionModelResults, self.actionEvaluateModels]):
 			mode.setChecked(idx == modeNum)
 				# set mode checked (for force open mode)
+
+		for idx, buttons in enumerate(self.modelButtons):
+			for midx, button in enumerate(buttons):
+				if modeNum == idx and idx < 9:
+					button.setShortcut(f'Ctrl+{midx+1}')
+				else:
+					button.setShortcut('')
+
+
 
 		if modeNum == 0:
 			self.redrawPlot()
