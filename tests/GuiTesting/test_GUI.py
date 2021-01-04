@@ -11,7 +11,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
 from SFRAT import SFRAT
 import pandas as pd
-#import pyautogui
+import pyautogui
 import time
 
 
@@ -60,9 +60,15 @@ class SFRATtest(unittest.TestCase):
         '''Testing Apply Models Tab'''
         self.form.show()
         self.importingExcel()
-        self.form.actionApplyModels.trigger()
         self.plotTableswitching(self.form.modelTab)
+        self.form.actionApplyModels.trigger()
+        self.form.actionPlot_Points.trigger()
+        self.form.actionPlot_Lines.trigger()
+        self.form.actionPlot_Both.trigger()
+        self.ApplyModelsShowShapes()
         app.exec_()
+
+
     def test_sheetselection(self):
         '''Testing sheet selction after importing excel spreadsheet'''
         self.importingExcel()
@@ -76,17 +82,17 @@ class SFRATtest(unittest.TestCase):
     def plotTableswitching(self,TabQwidget):
         self.importingExcel()
         TabQwidget.setCurrentIndex(1)
-        #TabQwidget.setCurrentIndex(0)
+        TabQwidget.setCurrentIndex(0)
         self.importCSV()
         TabQwidget.setCurrentIndex(1)
-        #TabQwidget.setCurrentIndex(0)
+        TabQwidget.setCurrentIndex(0)
 
 
 
     def importingExcel(self):
         fileName = "example_failure_data_sets.xlsx"
         self.form.curFilePath = fileName
-        self.form.convertFileData(pd.read_excel(fileName, sheet_name=None))
+        self.form.convertFileData(pd.read_excel(fileName, sheet_name=None, engine='openpyxl'))
         self.form.listModels()
         self.form.updateSheetSelect(self.form.curFileData)
         self.form.menuSelect_Sheet.menuAction().setVisible(True)
@@ -101,7 +107,9 @@ class SFRATtest(unittest.TestCase):
         self.form.statusBar.clearMessage()
         self.form.switchSheet(force=list(self.form.curFileData.keys())[0])  # pick 1st sheet
 
-
+    def ApplyModelsShowShapes(self):
+        pyautogui.hotkey('ctrl','1')
+        
 
 
 
