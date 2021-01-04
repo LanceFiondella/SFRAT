@@ -24,7 +24,7 @@ class SFRATtest(unittest.TestCase):
     '''Testing the SFRAT GUI'''
     def setUp(self):
         '''Creating the GUI'''
-        self.form = SFRAT.SFRAT()
+        self.form = SFRAT()
 
     def test_defaults(self):
         ''' Test the GUI in it's default state (Dimesions)'''
