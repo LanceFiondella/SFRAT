@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d9233e7b-d569-4939-bee0-72799f637a19" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/SFRAT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SFRAT.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/example_failure_data_sets.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/example_failure_data_sets.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +15,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Python" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Dragon\SFRAT\tests" />
+      <recent name="C:\Users\Dragon\SFRAT\tests\ModelTesting" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Dragon\SFRAT\tests" />
+    </key>
   </component>
   <component name="RunManager" selected="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab">
     <configuration name="SFRAT" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -115,22 +123,22 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1609785247807">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1609785781877">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609785247807" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1609785247807">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609785781877" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1609785781877">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609785247807" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1609785247807">
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609785781877" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1609785781877">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609785247807" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1609785247807">
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609785781877" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1609785781877">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609785247807" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609785781877" />
     <state x="616" y="173" width="672" height="676" key="search.everywhere.popup" timestamp="1609785144314">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
