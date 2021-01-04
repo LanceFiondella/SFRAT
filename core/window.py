@@ -47,7 +47,7 @@ class Module:
 		fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self,
 					"Open Failure Data",
 					d,
-					"Excel (*.xls, *.xlsx), CSV (*.csv) (*.csv *.xls *.xlsx);; All files (*.*)")
+					"Excel (*.xls, *.xlsx), CSV (*.csv) (*.csv *.xls *.xlsx)")#;; All files (*.*)")
 
 		if fileName:
 			try:	# if excel, load into dataframe
@@ -55,7 +55,7 @@ class Module:
 				ext = os.path.splitext(fileName)[1]
 				if ext == '.xls' or ext == '.xlsx':
 					curFileRaw = pd.read_excel(fileName, 
-									sheet_name=None)
+									sheet_name=None, engine='openpyxl')
 					#print(curFileRaw)
 					if not auto:	# for auto report disgregard ui
 						self.menuSelect_Sheet.menuAction().setVisible(True)
@@ -63,8 +63,8 @@ class Module:
 					curFileRaw = {"Sheet": pd.read_csv(fileName)}
 					if not auto:
 						self.menuSelect_Sheet.menuAction().setVisible(False)
-			except:
-				print('Import Error')	# file not convertable to pandas
+			except Exception as e:
+				print(f'Import Error:\n {e}')	# file not convertable to pandas
 				return
 
 			self.curFilePath = fileName
@@ -244,17 +244,25 @@ class Module:
 			else:
 				mode.hide()
 
-		for idx, mode in enumerate([self.menuViewAD,
-									self.menuViewAM,
-									self.menuViewQ,
-									self.menuViewE]):
+		for idx, mode in enumerate([self.menuViewAD, self.menuViewAM,
+									self.menuViewQ, self.menuViewE]):
 			mode.menuAction().setVisible(idx == modeNum)
 								# show right view menu
+
 
 		for idx, mode in enumerate([self.actionAnalyzeData, self.actionApplyModels,
 									self.actionModelResults, self.actionEvaluateModels]):
 			mode.setChecked(idx == modeNum)
 				# set mode checked (for force open mode)
+
+		for idx, buttons in enumerate(self.modelButtons):
+			for midx, button in enumerate(buttons):
+				if modeNum == idx and idx < 9:
+					button.setShortcut(f'Ctrl+{midx+1}')
+				else:
+					button.setShortcut('')
+
+
 
 		if modeNum == 0:
 			self.redrawPlot()

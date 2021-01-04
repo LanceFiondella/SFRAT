@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>core/favicon.png</normaloff>core/favicon.png</iconset>
+    <normaloff>favicon.png</normaloff>favicon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
@@ -283,6 +283,9 @@
    <property name="text">
     <string>Analyze Data</string>
    </property>
+   <property name="shortcut">
+    <string>1</string>
+   </property>
   </action>
   <action name="actionApplyModels">
    <property name="checkable">
@@ -290,6 +293,9 @@
    </property>
    <property name="text">
     <string>Apply Models</string>
+   </property>
+   <property name="shortcut">
+    <string>2</string>
    </property>
   </action>
   <action name="actionModelResults">
@@ -299,6 +305,9 @@
    <property name="text">
     <string>Model Results</string>
    </property>
+   <property name="shortcut">
+    <string>3</string>
+   </property>
   </action>
   <action name="actionEvaluateModels">
    <property name="checkable">
@@ -306,6 +315,9 @@
    </property>
    <property name="text">
     <string>Evaluate Models</string>
+   </property>
+   <property name="shortcut">
+    <string>4</string>
    </property>
   </action>
   <action name="actionCF">

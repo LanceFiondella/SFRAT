@@ -16,3 +16,10 @@
 	--> evaluate models
 		--> show specific models to be shown on table
 		--> Specify PSSE Percentage
+
+
+Thing Zak can't test with his computer:
+
+Analyze data --> View --> Laplace Test --> Laplace confidence
+
+ 

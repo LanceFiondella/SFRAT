@@ -1,46 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select />
-  </component>
-  <component name="ChangeListManager">
-    <list default="true" id="d2faa8fe-1f09-4dd0-bb1f-255a55c7026a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" afterDir="false" />
-    </list>
-    <option name="SHOW_DIALOG" value="false" />
-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
-    <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectId" id="1jyvokpObpdgddmBNgNIKDWpbDn" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="476" />
+    <option name="y" value="-16" />
+    <option name="width" value="2440" />
+    <option name="height" value="1335" />
   </component>
   <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab">
+  <component name="RunManager">
     <configuration name="SFRAT" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -58,195 +28,11 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
-    <configuration name="evaluateModels" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="SFRAT" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/core" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/core/evaluateModels.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="SFRAT" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/GuiTesting" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_AnalyzeDataTab&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for test_GUI.SFRATtest.test_plotTableswitching" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="SFRAT" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/GuiTesting" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_plotTableswitching&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for test_GUI.SFRATtest.test_sheetselection" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="SFRAT" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/GuiTesting" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_sheetselection&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Python.SFRAT" />
-      <item itemvalue="Python.evaluateModels" />
-      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_plotTableswitching" />
-      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" />
-      <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_sheetselection" />
-    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" />
         <item itemvalue="Python.SFRAT" />
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_sheetselection" />
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_plotTableswitching" />
-        <item itemvalue="Python.evaluateModels" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="d2faa8fe-1f09-4dd0-bb1f-255a55c7026a" name="Default" comment="" />
-      <created>1603472733896</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1603472733896</updated>
-    </task>
-    <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="716" y="273" key="#xdebugger.XInspectDialog" timestamp="1604863086352">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="716" y="273" key="#xdebugger.XInspectDialog/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604863086352" />
-    <state width="925" height="466" key="DebuggerActiveHint" timestamp="1604862085658">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="925" height="466" key="DebuggerActiveHint/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604862085658" />
-    <state x="739" y="275" key="FileChooserDialogImpl" timestamp="1604872754538">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="739" y="275" key="FileChooserDialogImpl/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604872754538" />
-    <state width="948" height="195" key="GridCell.Tab.0.bottom" timestamp="1605467211256">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="948" height="195" key="GridCell.Tab.0.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605467211256" />
-    <state width="1893" height="344" key="GridCell.Tab.0.bottom/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
-    <state width="948" height="195" key="GridCell.Tab.0.center" timestamp="1605467211256">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="948" height="195" key="GridCell.Tab.0.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605467211256" />
-    <state width="1893" height="344" key="GridCell.Tab.0.center/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949992" />
-    <state width="948" height="195" key="GridCell.Tab.0.left" timestamp="1605467211256">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="948" height="195" key="GridCell.Tab.0.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605467211256" />
-    <state width="1893" height="344" key="GridCell.Tab.0.left/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949992" />
-    <state width="948" height="195" key="GridCell.Tab.0.right" timestamp="1605467211256">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="948" height="195" key="GridCell.Tab.0.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605467211256" />
-    <state width="1893" height="344" key="GridCell.Tab.0.right/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
-    <state width="1735" height="346" key="GridCell.Tab.1.bottom" timestamp="1605466635134">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1735" height="346" key="GridCell.Tab.1.bottom/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605466635134" />
-    <state width="1893" height="344" key="GridCell.Tab.1.bottom/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
-    <state width="1735" height="346" key="GridCell.Tab.1.center" timestamp="1605466635134">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1735" height="346" key="GridCell.Tab.1.center/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605466635134" />
-    <state width="1893" height="344" key="GridCell.Tab.1.center/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
-    <state width="1735" height="346" key="GridCell.Tab.1.left" timestamp="1605466635134">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1735" height="346" key="GridCell.Tab.1.left/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605466635134" />
-    <state width="1893" height="344" key="GridCell.Tab.1.left/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
-    <state width="1735" height="346" key="GridCell.Tab.1.right" timestamp="1605466635134">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1735" height="346" key="GridCell.Tab.1.right/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1605466635134" />
-    <state width="1893" height="344" key="GridCell.Tab.1.right/1920.91.1280.693/0.0.1920.1040@1920.91.1280.693" timestamp="1604879949993" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1604873230094">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="461" y="165" key="SettingsEditor/1920.91.1280.693/0.0.1920.1040@0.0.1920.1040" timestamp="1604873230094" />
-  </component>
-  <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="tests">
-        <watch expression="self.form.curFileData" language="Python" />
-        <watch expression="p" language="Python" />
-        <watch expression="self.form.sheetActions" language="Python" />
-        <watch expression="self.form.curSheetName" language="Python" />
-        <watch expression="self.form.modelTable." language="Python" />
-        <watch expression="pd.read_csv(fileName)" language="Python" />
-        <watch expression="self.form.convertFileData(pd.read_csv(fileName))" language="Python" />
-        <watch expression="self.form.menuSelect_Sheet.menuAction" language="Python" />
-        <watch expression="self.form.menuSelect_Sheet.actions()" language="Python" />
-      </configuration>
-      <configuration name="PythonConfigurationType">
-        <watch expression="curFileRaw" language="Python" />
-        <watch expression="self.curFileData" language="Python" />
-        <watch expression="list(self.curFileData.keys())" language="Python" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

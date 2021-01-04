@@ -94,6 +94,8 @@ class Module:
 				self.modelActions.append(newAction)
 				newAction.triggered.connect(self.toggleModel)
 				menus[midx].insertAction(place[midx], newAction)
+				self.modelButtons[midx+1].append(newAction)
+
 
 
 	def redrawDataModelPlot(self):	#copied from tab 1 to save lot of frustration between drawing modes
@@ -299,6 +301,10 @@ class Module:
 
 		self.plotWindowModel = MplCanvas(self, self.canvasDPI)
 		self.gridLayout_6.addWidget(self.plotWindowModel, 0, 0, 1, 1)
+
+		self.modelButtons = [[],[],[],[]]	# for storage for later setting model shortcuts dynamically
+											# since 3 sets of model toggles, can only have 1 set of non-ambiguous shortcuts
+											# must disable other 2 sets, have 4 menus for toggle in showMode since 4 tabs
 
 		self.modelPlotGroup = QtWidgets.QActionGroup(self)
 		self.modelPlotGroup.setExclusive(True)

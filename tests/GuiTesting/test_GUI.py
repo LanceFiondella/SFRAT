@@ -3,14 +3,15 @@ import unittest
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtTest import QTest
 from PyQt5.QtCore import Qt
+
 ### Changes the curretnt working directory so the imports Work
 import os,sys,inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
-import SFRAT
+from SFRAT import SFRAT
 import pandas as pd
-import pyautogui
+#import pyautogui
 import time
 
 
@@ -38,22 +39,30 @@ class SFRATtest(unittest.TestCase):
 
     def test_AnalyzeDataTab(self):
         '''testing Data Analysis tab'''
-        #self.form.show()
         self.plotTableswitching(self.form.analyzeTab)
         self.importingExcel()
         self.form.actionCF.trigger()
         self.form.actionPlot_Points.trigger()
         self.form.actionPlot_Lines.trigger()
-        #self.form.actionStartIndex.trigger()
         self.form.plotStartIndex = 120
-        self.form.plotStopIndex  = 130
+        self.form.plotStopIndex= 130
         self.form.redrawPlot()
-        '''self.form.actionTBF.trigger()
+        self.assertEqual(self.form.plotStartIndex, 120)
+        self.form.actionTBF.trigger()
+        self.assertEqual(self.form.plotStopIndex, 130)
         self.form.actionFI.trigger()
         self.form.actionLap.trigger()
         self.form.actionArith.trigger()
-        '''
-        #app.exec_()
+
+
+
+    def test_ApplyModelsTab(self):
+        '''Testing Apply Models Tab'''
+        self.form.show()
+        self.importingExcel()
+        self.form.actionApplyModels.trigger()
+        self.plotTableswitching(self.form.modelTab)
+        app.exec_()
     def test_sheetselection(self):
         '''Testing sheet selction after importing excel spreadsheet'''
         self.importingExcel()
@@ -67,10 +76,10 @@ class SFRATtest(unittest.TestCase):
     def plotTableswitching(self,TabQwidget):
         self.importingExcel()
         TabQwidget.setCurrentIndex(1)
-        TabQwidget.setCurrentIndex(0)
+        #TabQwidget.setCurrentIndex(0)
         self.importCSV()
         TabQwidget.setCurrentIndex(1)
-        TabQwidget.setCurrentIndex(0)
+        #TabQwidget.setCurrentIndex(0)
 
 
 
