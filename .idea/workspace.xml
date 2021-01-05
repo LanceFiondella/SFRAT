@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d9233e7b-d569-4939-bee0-72799f637a19" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/example_failure_data_sets.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/example_failure_data_sets.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +26,7 @@
       <recent name="C:\Users\Dragon\SFRAT\tests" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab">
+  <component name="RunManager" selected="Python tests.Unittests in test_GUI.py">
     <configuration name="SFRAT" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -91,18 +90,34 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests in test_GUI.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="SFRAT" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/GuiTesting" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/GuiTesting/test_GUI.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.SFRAT" />
       <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_defaults" />
       <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" />
       <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" />
+      <item itemvalue="Python tests.Unittests in test_GUI.py" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" />
-        <item itemvalue="Python.SFRAT" />
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" />
+        <item itemvalue="Python tests.Unittests in test_GUI.py" />
         <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_defaults" />
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" />
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" />
+        <item itemvalue="Python.SFRAT" />
       </list>
     </recent_temporary>
   </component>
@@ -123,22 +138,38 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1609785781877">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1609871065483">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609785781877" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1609785781877">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609871065483" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1609871065483">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609785781877" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1609785781877">
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609871065483" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1609871065483">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609785781877" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1609785781877">
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609871065483" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1609871065483">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609785781877" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609871065483" />
+    <state width="1899" height="348" key="GridCell.Tab.1.bottom" timestamp="1609870741408">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1609870741408" />
+    <state width="1899" height="348" key="GridCell.Tab.1.center" timestamp="1609870741408">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1609870741408" />
+    <state width="1899" height="348" key="GridCell.Tab.1.left" timestamp="1609870741408">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1609870741408" />
+    <state width="1899" height="348" key="GridCell.Tab.1.right" timestamp="1609870741408">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1609870741408" />
     <state x="616" y="173" width="672" height="676" key="search.everywhere.popup" timestamp="1609785144314">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -66,7 +66,7 @@ class SFRATtest(unittest.TestCase):
         self.form.actionPlot_Lines.trigger()
         self.form.actionPlot_Both.trigger()
         # modelActions[] List that contains each Model in menuViewAM
-        self.form.modelActions[4].trigger()
+        self.form.modelActions[2].trigger()
         self.ApplyModelsShowShapes()
         app.exec_()
 
@@ -109,8 +109,8 @@ class SFRATtest(unittest.TestCase):
         self.form.statusBar.clearMessage()
         self.form.switchSheet(force=list(self.form.curFileData.keys())[0])  # pick 1st sheet
 
-    def ApplyModelsShowShapes(self):
-        pyautogui.hotkey('ctrl','1')
+    #def ApplyModelsShowShapes(self):
+        #pyautogui.hotkey('ctrl','1')
         
 
 
