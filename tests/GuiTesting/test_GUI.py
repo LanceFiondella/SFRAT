@@ -67,7 +67,7 @@ class SFRATtest(unittest.TestCase):
         self.form.actionPlot_Both.trigger()
         # modelActions[] List that contains each Model in menuViewAM
         self.form.modelActions[2].trigger()
-        self.ApplyModelsShowShapes()
+        # self.ApplyModelsShowShapes()
         app.exec_()
 
 
