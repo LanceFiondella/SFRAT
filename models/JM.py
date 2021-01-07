@@ -44,6 +44,8 @@ class JM(Model):
         self.params['N0'] = self.N0MLE
         self.params['phi'] = self.phiMLE
         self.predict(predictPoints)
+        if abs(self.phiMLE) > 1000:
+            self.converged = False
 
     def MVF(self, t, params=None):
         """ 

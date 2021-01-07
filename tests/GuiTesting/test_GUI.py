@@ -25,7 +25,6 @@ class SFRATtest(unittest.TestCase):
     def setUp(self):
         '''Creating the GUI'''
         self.form = SFRAT()
-
     def test_defaults(self):
         ''' Test the GUI in it's default state (Dimesions)'''
         self.assertEqual(self.form.windowTitle(),"SFRAT")
@@ -59,15 +58,16 @@ class SFRATtest(unittest.TestCase):
     def test_ApplyModelsTab(self):
         '''Testing Apply Models Tab'''
         self.form.show()
-        self.importingExcel()
         self.plotTableswitching(self.form.modelTab)
+        self.importingExcel()
         self.form.actionApplyModels.trigger()
         self.form.actionPlot_Points.trigger()
         self.form.actionPlot_Lines.trigger()
         self.form.actionPlot_Both.trigger()
-        # modelActions[] List that contains each Model in menuViewAM
-        self.form.modelActions[4].trigger()
         self.ApplyModelsShowShapes()
+        for i in range(1,len(self.form.curFileData.keys())):
+            self.form.switchSheet(force=list(self.form.curFileData.keys())[i])
+            self.ApplyModelsShowShapes()
         app.exec_()
 
 
@@ -110,10 +110,14 @@ class SFRATtest(unittest.TestCase):
         self.form.switchSheet(force=list(self.form.curFileData.keys())[0])  # pick 1st sheet
 
     def ApplyModelsShowShapes(self):
-        pyautogui.hotkey('ctrl','1')
+        # modelActions[] List that contains each Model in menuViewAM
+        for i in range(6):
+            self.form.modelActions[i].trigger()
+            pyautogui.press('esc')
 
 
 
 
 if __name__ == "__main__":
     unittest.main()
+    

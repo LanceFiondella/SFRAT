@@ -221,8 +221,10 @@ class Module:
 
 	def updateSheetSelect(self, sheets):
 		
+		for sheet in self.sheetActions:
+			self.sheetList.removeAction(sheet)
 		self.sheetActions = []
-
+		
 		for sheet in sheets:
 			sheetAction = QtWidgets.QAction(self, checkable=True)
 			sheetAction.setText(sheet)

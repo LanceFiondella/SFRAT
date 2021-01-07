@@ -82,9 +82,10 @@ class Module:
 
 		menus = [self.menuViewAM, self.menuViewQ, self.menuViewE]	# menus and corresponding placeholder locations
 		place = [self.actionModelPlaceholder, self.actionQueryPlaceholder, self.actionEvalPlaceholder]
-
+		
 		if self.curSheetName != None:
 			return	# is called before setting cursheetname to only do once
+		self.modelActions = []
 		for midx in range(len(menus)):
 			for idx, m in enumerate(self.modules):
 				newAction = QtWidgets.QAction(self)
