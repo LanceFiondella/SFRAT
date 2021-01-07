@@ -89,6 +89,12 @@ class RootFind():
 		else:
 			x0 = self.initEstimate
 			root, result = self.algo(self.equation, x0, maxiter=1000, full_output=False)
+
+			if not result.converged:
+				print('bad converge')
+				self.algo = getattr(scipy.optimize, 'brenth')
+				root, result = self.algo(self.equation, x0, maxiter=1000, full_output=False)
+
 			self.converged = result.converged
 
 		return root

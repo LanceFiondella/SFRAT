@@ -45,6 +45,10 @@ class JM(Model):
         self.params['phi'] = self.phiMLE
         self.predict(predictPoints)
 
+        if abs(self.phiMLE) > 1000:
+            self.converged = False
+
+
     def MVF(self, t, params=None):
         """ 
         Calculates the Mean Value Function (MVF) based on N0 and phi
@@ -59,6 +63,7 @@ class JM(Model):
         #If no params are passed, the calculated MLE parameters are used
         if params is None:
             params = self.params
+
         return params['N0']*(1 - np.exp(-params['phi']*t))
 
     def MVFPlot(self):

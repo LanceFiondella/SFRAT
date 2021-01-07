@@ -85,6 +85,7 @@ class Module:
 
 		if self.curSheetName != None:
 			return	# is called before setting cursheetname to only do once
+		self.modelActions = []
 		for midx in range(len(menus)):
 			for idx, m in enumerate(self.modules):
 				newAction = QtWidgets.QAction(self)
