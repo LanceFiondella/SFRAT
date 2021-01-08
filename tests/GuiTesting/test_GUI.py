@@ -64,7 +64,13 @@ class SFRATtest(unittest.TestCase):
         self.form.actionPlot_Points.trigger()
         self.form.actionPlot_Lines.trigger()
         self.form.actionPlot_Both.trigger()
-        self.ApplyModelsShowShapes()
+        #self.ApplyModelsShowShapes()
+        self.form.actionCF.trigger()
+        self.form.actionTBF.trigger()
+        self.form.actionFI.trigger()
+        self.form.actionPlotRel.trigger()
+        #self.form.actionSelFFC = ?     #Select future fail count
+        #self.form.actionSelFFD = ?     #select future fail duration
         for i in range(1, len(self.form.curFileData.keys())):
             self.form.switchSheet(force=list(self.form.curFileData.keys())[i])
             self.ApplyModelsShowShapes()
@@ -114,8 +120,6 @@ class SFRATtest(unittest.TestCase):
         for i in range(6):
             self.form.modelActions[i].trigger()
             pyautogui.press('esc')
-
-
 
 
 if __name__ == "__main__":
