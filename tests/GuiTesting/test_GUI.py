@@ -65,16 +65,16 @@ class SFRATtest(unittest.TestCase):
         self.form.actionPlot_Lines.trigger()
         self.form.actionPlot_Both.trigger()
         self.ApplyModelsShowShapes()
-        for i in range(1,len(self.form.curFileData.keys())):
+        for i in range(1, len(self.form.curFileData.keys())):
             self.form.switchSheet(force=list(self.form.curFileData.keys())[i])
             self.ApplyModelsShowShapes()
-        app.exec_()
+        #app.exec_()
 
 
     def test_sheetselection(self):
         '''Testing sheet selction after importing excel spreadsheet'''
         self.importingExcel()
-        for  i in self.form.menuSelect_Sheet.actions():
+        for i in self.form.menuSelect_Sheet.actions():
             i.trigger()
             self.assertEqual(i.text() , list(self.form.curFileData.keys())[self.form.menuSelect_Sheet.actions().index(i)])
 
