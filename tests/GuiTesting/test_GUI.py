@@ -25,6 +25,7 @@ class SFRATtest(unittest.TestCase):
     def setUp(self):
         '''Creating the GUI'''
         self.form = SFRAT()
+        pyautogui.FAILSAFE = False
     def test_defaults(self):
         ''' Test the GUI in it's default state (Dimesions)'''
         self.assertEqual(self.form.windowTitle(),"SFRAT")
@@ -57,24 +58,22 @@ class SFRATtest(unittest.TestCase):
 
     def test_ApplyModelsTab(self):
         '''Testing Apply Models Tab'''
-        self.form.show()
         self.plotTableswitching(self.form.modelTab)
         self.importingExcel()
         self.form.actionApplyModels.trigger()
         self.form.actionPlot_Points.trigger()
         self.form.actionPlot_Lines.trigger()
         self.form.actionPlot_Both.trigger()
-        #self.ApplyModelsShowShapes()
         self.form.actionCF.trigger()
+        self.ApplyModelsShowShapes()
+        self.form.futureFailTime += 50      #Select future fail count
+        self.form.futureFailCount +=   100   #select future fail duration
         self.form.actionTBF.trigger()
         self.form.actionFI.trigger()
         self.form.actionPlotRel.trigger()
-        #self.form.actionSelFFC = ?     #Select future fail count
-        #self.form.actionSelFFD = ?     #select future fail duration
-        for i in range(1, len(self.form.curFileData.keys())):
-            self.form.switchSheet(force=list(self.form.curFileData.keys())[i])
-            self.ApplyModelsShowShapes()
-        #app.exec_()
+        self.form.modelRelInterval += 1000
+        self.form.redrawPlot()
+        self.form.updateQueryTable()
 
 
     def test_sheetselection(self):
@@ -117,9 +116,11 @@ class SFRATtest(unittest.TestCase):
 
     def ApplyModelsShowShapes(self):
         # modelActions[] List that contains each Model in menuViewAM
-        for i in range(6):
-            self.form.modelActions[i].trigger()
-            pyautogui.press('esc')
+        for i in range(1, len(self.form.curFileData.keys())):
+            self.form.switchSheet(force=list(self.form.curFileData.keys())[i])
+            for i in range(6):
+                self.form.modelActions[i].trigger()
+                pyautogui.press('esc')
 
 
 if __name__ == "__main__":

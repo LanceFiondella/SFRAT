@@ -5,15 +5,135 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" afterDir="false" />
     </list>
+    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileEditorManager">
+    <splitter split-orientation="horizontal" split-proportion="0.5138803">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="test_GUI.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/tests/GuiTesting/test_GUI.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="133">
+                  <caret line="75" column="36" lean-forward="true" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
+                  <folding>
+                    <element signature="e#0#10#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SFRAT.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/SFRAT.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="208">
+                  <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="ui.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/core/ui.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="81">
+                  <caret line="293" column="39" selection-start-line="293" selection-start-column="39" selection-end-line="293" selection-end-column="39" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="applyModels.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/core/applyModels.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-639">
+                  <caret line="250" column="15" selection-start-line="249" selection-start-column="34" selection-end-line="250" selection-end-column="15" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="window.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/core/window.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1985">
+                  <caret line="79" column="17" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/tests/GuiTesting/test_GUI.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="476" />
+    <option name="y" value="-16" />
+    <option name="width" value="2440" />
+    <option name="height" value="1335" />
+  </component>
   <component name="ProjectId" id="1menIHuHHdke6gemBJZ8bzt9SWK" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="SFRAT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SFRAT" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SFRAT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SFRAT" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SFRAT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SFRAT" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SFRAT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SFRAT" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SFRAT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SFRAT" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="GuiTesting" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SFRAT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SFRAT" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="ModelTesting" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -34,7 +154,19 @@
       <recent name="C:\Users\Dragon\SFRAT\tests\ModelTesting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.SFRAT">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab">
     <configuration name="SFRAT" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -52,9 +184,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
     <configuration name="Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
@@ -68,7 +197,6 @@
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_AnalyzeDataTab&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
     </configuration>
     <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
@@ -82,7 +210,6 @@
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_ApplyModelsTab&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
     </configuration>
     <configuration name="Unittests for test_GUI.SFRATtest.test_sheetselection" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
@@ -96,7 +223,6 @@
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_GUI.SFRATtest.test_sheetselection&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
     </configuration>
     <configuration name="Unittests in test_GUI.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="SFRAT" />
@@ -110,7 +236,6 @@
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/GuiTesting/test_GUI.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python.SFRAT" />
@@ -121,8 +246,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.SFRAT" />
         <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" />
+        <item itemvalue="Python.SFRAT" />
         <item itemvalue="Python tests.Unittests in test_GUI.py" />
         <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_sheetselection" />
         <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_AnalyzeDataTab" />
@@ -142,8 +267,60 @@
     </task>
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="oldMeFiltersMigrated" value="true" />
+  <component name="TestHistory">
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 11h 48m 19s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 11h 50m 16s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 11h 51m 23s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 11h 51m 54s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 11h 56m 07s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 11h 58m 41s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 11h 59m 11s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 12h 00m 01s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 12h 02m 02s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_GUI_SFRATtest_test_ApplyModelsTab - 2021.01.12 at 12h 11m 22s.xml">
+      <configuration name="Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1459431" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.16230936" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.26361656" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32897604" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39978212" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
   </component>
   <component name="WindowStateProjectService">
     <state width="1899" height="284" key="GridCell.Tab.0.bottom" timestamp="1610124846212">
@@ -194,5 +371,336 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="173" width="672" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1609785144314" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/tests/GuiTesting/test_GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1674">
+          <caret line="69" column="40" selection-start-line="69" selection-start-column="40" selection-end-line="69" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/JM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1107">
+          <caret line="46" column="35" selection-start-line="46" selection-start-column="35" selection-end-line="46" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/rootFind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2457">
+          <caret line="91" column="43" selection-start-line="91" selection-start-column="43" selection-end-line="91" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SFRAT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="837">
+          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5400">
+          <caret line="200" column="53" selection-start-line="199" selection-start-column="34" selection-end-line="200" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2025">
+          <caret line="79" column="17" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/applyModels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2268">
+          <caret line="87" column="30" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/GuiTesting/test_GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1674">
+          <caret line="69" column="40" selection-start-line="69" selection-start-column="40" selection-end-line="69" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/JM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1107">
+          <caret line="46" column="35" selection-start-line="46" selection-start-column="35" selection-end-line="46" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/rootFind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2457">
+          <caret line="91" column="43" selection-start-line="91" selection-start-column="43" selection-end-line="91" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SFRAT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="837">
+          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5400">
+          <caret line="200" column="53" selection-start-line="199" selection-start-column="34" selection-end-line="200" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2025">
+          <caret line="79" column="17" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/applyModels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2268">
+          <caret line="87" column="30" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/GuiTesting/test_GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1242">
+          <caret line="46" column="27" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SFRAT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5400">
+          <caret line="200" column="53" selection-start-line="199" selection-start-column="34" selection-end-line="200" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/applyModels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8802">
+          <caret line="329" selection-start-line="329" selection-end-line="329" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5184">
+          <caret line="196" column="13" selection-start-line="196" selection-start-column="13" selection-end-line="196" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/GuiTesting/test_GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1242">
+          <caret line="46" column="27" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SFRAT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="18" column="3" lean-forward="true" selection-start-line="18" selection-start-column="3" selection-end-line="18" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5400">
+          <caret line="200" column="53" selection-start-line="199" selection-start-column="34" selection-end-line="200" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/applyModels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8802">
+          <caret line="329" selection-start-line="329" selection-end-line="329" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5184">
+          <caret line="196" column="13" selection-start-line="196" selection-start-column="13" selection-end-line="196" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/GuiTesting/test_GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2808">
+          <caret line="111" column="8" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SFRAT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1242">
+          <caret line="51" column="15" lean-forward="true" selection-start-line="51" selection-start-column="15" selection-end-line="51" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5400">
+          <caret line="200" column="53" selection-start-line="199" selection-start-column="34" selection-end-line="200" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/applyModels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8802">
+          <caret line="329" selection-start-line="329" selection-end-line="329" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7047">
+          <caret line="265" lean-forward="true" selection-start-line="265" selection-end-line="265" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/ModelTesting/test_WEI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-540" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/analyzeData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3051">
+          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/report_ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="175" column="5" lean-forward="true" selection-start-line="175" selection-start-column="5" selection-end-line="175" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/queryResults.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-27" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-27" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/ModelTesting/test_DSS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" column="8" selection-start-line="4" selection-end-line="4" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/GuiTesting/example_failure_data_sets.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="10" column="6" lean-forward="true" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/JM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="46" column="35" selection-start-line="46" selection-start-column="35" selection-end-line="46" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/rootFind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="91" column="43" selection-start-line="91" selection-start-column="43" selection-end-line="91" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="293" column="39" selection-start-line="293" selection-start-column="39" selection-end-line="293" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1985">
+          <caret line="79" column="17" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/applyModels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-639">
+          <caret line="250" column="15" selection-start-line="249" selection-start-column="34" selection-end-line="250" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SFRAT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/GuiTesting/test_GUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="75" column="36" lean-forward="true" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
