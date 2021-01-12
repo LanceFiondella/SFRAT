@@ -75,6 +75,21 @@ class SFRATtest(unittest.TestCase):
         self.form.redrawPlot()
         self.form.updateQueryTable()
 
+    def test_ModelResultsTab(self):
+        '''Testing Apply Models Tab'''
+        self.plotTableswitching(self.form.modelTab)
+        self.importingExcel()
+        self.form.actionModelResults.trigger()
+        for i in range(6):
+            self.form.modelActions[i].trigger()
+            pyautogui.press('esc')
+        self.form.futureFailCount += 10
+        self.form.additionalRuntime += 1000
+        self.form.desiredReliability += -0.05
+        self.form.modelRelInterval += 1000
+        self.form.redrawPlot()
+        self.form.updateQueryTable()
+
 
     def test_sheetselection(self):
         '''Testing sheet selction after importing excel spreadsheet'''
@@ -116,6 +131,7 @@ class SFRATtest(unittest.TestCase):
 
     def ApplyModelsShowShapes(self):
         # modelActions[] List that contains each Model in menuViewAM
+        #  WHEN SWITCHING SHEETS THE MODE GOES BACK TO 1 BY DEFAULT
         for i in range(1, len(self.form.curFileData.keys())):
             self.form.switchSheet(force=list(self.form.curFileData.keys())[i])
             for i in range(6):
