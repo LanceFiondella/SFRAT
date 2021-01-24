@@ -42,7 +42,7 @@
       <recent name="C:\Users\Dragon\SFRAT\tests\ModelTesting" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test_GUI.SFRATtest.test_ModelResultsTab">
+  <component name="RunManager" selected="Python tests.Unittests in test_GUI.py">
     <configuration name="SFRAT" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SFRAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -129,10 +129,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ModelResultsTab" />
-        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" />
-        <item itemvalue="Python.SFRAT" />
         <item itemvalue="Python tests.Unittests in test_GUI.py" />
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ApplyModelsTab" />
+        <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_ModelResultsTab" />
+        <item itemvalue="Python.SFRAT" />
         <item itemvalue="Python tests.Unittests for test_GUI.SFRATtest.test_sheetselection" />
       </list>
     </recent_temporary>
@@ -154,27 +154,31 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1610474673709">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1899" height="284" key="GridCell.Tab.0.bottom" timestamp="1611530240694">
+      <screen x="-1920" y="-289" width="1920" height="1040" />
     </state>
+    <state width="1899" height="284" key="GridCell.Tab.0.bottom/0.0.1536.824/-3840.-289.1920.1040/-1920.-289.1920.1040@-1920.-289.1920.1040" timestamp="1611530240694" />
     <state width="1899" height="284" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.-248.1920.1040/3840.-248.1920.1040@1920.-248.1920.1040" timestamp="1610124846212" />
     <state width="1899" height="284" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.-335.1920.1040@1920.-335.1920.1040" timestamp="1610062946970" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610474673709" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1610474673709">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1899" height="284" key="GridCell.Tab.0.center" timestamp="1611530240694">
+      <screen x="-1920" y="-289" width="1920" height="1040" />
     </state>
+    <state width="1899" height="284" key="GridCell.Tab.0.center/0.0.1536.824/-3840.-289.1920.1040/-1920.-289.1920.1040@-1920.-289.1920.1040" timestamp="1611530240694" />
     <state width="1899" height="284" key="GridCell.Tab.0.center/0.0.1536.824/1920.-248.1920.1040/3840.-248.1920.1040@1920.-248.1920.1040" timestamp="1610124846212" />
     <state width="1899" height="284" key="GridCell.Tab.0.center/0.0.1536.824/1920.-335.1920.1040@1920.-335.1920.1040" timestamp="1610062946970" />
     <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610474673709" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1610474673709">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1899" height="284" key="GridCell.Tab.0.left" timestamp="1611530240693">
+      <screen x="-1920" y="-289" width="1920" height="1040" />
     </state>
+    <state width="1899" height="284" key="GridCell.Tab.0.left/0.0.1536.824/-3840.-289.1920.1040/-1920.-289.1920.1040@-1920.-289.1920.1040" timestamp="1611530240693" />
     <state width="1899" height="284" key="GridCell.Tab.0.left/0.0.1536.824/1920.-248.1920.1040/3840.-248.1920.1040@1920.-248.1920.1040" timestamp="1610124846212" />
     <state width="1899" height="284" key="GridCell.Tab.0.left/0.0.1536.824/1920.-335.1920.1040@1920.-335.1920.1040" timestamp="1610062946969" />
     <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610474673709" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1610474673709">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1899" height="284" key="GridCell.Tab.0.right" timestamp="1611530240694">
+      <screen x="-1920" y="-289" width="1920" height="1040" />
     </state>
+    <state width="1899" height="284" key="GridCell.Tab.0.right/0.0.1536.824/-3840.-289.1920.1040/-1920.-289.1920.1040@-1920.-289.1920.1040" timestamp="1611530240694" />
     <state width="1899" height="284" key="GridCell.Tab.0.right/0.0.1536.824/1920.-248.1920.1040/3840.-248.1920.1040@1920.-248.1920.1040" timestamp="1610124846212" />
     <state width="1899" height="284" key="GridCell.Tab.0.right/0.0.1536.824/1920.-335.1920.1040@1920.-335.1920.1040" timestamp="1610062946970" />
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610474673709" />
@@ -202,16 +206,5 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="173" width="672" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1609785144314" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/GuiTesting/test_GUI.py</url>
-          <line>77</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

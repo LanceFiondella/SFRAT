@@ -26,6 +26,9 @@ class SFRATtest(unittest.TestCase):
         '''Creating the GUI'''
         self.form = SFRAT()
         pyautogui.FAILSAFE = False
+        self.form.show()
+        self.form.activateWindow()
+
     def test_defaults(self):
         ''' Test the GUI in it's default state (Dimesions)'''
         self.assertEqual(self.form.windowTitle(),"SFRAT")
@@ -76,7 +79,7 @@ class SFRATtest(unittest.TestCase):
         self.form.updateQueryTable()
 
     def test_ModelResultsTab(self):
-        '''Testing Apply Models Tab'''
+        '''Testing Model Results Tab'''
         self.plotTableswitching(self.form.modelTab)
         self.importingExcel()
         self.form.actionModelResults.trigger()
@@ -89,6 +92,7 @@ class SFRATtest(unittest.TestCase):
         self.form.modelRelInterval += 1000
         self.form.redrawPlot()
         self.form.updateQueryTable()
+
 
 
     def test_sheetselection(self):
