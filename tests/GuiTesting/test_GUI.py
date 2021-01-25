@@ -38,7 +38,7 @@ class SFRATtest(unittest.TestCase):
         self.assertEqual(self.form.menuSelect_Sheet.title(),"Select Sheet")
         self.assertEqual(self.form.menuMode.title(),"Mode")
         self.assertEqual(self.form.menuViewAD.title(),"View")
-
+        self.form.close()
 
     def test_AnalyzeDataTab(self):
         '''testing Data Analysis tab'''
@@ -56,7 +56,7 @@ class SFRATtest(unittest.TestCase):
         self.form.actionFI.trigger()
         self.form.actionLap.trigger()
         self.form.actionArith.trigger()
-
+        self.form.close()
 
 
     def test_ApplyModelsTab(self):
@@ -77,6 +77,7 @@ class SFRATtest(unittest.TestCase):
         self.form.modelRelInterval += 1000
         self.form.redrawPlot()
         self.form.updateQueryTable()
+        self.form.close()
 
     def test_ModelResultsTab(self):
         '''Testing Model Results Tab'''
@@ -92,8 +93,20 @@ class SFRATtest(unittest.TestCase):
         self.form.modelRelInterval += 1000
         self.form.redrawPlot()
         self.form.updateQueryTable()
+        self.form.close()
 
-
+    def test_EvaluateModelsTab(self):
+        '''Testing Evaluate Models Tab'''
+        self.plotTableswitching(self.form.modelTab)
+        self.importingExcel()
+        self.form.actionEvaluateModels.trigger()
+        for i in range(6):
+            self.form.modelActions[i].trigger()
+            pyautogui.press('esc')
+        self.form.pctPSSE += -0.05
+        self.form.pctPSSE += 0.07
+        self.form.close()
+        #app.exec_()
 
     def test_sheetselection(self):
         '''Testing sheet selction after importing excel spreadsheet'''
@@ -101,7 +114,7 @@ class SFRATtest(unittest.TestCase):
         for i in self.form.menuSelect_Sheet.actions():
             i.trigger()
             self.assertEqual(i.text() , list(self.form.curFileData.keys())[self.form.menuSelect_Sheet.actions().index(i)])
-
+        self.form.close()
 
 
 
