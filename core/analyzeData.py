@@ -205,7 +205,7 @@ class Module:
 
 
 
-	def __init__(self):z
+	def __init__(self):
 		self.plotWindow = MplCanvas(self, self.canvasDPI)
 		self.gridLayout_2.addWidget(self.plotWindow, 0, 0, 1, 1)
 
