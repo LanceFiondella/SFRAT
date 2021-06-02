@@ -38,19 +38,6 @@ class RootFind():
 		else:
 			self.initEstimate = len(self.data)
 
-	def swarmAlgo(eqn, x0, maxiter, full_output):
-		if self.algo == 'bat':
-			'''
-			6 6 0.021768 0.917212 0.825154 0.823620
-			14 6 0.021768 0.922107 0.825076 0.823620
-			6 6 0.046744 0.922789 0.825152 0.755835
-			'''
-			sspace = [[-1, 1] for i in range(len(x0))]
-			pop = [x0 for i in range(6)]
-			bats = bat.search(eqn, sspace, 14, pop, 0.021768, 0.922107, 0.825076, 0.823620)
-			#bats.sort(key = lambda x: eqn())
-
-
 
 	def findEndpoints(self, maxIterations=100000):
 		"""

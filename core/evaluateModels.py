@@ -15,13 +15,23 @@ class Module:
 		return (2*len(model.params) - 2*model.lnL())
 
 
-	def PSSE(self, model, data):	# R array indexing is 1->N, whereas python 0->N-1
+	def PSSE(self, model, data):			# replaced with working version
 		n = len(data)
-		k = max(floor(self.pctPSSE*n), 1)
-		failNums = list(range(k+1,n+1))
-		failTimes = data[-len(failNums):]
-		mvfTab = [model.MVF(i) for i in failTimes]
-		return sum((i - mvfTab[idx])**2 for idx, i in enumerate(failNums))
+		k = max(floor(self.pctPSSE*n), 1)	# get psse% of data as points, e.g. 90%
+
+		fit_pts= data[:k]					# grab first 90% of points
+		check_pts = data[k:]				# grab rest of points
+
+		newmodel = model.__class__(data=fit_pts, rootAlgoName='bisect')
+		newmodel.findParams(n-k)			# fit model to first chunk, predict rest 
+
+		exp_fns = [newmodel.MVF(i) for i in check_pts['FT']]
+		real_fns = list(check_pts['FN'])	#grab expected MVFs and known real MVFs for remaining time
+
+		pssecalc = sum((exp_fns[i] - real_fns[i])**2 for i in range(len(exp_fns)))
+											# calc SSE
+		del newmodel	# delete model made for just this purpose
+		return pssecalc
 
 	def getPSSEpct(self):
 		text, ok = QtWidgets.QInputDialog.getDouble(self,
@@ -46,7 +56,7 @@ class Module:
 
 			newMName = QtWidgets.QTableWidgetItem(model.name)
 			newMAIC = QtWidgets.QTableWidgetItem(self.numfmt(self.AIC(model)))
-			newMPSSE = QtWidgets.QTableWidgetItem(self.numfmt(self.PSSE(model, self.curFileData[self.curSheetName]['FT'])))
+			newMPSSE = QtWidgets.QTableWidgetItem(self.numfmt(self.PSSE(model, self.curFileData[self.curSheetName])))
 
 			newMName.setFlags(newMName.flags() & ~QtCore.Qt.ItemIsEditable & ~QtCore.Qt.ItemIsSelectable)
 			newMAIC.setFlags(newMName.flags())
