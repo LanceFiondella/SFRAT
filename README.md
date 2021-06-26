@@ -3,12 +3,13 @@
 ### The Software Failure and Reliability Assessment Tool
 The Python implementation of the [R-based SFRAT](https://github.com/LanceFiondella/srt.core/) to evaluate model-fit curves on failure data
 ## Installation
+This software requires Python to run. For Windows installation, install from [their official site](https://www.python.org/downloads/). For Unix, install using your package manager.
 
-Use [pip](https://pip.pypa.io/en/stable/) inside the downloaded repository to install the necessary requirements with
-
+The SFRAT makes use of Python libraries listed in `requirements.txt`. Run `setup.py` with Python (likely via double-clicking) to install the required libraries.
+They may also be installed via command line:
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ## Usage
-The script should act as an executable - double click `SFRAT.py` to run, or execute with a console to view debug messages.
+After installing Python and required libraries, run `SFRAT.py` with Python.
