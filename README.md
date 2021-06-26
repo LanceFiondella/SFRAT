@@ -8,4 +8,5 @@ This software requires Python 3 to run. For Windows installation, install from t
 The SFRAT requires Python libraries listed in `requirements.txt`. Run `setup.py` with Python (likely via double-clicking) to install the required libraries. This should open a separate window displaying the installation progress.
 
 ## Running
-After installing Python and required libraries, run `SFRAT.py` with Python, again likely via double-click.
+[Download](https://github.com/LanceFiondella/SFRAT/archive/refs/heads/master.zip) and extract the software (if necessary) from GitHub (or via Git).
+After installing Python and SFRAT's required libraries, run `SFRAT.py` with Python, again likely via double-click.
