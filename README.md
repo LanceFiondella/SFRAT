@@ -9,4 +9,4 @@ The SFRAT requires Python libraries listed in `requirements.txt`. Run `setup.py`
 
 ## Running
 [Download](https://github.com/LanceFiondella/SFRAT/archive/refs/heads/master.zip) and extract the software (if necessary) from GitHub (or via Git).
-After installing Python and SFRAT's required libraries, run `SFRAT.py` with Python, again likely via double-click.
+After installing Python and SFRAT's required libraries, run `SFRAT.pyw` with Python, again likely via double-click.
