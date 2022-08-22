@@ -99,8 +99,21 @@ class Module:
 				[self.plotWindow, self.plotWindowModel][self.currentTab].figureref.savefig(fname)
 
 		else:	# export data as csv
+			
+			full_exts = ['Excel (*.xlsx)', 'CSV (*.csv)', 'HTML (*.html)', 'JSON (*.json)', 'LaTeX (*.tex)']
 			fname = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Data', d,
-				'Excel (*.xlsx)(*.xlsx);; CSV (*.csv)(*.csv);; HTML (*.html)(*.html);; JSON (*.json)(*.json);; LaTeX (*.tex)(*.tex)')[0]
+				";;".join(full_exts))
+
+			if fname[0] == fname[1] == '':
+				return
+
+			exts = ['.xlsx', '.csv', '.json', '.tex']
+			has_ext = True in [fname[0].endswith(x) for x in exts]
+			if not has_ext:
+				fname = fname[0] + exts[full_exts.index(fname[1])]
+				print(fname)
+			else:
+				fname = fname[0]
 
 			if fname and fname != '':
 				exportObj = [self.dataTable, self.modelTable, self.queryTable, self.modelEvalTable][self.currentTab]
