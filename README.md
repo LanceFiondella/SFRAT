@@ -9,3 +9,10 @@ This software requires Python 3 to run. For Windows installation, install from t
 
 ## Running
 After installing Python and SFRAT's required libraries, run `SFRAT.pyw` with Python, again likely via double-click.
+
+
+
+
+## License
+This software is provided free of charger under the [MIT License](https://github.com/LanceFiondella/SFRAT/blob/master/LICENSE.md)
+
