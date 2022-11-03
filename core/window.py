@@ -75,6 +75,12 @@ class Module:
 
 			self.convertFileData(curFileRaw)
 
+			if len(self.curFileData) == 0:
+				print('Empty file given!')
+				self.curFilePath = None
+				self.curFileData = None
+				return
+
 			self.listModels()	# do before cursheetname to only do once	
 			self.updateSheetSelect(self.curFileData)
 			self.switchSheet(force = list(self.curFileData.keys())[0])	# pick 1st sheet
@@ -143,25 +149,39 @@ class Module:
 
 	def convertFileData(self, iData):
 
+
 		self.curFileData = {}	# uses FN, IF, and FT, some datasets dont use
 		for sheet in iData:
 			newFrame = {}
 			keys = iData[sheet].keys()
 
-			if 'T' in keys:
-				newFrame['FN'] = iData[sheet]['T'].copy()
-			elif 'FN' in keys:
-				newFrame['FN'] = iData[sheet]['FN'].copy()
+			if ('T' in keys) and ('FC' in keys): # and ('CFC' in keys):
+				# the models we have only account for FN type datasets - we need to linearly translate:
+				print('FC dataset - need to translate over')
+					# construct failure number list from 1 to final CFC value
+				fn_list = [x for x in range(1, (iData[sheet]['CFC'].iloc[-1])+1)]
+				t_list = []
+				# this interval's fail num (FC) and distribute them over the period between this and last time
+				# final of N FCs should land ON the time
+				t_prev = 0
+				for idx, t in enumerate(iData[sheet]['T']):
+					t_delta = t - t_prev	# time interval to spread defect count across
+					num = iData[sheet]['FC'][idx]
+					for n_pos in range(num):	# take each of N and calculate its time
+						n = num - n_pos			# order matters in the list, we start at the end of the interval so need to do in reverse
+						t_list.append(  t - (t_delta * n / num))
+					t_prev = t
 
+				newFrame['FN'] = fn_list
+				newFrame['FT'] = t_list
+
+
+			if 'FN' in keys:
+				newFrame['FN'] = iData[sheet]['FN'].copy()
 			if 'IF' in keys:
 				newFrame['IF'] = iData[sheet]['IF'].copy()
-			elif 'FC' in keys:
-				newFrame['IF'] = iData[sheet]['FC'].copy()
-
 			if 'FT' in keys:
 				newFrame['FT'] = iData[sheet]['FT'].copy()
-			elif 'CFC' in keys:
-				newFrame['FT'] = iData[sheet]['CFC'].copy()
 
 			if 'IF' in newFrame.keys() and not 'FT' in newFrame.keys():
 				# sheet has IF, convert for FT/CFC
