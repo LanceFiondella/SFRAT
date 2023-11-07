@@ -60,8 +60,8 @@ class GM(Model):
             params = self.params
 
         firstTerm = self.n*np.log(params['D'])
-        secondTerm = np.sum(np.array([(i-1)*np.log(params['phi']) for i in range(1,1+self.n)],np.float))
-        thirdTerm = np.sum(np.array([(np.power(params['phi'],i)/params['phi'])*self.data.IF[i-1] for i in range(1,1+self.n)],np.float))
+        secondTerm = np.sum(np.array([(i-1)*np.log(params['phi']) for i in range(1,1+self.n)],float))
+        thirdTerm = np.sum(np.array([(np.power(params['phi'],i)/params['phi'])*self.data.IF[i-1] for i in range(1,1+self.n)],float))
         return firstTerm + secondTerm - (params['D'] * thirdTerm)
 
     def MVF(self, t, params=None):
@@ -128,9 +128,9 @@ class GM(Model):
         Returns:
             Value of MLE equation
         """
-        firstTerm = np.sum(np.array([(i-1)/phi for i in range(1,1+self.n)],np.float))
-        secondTerm = np.sum(np.array([(i-1)*(np.power(phi, i)/(np.power(phi, 2)))*self.data.IF[i-1] for i in range(1,1+self.n)], np.float))
-        DMLE = (phi*self.n)/(np.sum(np.array([np.power(phi,i)*self.data.IF[i-1] for i in range(1,1+self.n)],np.float)))
+        firstTerm = np.sum(np.array([(i-1)/phi for i in range(1,1+self.n)],float))
+        secondTerm = np.sum(np.array([(i-1)*(np.power(phi, i)/(np.power(phi, 2)))*self.data.IF[i-1] for i in range(1,1+self.n)], float))
+        DMLE = (phi*self.n)/(np.sum(np.array([np.power(phi,i)*self.data.IF[i-1] for i in range(1,1+self.n)],float)))
         return firstTerm - (DMLE*secondTerm)
 
     def calcDMLE(self, phi): #Verified
@@ -140,7 +140,7 @@ class GM(Model):
         Returns:
             Dparam of type float
         """
-        denom = np.sum(np.array([np.power(phi,i)*self.data.IF[i-1] for i in range(1,1+self.n)],np.float))
+        denom = np.sum(np.array([np.power(phi,i)*self.data.IF[i-1] for i in range(1,1+self.n)],float))
         return (phi*self.n)/denom
 
     def calcphiMLE(self):

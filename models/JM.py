@@ -161,7 +161,7 @@ class JM(Model):
         Returns:
             Value of MLE equation
         """
-        rightTerm1 = np.array([(N0 - i) for i in range(self.n)], np.float)
+        rightTerm1 = np.array([(N0 - i) for i in range(self.n)], float)
         leftTerm = np.sum(np.reciprocal(rightTerm1))
         rightTermDenom = (self.data.IF.multiply(rightTerm1).sum())
         return leftTerm - ((self.n * self.interFailSum)/(rightTermDenom))
@@ -187,7 +187,7 @@ class JM(Model):
         Returns:
             Value of phi of type float
         """
-        numer = np.sum(np.array([1/(N0 - i) for i in range(self.n)], np.float))
+        numer = np.sum(np.array([1/(N0 - i) for i in range(self.n)], float))
         return numer/self.interFailSum
 
 
